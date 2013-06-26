@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="modelo.UserProfileDetails" table="UserProfileDetails" catalog="congreso">
+        <id name="userprofileid" type="java.lang.Integer">
+            <column name="userprofileid" length="45" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="userProfile" class="modelo.UserProfile" fetch="select">
+            <column name="userId" not-null="true" />
+        </many-to-one>
+        <property name="nome" type="string">
+            <column name="nome" length="45" />
+        </property>
+        <property name="apelido1" type="string">
+            <column name="apelido1" length="45" />
+        </property>
+        <property name="apelido2" type="string">
+            <column name="apelido2" length="45" />
+        </property>
+        <property name="telefono" type="string">
+            <column name="telefono" length="14" />
+        </property>
+        <property name="email" type="string">
+            <column name="email" length="45" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="modelo.UserRol" table="UserRol" catalog="congreso">
+        <id name="rolId" type="int">
+            <column name="rolId" />
+            <generator class="assigned" />
+        </id>
+        <property name="descricion" type="string">
+            <column name="descricion" length="45" />
+        </property>
+        <set name="userProfiles" inverse="true">
+            <key>
+                <column name="rolid" not-null="true" />
+            </key>
+            <one-to-many class="modelo.UserProfile" />
+        </set>
+    </class>
+</hibernate-mapping>
