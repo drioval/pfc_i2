@@ -18,6 +18,6 @@ public class MainControllerTest {
     public void testHandleRequestView() throws Exception {
         MainController controller = new MainController();
         ModelAndView modelAndView = controller.handleRequest(null, null);
-        assertEquals("hello.jsp", modelAndView.getViewName());
+        assertEquals("WEB-INF/jsp/registrarse.jsp", modelAndView.getViewName());
     }
 }

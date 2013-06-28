@@ -20,12 +20,12 @@ public class MainController {
 
     protected final Log logger = LogFactory.getLog(getClass());
 
-    @RequestMapping(value="/hello.htm")
+    @RequestMapping(value="/registrarse.htm")
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        logger.info("Returning hello view");
+        logger.info("Returning registarse");
 
-        return new ModelAndView("hello.jsp");
+        return new ModelAndView("WEB-INF/jsp/registrarse.jsp");
     }
 }
