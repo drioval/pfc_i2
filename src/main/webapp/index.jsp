@@ -3,11 +3,9 @@
    "http://www.w3.org/TR/html4/loose.dtd">
 
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
-    <body>
-        <h1>Hello World!</h1>
-    </body>
+  <head><title>Example :: Spring Application</title></head>
+  <body>
+    <h1>Example - Spring Application</h1>
+    <p>This is my test.</p>
+  </body>
 </html>
