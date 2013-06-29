@@ -1,0 +1,298 @@
+/* 
+    Document   : default
+    Created on : 15-jun-2013, 11:48:44
+    Author     : insdrv00
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.cuerpo{
+    margin: 0; /* Centro el contenedor */
+    background: whitesmoke;
+}
+.cabecera{
+    margin: 0;
+    background: url(../images/background.png);
+}
+
+.header {
+}
+
+.logo{
+    float: left;
+}
+.title{
+    font-family: 'Homemade Apple', cursive;
+    color:black;
+    font-size:40px;
+
+}
+
+.subtitle{
+    font-family:Georgia,serif;
+    color:#666666;
+    font-size:30px;
+    line-height:1em;
+    margin:0 0 0 75px;
+}
+
+.form {
+    float: right;
+    background: gainsboro;
+    border: 1px solid #c4c4c4;
+    height: 34px;
+    width: 342px;
+    padding: 2px 2px 2px 2px;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    box-shadow: 0px 0px 8px #d9d9d9;
+    -moz-box-shadow: 0px 0px 8px #d9d9d9;
+    -webkit-box-shadow: 0px 0px 8px #d9d9d9;
+
+}
+input[type="text"]{
+    background: url(../images/user-icon.png) no-repeat right center buttonhighlight;
+    border: 1px solid #c4c4c4;
+    width: 160px;
+    height: 18px;
+    font-size: 14px;
+    padding: 2px 2px 2px 2px;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    box-shadow: 0px 0px 8px #d9d9d9;
+    -moz-box-shadow: 0px 0px 8px #d9d9d9;
+    -webkit-box-shadow: 0px 0px 8px #d9d9d9;
+}
+
+input[type="password"]{
+    background: url(../images/password-icon.png) no-repeat right center buttonhighlight;
+    border: 1px solid #c4c4c4;
+    width: 90px;
+    height: 18px;
+    font-size: 14px;
+    padding: 2px 2px 2px 2px;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    box-shadow: 0px 0px 8px #d9d9d9;
+    -moz-box-shadow: 0px 0px 8px #d9d9d9;
+    -webkit-box-shadow: 0px 0px 8px #d9d9d9;
+}
+input[type="reset"]{
+    border: 2px double #2476E0;
+}
+
+input:focus {
+    outline: none;
+    border: 1px solid #7bc1f7;
+    box-shadow: 0px 0px 8px #7bc1f7;
+    -moz-box-shadow: 0px 0px 8px #7bc1f7;
+    -webkit-box-shadow: 0px 0px 8px #7bc1f7;
+}
+
+input:hover {
+    outline: none;
+    border: 1px solid #7bc1f7;
+    box-shadow: 0px 0px 8px #7bc1f7;
+    -moz-box-shadow: 0px 0px 8px #7bc1f7;
+    -webkit-box-shadow: 0px 0px 8px #7bc1f7;
+}
+
+.button {
+    display: inline-block;
+    position: relative;
+    margin: 5px;
+    padding: 0 4px;
+    text-align: center;
+    text-decoration: none;
+    font: bold 14px/18px Arial, sans-serif;
+
+    text-shadow: 1px 1px 1px rgba(255,255,255, .22);
+
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+
+    -webkit-box-shadow: 1px 1px 1px #c4c4c4, inset 1px 1px 1px #d9d9d9;
+    -moz-box-shadow: 1px 1px 1px #c4c4c4, inset 1px 1px 1px #d9d9d9;
+    box-shadow: 1px 1px 1px #c4c4c4, inset 1px 1px 1px #d9d9d9;
+
+    -webkit-transition: all 0.15s ease;
+    -moz-transition: all 0.15s ease;
+    -o-transition: all 0.15s ease;
+    -ms-transition: all 0.15s ease;
+    transition: all 0.15s ease;
+    background-color: white;
+}
+
+.blue {
+    color: white;
+    background: cornflowerblue;
+}
+
+button:hover {
+    background: dodgerblue;
+}
+
+.forgot {
+    font-family:Georgia,serif;
+    color:#666666;
+    font-size: 11px;
+    line-height:1em;
+}
+
+.forgot:hover {
+    outline: none;
+    font-weight: bold;
+    border: 1px solid #c4c4c4;
+    box-shadow: 0px 0px 8px #d9d9d9;
+    -moz-box-shadow: 0px 0px 8px #d9d9d9;
+    -webkit-box-shadow: 0px 0px 8px #d9d9d9;
+}
+
+/* Menú envolvente
+----------------------------------------------- */
+.menu:after, .menu:before {
+    margin: 0;
+    content: '';
+    position: absolute;
+}
+
+.menu {
+    height:20px; /* Alto del menú */
+    text-align: left;
+    position: relative;
+    margin:0;
+    padding: 10px 0;
+    background: #3A819D; /* Color del menú */
+    background-image: -moz-linear-gradient(rgba(255,255,255,.3), rgba(255,255,255,0));
+    background-image: -webkit-linear-gradient(rgba(255,255,255,.3), rgba(255,255,255,0));
+    background-image: -o-linear-gradient(rgba(255,255,255,.3), rgba(255,255,255,0));
+    background-image: -ms-linear-gradient(rgba(255,255,255,.3), rgba(255,255,255,0));
+    background-image: linear-gradient(rgba(255,255,255,.3), rgba(255,255,255,0));
+    -moz-box-shadow: 0 2px 0 #bbb;
+    -webkit-box-shadow: 0 2px #bbb;
+}
+
+.menu:before, .menu:after {
+    border-style: solid;
+    border-color: transparent;
+    bottom: -10px;
+}
+
+.menu:before {
+    border-width: 0 20px 10px 0;
+    border-right-color: #234B5B; /* Color de la sombra del doblez */
+    left: 0;
+}
+
+.menu:after {
+    border-width: 0 0 10px 20px;
+    border-left-color: #234B5B; /* Color de la sombra del doblez */
+    right: 0;
+}
+
+.menu ul {
+    margin-top: 0px;
+}
+
+.menu li {
+    list-style: none;
+    display: inline;
+    padding-right:20px;
+}
+
+.menu li a {
+    text-shadow: 0 2px 1px rgba(0,0,0,0.5);
+    display: inline;
+    text-decoration: none;
+    color: #ffffff; /* Color del texto */
+    font-size: 14px; /* Tamaño del texto */
+    transition:all .1s linear;
+    -o-transition:all .1s linear;
+    -moz-transition:all .1s linear;
+    -webkit-transition:all .1s linear;
+}
+
+.menu li a:hover {
+    font-family:Georgia,serif;
+    font-size:16px; /* Tamaño del texto al pasar el cursor */
+    font-weight: bold;
+    color: yellow;
+    transition:all .1s linear;
+    -o-transition:all .1s linear;
+    -moz-transition:all .1s linear;
+    -webkit-transition:all .1s linear; 
+}
+
+.dropdown_menu{
+    	margin: 20px 0 0 0;
+	opacity: 0;
+	visibility: hidden;
+	position: absolute;
+	top: 38px;
+	left:380;
+	z-index: 1;    
+	background: url(../images/background.png);
+	border-radius: 3px;
+	transition: all .2s ease-in-out; 
+}
+
+.dropdown:hover > .dropdown_menu {
+	opacity: 1;
+	visibility: visible;
+	margin: 0;
+}
+
+.section{
+    background: white;
+    font-family:Georgia,serif;
+    color:#666666;
+    font-size:20px;
+    line-height:1em;
+    position: absolute;
+    margin:0 0 0 25px;
+}
+
+.article{
+    height:120px; /* Alto del menú */
+    size: 500px; 
+    text-align: left;
+    position: absolute;
+    padding: 10px 0;
+    font-family:Georgia,serif;
+    color:black;
+    font-size:12px;
+    line-height:1em;
+    margin:0 0 0 75px;
+}
+
+.footer{
+    position: relative;
+    font-family:Georgia,serif;
+    color:black;
+    font-size:12px;
+    text-align: center;
+    line-height:1em;
+}
+
+.titulo {
+    font-family: 'Yellowtail', cursive;
+    font-size:30px;
+    color: #3A819D;
+    margin-left: 30px;
+}
+
+.subtitulo {
+    font-family: 'Yanone Kaffeesatz', sans-serif;
+    font-size: 24px;
+    margin-left: 30px;
+}
+
+.articulo {
+    font-family: 'Yanone Kaffeesatz', sans-serif;
+    font-size: 18px;
+    margin-left: 20px;
+}

@@ -13,5 +13,6 @@
 ">
 
     <bean name="MainController" class="controlador.MainController"/>
+    <bean name="IndexController" class="controlador.IndexController"/>
            
 </beans>

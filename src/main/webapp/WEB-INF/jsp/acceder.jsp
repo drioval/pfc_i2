@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/jsp/include.jsp" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -13,5 +14,8 @@
     </head>
     <body>
         <h1>Hello World!</h1>
+        <p>Greetings, it is now <c:out value="${usuario}"/></p>
+        <c:out value="${contrasinal}"/>
+
     </body>
 </html>
