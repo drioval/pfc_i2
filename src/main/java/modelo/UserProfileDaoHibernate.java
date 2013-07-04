@@ -14,15 +14,15 @@ import org.springframework.transaction.annotation.Transactional;
  * @author insdrv00
  */
 @Service
-public class UserProfileDaoHibernate implements UserProfileDao {
+public class UserProfileDaoHibernate extends GenericDaoHibernate implements UserProfileDao{
 
     @Autowired
-    GenericDao dao;
+    GenericDaoHibernate dao = new GenericDaoHibernate();
 
     @Override
     @Transactional
     public void guardarUserProfile(UserProfile userProfile) {
-        dao.save(userProfile);
+        dao.getSession().save(userProfile);
     }
 
     @Override
@@ -41,9 +41,8 @@ public class UserProfileDaoHibernate implements UserProfileDao {
     @Override
     @Transactional
     public boolean existeUserProfile(String usuario) {
-        Integer userId = null;
         try {
-            userId = (Integer) dao.getSession().createQuery("SELECT a.userId FROM userProfile a WHERE a.usuario = :usuario ").setParameter("usuario", usuario).uniqueResult();
+            Integer userId = (Integer) dao.getSession().createQuery("SELECT a.userId FROM userProfile a WHERE a.usuario = :usuario ").setParameter("usuario", usuario).uniqueResult();
         } catch (HibernateException e) {
             return false;
         } finally {

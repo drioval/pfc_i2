@@ -11,7 +11,7 @@ import org.hibernate.Session;
  *
  * @author insdrv00
  */
-public interface GenericDao {
+public interface GenericDao{
 
     public Session getSession();
 

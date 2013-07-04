@@ -8,7 +8,7 @@ package modelo;
  *
  * @author insdrv00
  */
-public interface UserProfileDao {
+public interface UserProfileDao extends GenericDao{
     public void guardarUserProfile(UserProfile userProfile);
     public UserProfile obtenerUserProfile(String usuario);
     public void eliminarUserProfile(UserProfile usuario);

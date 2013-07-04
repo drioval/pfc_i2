@@ -7,9 +7,9 @@ package modelo;
 import java.io.Serializable;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -19,9 +19,19 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class GenericDaoHibernate implements GenericDao {
 
-    @Autowired
-    private SessionFactory sessionFactory;
     private Class claseEntidad;
+    private static final SessionFactory sessionFactory;
+
+    static {
+        try {
+            System.out.println("Antes de sessionFactory");
+            sessionFactory = new Configuration().configure().buildSessionFactory();
+            System.out.println("Despois de sessionFactory");
+        } catch (Throwable ex) {
+            System.err.println("Initial SessionFactory creation failed." + ex);
+            throw new ExceptionInInitializerError(ex);
+        }
+    }
 
     private Session getCurrentSession() {
         return sessionFactory.getCurrentSession();

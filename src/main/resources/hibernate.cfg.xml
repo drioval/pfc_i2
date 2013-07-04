@@ -7,8 +7,8 @@
     <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/congreso?zeroDateTimeBehavior=convertToNull</property>
     <property name="hibernate.connection.username">root</property>
     <property name="hibernate.connection.password">toor</property>
-    <mapping resource="com/mapeo/UserProfile.hbm.xml"/>
-    <mapping resource="com/mapeo/UserProfileDetails.hbm.xml"/>
-    <mapping resource="com/mapeo/UserRol.hbm.xml"/>
+    <mapping resource="mapeo/UserProfile.hbm.xml"/>
+    <mapping resource="mapeo/UserProfileDetails.hbm.xml"/>
+    <mapping resource="mapeo/UserRol.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>
