@@ -5,12 +5,12 @@
 package modelo;
 
 import java.io.Serializable;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
+import org.hibernate.Session;
+import org.hibernate.cfg.AnnotationConfiguration;
+import org.hibernate.SessionFactory;
 
 /**
  *
@@ -22,12 +22,15 @@ public class GenericDaoHibernate implements GenericDao {
     private Class claseEntidad;
     private static final SessionFactory sessionFactory;
 
-    static {
-        try {
-            System.out.println("Antes de sessionFactory");
-            sessionFactory = new Configuration().configure().buildSessionFactory();
-            System.out.println("Despois de sessionFactory");
-        } catch (Throwable ex) {
+    static
+    {
+        try
+        {
+            sessionFactory = new AnnotationConfiguration().configure().buildSessionFactory();
+        }
+        catch (Throwable ex)
+        {
+           
             System.err.println("Initial SessionFactory creation failed." + ex);
             throw new ExceptionInInitializerError(ex);
         }

@@ -5,6 +5,7 @@
 package modelo;
 
 import org.hibernate.HibernateException;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +23,7 @@ public class UserProfileDaoHibernate extends GenericDaoHibernate implements User
     @Override
     @Transactional
     public void guardarUserProfile(UserProfile userProfile) {
-        dao.getSession().save(userProfile);
+        dao.save(userProfile);
     }
 
     @Override
