@@ -34,7 +34,7 @@ public class UserProfileDetailsDaoHibernate implements UserProfileDetailsDao {
     public boolean existeUserProfileDetails(Integer usuario) {
         Integer userId = null;
         try {
-            userId = (Integer) dao.getSession().createQuery("SELECT a.userprofileid FROM userProfileDetails a WHERE a.userId = :usuario ").setParameter("usuario", usuario).uniqueResult();
+            userId = (Integer) dao.getCurrentSession()Session().createQuery("SELECT a.userprofileid FROM userProfileDetails a WHERE a.userId = :usuario ").setParameter("usuario", usuario).uniqueResult();
         } catch (HibernateException e) {
             return false;
         } finally {
@@ -47,7 +47,7 @@ public class UserProfileDetailsDaoHibernate implements UserProfileDetailsDao {
     public UserProfileDetails obtenerUserProfileDetails(Integer usuario) {
         Integer userId = null;
         try {
-            userId = (Integer) dao.getSession().createQuery("SELECT a.userprofileid FROM userProfileDetails a WHERE a.userId = :usuario ").setParameter("usuario", usuario).uniqueResult();
+            userId = (Integer) dao.getCurrentSession()Session().createQuery("SELECT a.userprofileid FROM userProfileDetails a WHERE a.userId = :usuario ").setParameter("usuario", usuario).uniqueResult();
         } catch (HibernateException e) {
             throw e;
         } finally {

@@ -13,7 +13,7 @@ import org.hibernate.Session;
  */
 public interface GenericDao{
 
-    public Session getSession();
+    public Session getCurrentSession();
 
     void save(Object obj);
 

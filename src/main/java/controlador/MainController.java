@@ -9,6 +9,8 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.AnnotationConfiguration;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +21,7 @@ import vista.UserServiceImpl;
 @Controller
 public class MainController {
 
-    private UserServiceImpl servicio;
+    private UserServiceImpl servicio;    
     
     @RequestMapping(value = "/acceder.htm", params = "username")
     public ModelAndView acceder(HttpServletRequest request, HttpServletResponse response)
