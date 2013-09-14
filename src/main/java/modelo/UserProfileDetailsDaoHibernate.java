@@ -5,53 +5,57 @@
 package modelo;
 
 import org.hibernate.HibernateException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.hibernate.SessionFactory;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author insdrv00
  */
-@Service
-public class UserProfileDetailsDaoHibernate implements UserProfileDetailsDao {
-    
-    @Autowired
-    GenericDao dao;
-    
+@Repository(value = "UserProfileDetailsDao")
+public class UserProfileDetailsDaoHibernate extends GenericDaoHibernate implements UserProfileDetailsDao {
+
+    private GenericDaoHibernate genericDao = new GenericDaoHibernate();
+
+    @Override
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.genericDao.setSessionFactory(sessionFactory);
+    }
+
     @Override
     @Transactional
     public void guardarUserProfileDetails(UserProfileDetails userProfileDetails) {
-        dao.save(userProfileDetails);
+        genericDao.save(userProfileDetails);
     }
-    
+
     public void eliminarUserProfileDetails(UserProfileDetails usuario) {
-        dao.remove(usuario.getUserprofileid());
+        genericDao.remove(UserProfile.class, usuario.getUserprofileid());
     }
-    
+
     @Override
     @Transactional
     public boolean existeUserProfileDetails(Integer usuario) {
         Integer userId = null;
         try {
-            userId = (Integer) dao.getCurrentSession()Session().createQuery("SELECT a.userprofileid FROM userProfileDetails a WHERE a.userId = :usuario ").setParameter("usuario", usuario).uniqueResult();
+            userId = (Integer) genericDao.getCurrentSession().createQuery("SELECT a.userprofileid FROM userProfileDetails a WHERE a.userId = :usuario ").setParameter("usuario", usuario).uniqueResult();
         } catch (HibernateException e) {
             return false;
         } finally {
             return true;
         }
     }
-    
+
     @Override
-    @Transactional    
+    @Transactional
     public UserProfileDetails obtenerUserProfileDetails(Integer usuario) {
         Integer userId = null;
         try {
-            userId = (Integer) dao.getCurrentSession()Session().createQuery("SELECT a.userprofileid FROM userProfileDetails a WHERE a.userId = :usuario ").setParameter("usuario", usuario).uniqueResult();
+            userId = (Integer) genericDao.getCurrentSession().createQuery("SELECT a.userprofileid FROM userProfileDetails a WHERE a.userId = :usuario ").setParameter("usuario", usuario).uniqueResult();
         } catch (HibernateException e) {
             throw e;
         } finally {
-            return (UserProfileDetails) dao.find(userId);
+            return (UserProfileDetails) genericDao.find(UserProfile.class, userId);
         }
     }
 }

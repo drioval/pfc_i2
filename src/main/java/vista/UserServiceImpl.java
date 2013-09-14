@@ -4,62 +4,60 @@
  */
 package vista;
 
-import java.util.HashMap;
-import java.util.Map;
-import modelo.GenericDaoHibernate;
+import java.util.Set;
 import modelo.UserProfile;
-import org.springframework.web.servlet.ModelAndView;
-
 import modelo.UserProfileDaoHibernate;
-import modelo.UserRol;
+import modelo.UserProfileDetails;
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.AnnotationConfiguration;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  *
  * @author insdrv00
  */
+@Service(value = "UserService")
 public class UserServiceImpl implements UserService {
-  
-    private static final SessionFactory sessionFactory;
 
-    static {
-        try {
-            //Aqui creamos una session de la fabrica de session usando
-            //el archivo de configuracion hibernate.cfg.xml
-            sessionFactory = new AnnotationConfiguration().configure().buildSessionFactory();
-        } catch (Throwable ex) {
+    private SessionFactory sessionFactory;
 
-            System.err.println("Initial SessionFactory creation failed." + ex);
-            throw new ExceptionInInitializerError(ex);
-        }
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
     @Override
+    @Transactional
     public ModelAndView comprobarUsuario(String usuario, String contrasinal) {
-        
-        UserProfileDaoHibernate user = new UserProfileDaoHibernate(sessionFactory);
-
-        Map<String, Object> modelo = new HashMap<String, Object>();
-
-        UserRol rol = new UserRol(3, "autor", null);
-        UserProfile usuario2 = new UserProfile(rol, usuario, contrasinal);
-        System.out.println("Antes de guardar usuario");
-        System.out.println("Session: " + user.getCurrentSession());
-        user.guardarUserProfile(usuario2);
-        System.out.println("Despois de guardar usuario");
-        if (user.existeUserProfile(usuario) == false) {
-            System.out.println("Usuario false");
-            modelo.put("usuario", usuario);
-            modelo.put("contrasinal", "Este usuario non existe");
-            ModelAndView vista = new ModelAndView("WEB-INF/jsp/acceder.jsp");
-            return vista;
-        } else {
-            System.out.println("usuario true");
-            modelo.put("usuario", user.obtenerUserProfile(usuario).getUsuario().toString());
-            modelo.put("contrasinal", user.obtenerUserProfile(usuario).getContrasinal().toString());
-            ModelAndView vista = new ModelAndView("WEB-INF/jsp/acceder.jsp");
-            return vista;
+        UserProfileDaoHibernate UserProfileDao = new UserProfileDaoHibernate();
+        UserProfileDao.setSessionFactory(sessionFactory);
+        ModelAndView vista = new ModelAndView("WEB-INF/jsp/acceder.jsp");
+        if (UserProfileDao.existeUserProfile(usuario) == true){
+            UserProfile user = UserProfileDao.obtenerUserProfile(usuario);
+            vista.addObject("usuario", user.getUsuario());
+            if (user.getContrasinal().equals(contrasinal)){
+                vista.addObject("userRol", user.getUserRol().toString());
+            }else{
+                vista.addObject("contrasinal", false);
+            }
+        }else{
+            vista.addObject("usuario", false);
         }
+        return vista;
+    }
+    
+    public ModelAndView obternerUsuario(String usuario){
+        ModelAndView vista = new ModelAndView("WEB-INF/jsp/perfil.jsp");
+        
+        UserProfileDaoHibernate userProfileDao =  new UserProfileDaoHibernate();
+        userProfileDao.setSessionFactory(sessionFactory);
+        UserProfile userProfile = userProfileDao.obtenerUserProfile(usuario);
+
+        Set<UserProfileDetails> userProfileDetails = userProfile.getUserProfileDetailses();
+        
+        vista.addObject("userProfile", userProfile);
+        vista.addObject("userProfileDetails", userProfileDetails);
+        
+        return vista;
     }
 }

@@ -6,25 +6,52 @@ and open the template in the editor.
 
 
 <web-app xmlns="http://java.sun.com/xml/ns/javaee"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
-      version="3.0"> 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0">
+    
+    
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>/WEB-INF/spring/app-config.xml</param-value>
+    </context-param>
+    
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    
+    <filter>
+        <filter-name>openSessionInView</filter-name>
+        <filter-class>org.springframework.orm.hibernate3.support.OpenSessionInViewFilter</filter-class>
+        <init-param>
+            <param-name>sessionFactoryBeanName</param-name>
+            <param-value>sessionFactory</param-value>
+        </init-param>
+    </filter>
+     
+    <filter-mapping>
+        <filter-name>openSessionInView</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>ERROR</dispatcher>
+    </filter-mapping>
 
-  <display-name>Springapp</display-name>
+    <display-name>Springapp</display-name>
 
-  <servlet>
-    <servlet-name>springapp</servlet-name>
-    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-    <init-param>
-       <param-name>contextConfigLocation</param-name>
-       <param-value>/WEB-INF/spring/app-config.xml</param-value>
-    </init-param>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
+    <servlet>
+        <servlet-name>springapp</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>/WEB-INF/spring/app-config.xml</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
 
-  <servlet-mapping>
-    <servlet-name>springapp</servlet-name>
-    <url-pattern>*.htm</url-pattern>
-  </servlet-mapping>
-
+    <servlet-mapping>
+        <servlet-name>springapp</servlet-name>
+        <url-pattern>*.htm</url-pattern>
+    </servlet-mapping>
+   
 </web-app>

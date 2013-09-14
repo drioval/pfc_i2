@@ -4,12 +4,13 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 /**
  * Clase entidad UserProfile
  *
  * @author insdrv00
  */
-import javax.validation.constraints.NotNull;
+
 @Entity
 public class UserProfile implements java.io.Serializable {
 
@@ -19,7 +20,7 @@ public class UserProfile implements java.io.Serializable {
     private UserRol userRol;
     private String usuario;
     private String contrasinal;
-    private Set<UserProfileDetails> userProfileDetailses = new HashSet<UserProfileDetails>(0);
+private Set<UserProfileDetails> userProfileDetailses = new HashSet<UserProfileDetails>(0);
 
     public UserProfile() {
     }

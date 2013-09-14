@@ -6,51 +6,49 @@ package modelo;
 
 import java.io.Serializable;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.hibernate.SessionFactory;
 
 /**
  *
  * @author insdrv00
  */
-@Repository
+@Repository(value = "GenericDao")
 public class GenericDaoHibernate implements GenericDao {
-
-    private Class claseEntidad;
+    
+    @Autowired
     private SessionFactory sessionFactory;
     
-    public GenericDaoHibernate(SessionFactory session){
-        this.sessionFactory=session;
-    }
-
+    private Class claseEntidad;
 
     @Override
-    public Session getCurrentSession() {
-        return this.getCurrentSession();
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory=sessionFactory;
     }
-
-    public void setSession(SessionFactory session) {
-        this.sessionFactory=session;
+    
+    @Override
+    public Session getCurrentSession(){
+        return this.sessionFactory.getCurrentSession();
     }
-
     
     @Override
     public void save(Object obj) {
-        this.getCurrentSession().save(obj);
+        sessionFactory.getCurrentSession().save(obj);
     }
 
     @Override
     public boolean exists(Serializable PK) {
-        return getCurrentSession().createCriteria(claseEntidad).add(
+        return sessionFactory.getCurrentSession().createCriteria(claseEntidad).add(
                 Restrictions.idEq(PK)).setProjection(Projections.id())
                 .uniqueResult() != null;
     }
 
     @Override
-    public Object find(Serializable PK) {
-        Object entidad = getCurrentSession().get(claseEntidad, PK);
+    public Object find(Class claseEntidad, Serializable PK) {
+        Object entidad = sessionFactory.getCurrentSession().get(claseEntidad, PK);
         if (entidad == null) {
             throw null;//Lanzar excepción si no encontrado.
         }
@@ -58,7 +56,7 @@ public class GenericDaoHibernate implements GenericDao {
     }
 
     @Override
-    public void remove(Serializable PK) {
-        getCurrentSession().delete(find(PK));
+    public void remove(Class claseEntidad,Serializable PK) {
+        sessionFactory.getCurrentSession().delete(find(claseEntidad,PK));
     }
 }

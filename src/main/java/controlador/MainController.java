@@ -10,24 +10,31 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.AnnotationConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import vista.UserServiceImpl;
 
 @Controller
+@Transactional
 public class MainController {
 
-    private UserServiceImpl servicio;    
+    @Autowired
+    private SessionFactory sessionFactory;
+    
+    private UserServiceImpl servicio;
     
     @RequestMapping(value = "/acceder.htm", params = "username")
     public ModelAndView acceder(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
         servicio = new UserServiceImpl();
+        servicio.setSessionFactory(sessionFactory);
+
         return servicio.comprobarUsuario(request.getParameter("username").toString(), 
                 request.getParameter("password").toString());
     }

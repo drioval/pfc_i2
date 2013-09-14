@@ -1,10 +1,13 @@
 package modelo;
 
+import org.hibernate.annotations.Entity;
+
 /**
  * Clase entidad UserProfileDetails
  *
  * @author insdrv00
  */
+@Entity
 public class UserProfileDetails implements java.io.Serializable {
 
     private Integer userprofileid;
