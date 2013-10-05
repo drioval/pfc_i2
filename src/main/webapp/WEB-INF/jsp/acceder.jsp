@@ -15,15 +15,12 @@
         <div class="cabecera">
             <header class="header">
                 <img src="images/logo.png" class="logo">
-                <form class="form" method="post" action="/index.htm" >
-                    <a class="subtitulo">
-                        <c:out value="${usuario}"/>
-                        <c:out value="${userRol}"/>
+                <form class="form" method="post" action="index.htm">
+                    <a>
+                        usuario: ${usuario} userRol: ${userRol}
                     </a>
-                </form>
-                <form class="form" method="post" action="/index.htm">
-                    <a class="forgot">
-                        ¿Sair?</a>
+                        
+                    <button class="button blue" title="Preme aqui para sair da sesion"> ¿Sair? </button>
                 </form>
                 <h class="title"> Benvido a Congreso Científico</h><br>
                 <h class="subtitle">Iteración 1</h>

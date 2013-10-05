@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
             UserProfile user = UserProfileDao.obtenerUserProfile(usuario);
             vista.addObject("usuario", user.getUsuario());
             if (user.getContrasinal().equals(contrasinal)){
-                vista.addObject("userRol", user.getUserRol().toString());
+                vista.addObject("userRol", user.getUserRol().getDescricion());
             }else{
                 vista.addObject("contrasinal", false);
             }

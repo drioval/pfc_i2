@@ -19,9 +19,12 @@
                     <input name="username" type="text" placeholder="Nome de usuario" maxlength="45" required/>
                     <input name="password" type="password" placeholder="Contrasinal" maxlength="45" required/>            
                     <button class="button blue" title="Preme para acceder ao teu perfil de usuario">Entrar</button>
-                    <a class="forgot" href="/resend_password" title="Preme para enviar un email co teu contrasinal">
+                </form>
+                <form class="form" method="post" action="recordar_contrasinal">
+                    <button class="button blue" title="Preme para enviar un email co teu contrasinal">
                         ¿Recordar contrasinal?</a>
                 </form>
+                    
                 <h class="title"> Benvido a Congreso Científico</h><br>
                 <h class="subtitle">Iteración 1</h>
             </header>
