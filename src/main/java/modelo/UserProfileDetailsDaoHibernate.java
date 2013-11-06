@@ -4,6 +4,7 @@
  */
 package modelo;
 
+import java.io.Serializable;
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
@@ -51,11 +52,28 @@ public class UserProfileDetailsDaoHibernate extends GenericDaoHibernate implemen
     public UserProfileDetails obtenerUserProfileDetails(Integer usuario) {
         Integer userId = null;
         try {
-            userId = (Integer) genericDao.getCurrentSession().createQuery("SELECT a.userprofileid FROM userProfileDetails a WHERE a.userId = :usuario ").setParameter("usuario", usuario).uniqueResult();
+            userId = (Integer) genericDao.getCurrentSession().createQuery("SELECT a.userprofileid FROM UserProfileDetails a WHERE a.userId = :usuario ").setParameter("usuario", usuario).uniqueResult();
         } catch (HibernateException e) {
             throw e;
         } finally {
             return (UserProfileDetails) genericDao.find(UserProfile.class, userId);
+        }
+    }
+
+    @Override
+    @Transactional
+    public UserProfileDetails obtenerUserProfileDetailsEmail(String email) {
+        Integer userId = null;
+        try {
+            userId = (Integer) genericDao.getCurrentSession().createQuery("SELECT a.userprofileid FROM UserProfileDetails a WHERE a.email = :email ").setParameter("email", email).uniqueResult();
+        } catch (HibernateException e) {
+            throw e;
+        } finally {
+            if(userId==null){
+                return null;
+            }else{
+                return (UserProfileDetails) genericDao.find(UserProfileDetails.class, userId);
+            }
         }
     }
 }

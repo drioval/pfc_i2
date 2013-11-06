@@ -12,4 +12,5 @@ import org.springframework.web.servlet.ModelAndView;
  */
 public interface UserService {
      public ModelAndView comprobarUsuario(String usuario, String contrasinal);
+     public ModelAndView reenviarContrasinal(String email, String usuario);
 }

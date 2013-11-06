@@ -20,7 +20,7 @@ public class UserProfile implements java.io.Serializable {
     private UserRol userRol;
     private String usuario;
     private String contrasinal;
-private Set<UserProfileDetails> userProfileDetailses = new HashSet<UserProfileDetails>(0);
+    private Set<UserProfileDetails> userProfileDetailses = new HashSet<UserProfileDetails>(0);
 
     public UserProfile() {
     }

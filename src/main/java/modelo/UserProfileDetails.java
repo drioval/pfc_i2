@@ -1,5 +1,7 @@
 package modelo;
 
+import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.Entity;
 
 /**
@@ -10,6 +12,8 @@ import org.hibernate.annotations.Entity;
 @Entity
 public class UserProfileDetails implements java.io.Serializable {
 
+    @Id
+    @NotNull
     private Integer userprofileid;
     private UserProfile userProfile;
     private String nome;

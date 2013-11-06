@@ -51,6 +51,50 @@
     -webkit-box-shadow: 0px 0px 8px #d9d9d9;
 
 }
+
+.center_form {
+    position: relative;
+    top: 50%;
+    left: 30%;
+    height: 350px;
+    width: 800px;
+    border: 1px solid #c4c4c4;
+    height: border-box;
+    width: border-box;
+    padding: 2px 2px 2px 2px;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    box-shadow: 0px 0px 8px #d9d9d9;
+    -moz-box-shadow: 0px 0px 8px #d9d9d9;
+    -webkit-box-shadow: 0px 0px 8px #d9d9d9;
+}
+
+.center_form_p {
+    position: relative;
+    top: 50%;
+    left: 30%;
+    width: 800px;
+    border: 1px solid #c4c4c4;
+    height: border-box;
+    width: border-box;
+    padding: 2px 2px 2px 2px;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    box-shadow: 0px 0px 8px #d9d9d9;
+    -moz-box-shadow: 0px 0px 8px #d9d9d9;
+    -webkit-box-shadow: 0px 0px 8px #d9d9d9;
+}
+
+.gris_oscuro{
+    background: gainsboro;
+}
+
+.gris_claro{
+    background: ghostwhite;
+}
+
 input[type="text"]{
     background: url(../images/user-icon.png) no-repeat right center buttonhighlight;
     border: 1px solid #c4c4c4;
@@ -127,13 +171,13 @@ input:hover {
     background-color: white;
 }
 
+button:hover {
+    background: dodgerblue;
+}
+
 .blue {
     color: white;
     background: cornflowerblue;
-}
-
-button:hover {
-    background: dodgerblue;
 }
 
 .forgot {
@@ -147,6 +191,36 @@ button:hover {
     outline: none;
     font-weight: bold;
     border: 1px solid #c4c4c4;
+    box-shadow: 0px 0px 8px #d9d9d9;
+    -moz-box-shadow: 0px 0px 8px #d9d9d9;
+    -webkit-box-shadow: 0px 0px 8px #d9d9d9;
+}
+
+.recordar_usuario{
+    background: url(../images/user-icon.png) no-repeat right center buttonhighlight;
+    border: 1px solid #c4c4c4;
+    width: 250px;
+    height: 18px;
+    font-size: 14px;
+    padding: 2px 2px 2px 2px;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    box-shadow: 0px 0px 8px #d9d9d9;
+    -moz-box-shadow: 0px 0px 8px #d9d9d9;
+    -webkit-box-shadow: 0px 0px 8px #d9d9d9;
+}
+
+.recordar_email{
+    background: url(../images/mail.png) no-repeat right center buttonhighlight;
+    border: 1px solid #c4c4c4;
+    width: 250px;
+    height: 18px;
+    font-size: 14px;
+    padding: 2px 2px 2px 2px;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
     box-shadow: 0px 0px 8px #d9d9d9;
     -moz-box-shadow: 0px 0px 8px #d9d9d9;
     -webkit-box-shadow: 0px 0px 8px #d9d9d9;
@@ -288,11 +362,19 @@ button:hover {
 .subtitulo {
     font-family: 'Yanone Kaffeesatz', sans-serif;
     font-size: 24px;
-    margin-left: 30px;
 }
 
 .articulo {
     font-family: 'Yanone Kaffeesatz', sans-serif;
     font-size: 18px;
     margin-left: 20px;
+}
+
+.tab{
+    magin-left: 20px;
+}
+
+.centrado{
+    position: relative;
+    text-align: center;
 }

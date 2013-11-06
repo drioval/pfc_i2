@@ -15,13 +15,13 @@
         <div class="cabecera">
             <header class="header">
                 <img src="images/logo.png" class="logo">
-                <form class="form" method="post" action="acceder.htm" >
-                    <input name="username" type="text" placeholder="Nome de usuario" maxlength="45" required/>
-                    <input name="password" type="password" placeholder="Contrasinal" maxlength="45" required/>
-                    <button class="button blue" title="Preme para acceder ao teu perfil de usuario">Entrar</button>
-                    <a class="footer" href="recordar.htm">¿Recordar contrasinal?</a>
+                <form class="form" method="post" action="index.htm">
+                    <a>
+                        usuario: ${usuario} userRol: ${userRol}
+                    </a>
+                        
+                    <button class="button blue" title="Preme aqui para sair da sesion"> ¿Sair? </button>
                 </form>
-
                 <h class="title"> Benvido a Congreso Científico</h><br>
                 <h class="subtitle">Iteración 1</h>
             </header>
@@ -30,8 +30,8 @@
         <div class="menu">
             <nav>
                 <ul>
-                    <li><a href='index.htm'>Inicio</a></li>
-                    <li><a href='acceder.htm'>Congresos</a></li>
+                    <li><a href='#'>Inicio</a></li>
+                    <li><a href='registrarse.htm'>Congresos</a></li>
                     <li class="dropdown ">
                         <a href='#'>Traballos Científicos</a>
                         <ul class="dropdown_menu">

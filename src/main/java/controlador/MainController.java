@@ -25,17 +25,36 @@ public class MainController {
 
     @Autowired
     private SessionFactory sessionFactory;
-    
     private UserServiceImpl servicio;
-    
+
     @RequestMapping(value = "/acceder.htm", params = "username")
     public ModelAndView acceder(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        servicio = new UserServiceImpl();
+        servicio.setSessionFactory(sessionFactory);
+
+        return servicio.comprobarUsuario(request.getParameter("username").toString(),
+                request.getParameter("password").toString());
+    }
+
+    @RequestMapping(value = "/recordar.htm")
+    public ModelAndView recordar(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        ModelAndView vista = new ModelAndView("WEB-INF/jsp/recordar.jsp");
+
+        return vista;
+    }
+
+    @RequestMapping(value = "/reenviar_contrasinal.htm")
+    public ModelAndView reenviar_contrasinal(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
         servicio = new UserServiceImpl();
         servicio.setSessionFactory(sessionFactory);
-
-        return servicio.comprobarUsuario(request.getParameter("username").toString(), 
-                request.getParameter("password").toString());
+        
+        return servicio.reenviarContrasinal(request.getParameter("email").toString(),
+                request.getParameter("usuario").toString());
     }
 }
