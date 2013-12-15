@@ -57,4 +57,14 @@ public class MainController {
         return servicio.reenviarContrasinal(request.getParameter("email").toString(),
                 request.getParameter("usuario").toString());
     }
+    
+    @RequestMapping(value = "/registrar.htm")
+    public ModelAndView registar(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        ModelAndView vista = new ModelAndView("WEB-INF/jsp/registar.jsp");
+        return vista;
+        
+    }
+    
 }

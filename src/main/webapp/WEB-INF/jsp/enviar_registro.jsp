@@ -51,20 +51,24 @@
 
         <section>
             <br>
-            <form class="center_form gris_oscuro" method="post" action="reenviar_contrasinal.htm">
-                <a class="subtitulo tab">¿Olvidaches o contrasinal?</a>
+            <form class="center_form gris_oscuro" method="post" action="enviar_registro.htm">
+                <a class="subtitulo tab"><fmt:message key="reg_msg_01"/></a>
                 <br>
-                <a class="articulo tab">Introduze a túa dirección de correo electrónico</a>
+                <a class="articulo "><fmt:message key="reg_msg_02"/></a>
                 <br>
+                <a class=""><fmt:message key="reg_msg_03"/></a>
                 <input name="email" type="email" class="recordar_email">
                 <br>
-                <a class="subtitulo tab">ou</a>
-                <br>
-                <a class="articulo tap">Introduze o teu nome de usuario</a>
+                <a class="articulo tap"><fmt:message key="reg_msg_04"/></a>
                 <br>
                 <input name="usuario" type="text" maxlength="45" class="recordar_usuario">
                 <br>
-                <button class="button blue" title="Enviar recordatorio">Enviar</button>
+                <a class="articulo tap"><fmt:message key="reg_msg_05"/></a>
+                <br>
+                <input name="password" type="password" maxlength="15" class="recordar_usuario">
+                <br>
+                
+                <button class="button blue" title="Enviar">Enviar</button>
             </form>
             <form class="center_form_p gris_claro" method="post" action="contactar_admin">
                 <a class="footer">¿Necesitas axuda? </a>                

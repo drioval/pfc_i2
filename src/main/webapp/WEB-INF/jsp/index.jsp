@@ -1,10 +1,18 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>                
+<!DOCTYPE html>
+
 <link href="css/default.css" rel="stylesheet" />
 <link href='http://fonts.googleapis.com/css?family=Yellowtail' rel='stylesheet' type='text/css'>
 <link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,300' rel='stylesheet' type='text/css'>
 <link href='http://fonts.googleapis.com/css?family=Homemade+Apple' rel='stylesheet' type='text/css'>
 <link href="../images/favicon.png" rel="shorcut icon" type="image/x-icon">
+
+<c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
+<%//fmt:setLocale value="${sessionScope.locale}" /%>
+<fmt:setLocale value="gl_ES" />
+<fmt:setBundle basename="properties.propiedades"/>
 
 <html>
     <head>
@@ -22,7 +30,7 @@
                     <a class="footer" href="recordar.htm">¿Recordar contrasinal?</a>
                 </form>
 
-                <h class="title"> Benvido a Congreso Científico</h><br>
+                <h class="title"><fmt:message key="msg_titulo" /></h><br>
                 <h class="subtitle">Iteración 1</h>
             </header>
             <br>
@@ -30,23 +38,13 @@
         <div class="menu">
             <nav>
                 <ul>
-                    <li><a href='index.htm'>Inicio</a></li>
-                    <li><a href='acceder.htm'>Congresos</a></li>
-                    <li class="dropdown ">
-                        <a href='#'>Traballos Científicos</a>
-                        <ul class="dropdown_menu">
-                            <li><a href="#">Congreso Virtual</a></li>
-                            <li><a href="#">Normativa</a></li>
-                            <li><a href="#">Cuotas</a></li>
-                            <li><a href="#">Congreso Presencial</a></li>
-                            <li><a href="#">Normativa virtual</a></li>
-                            <li><a href="#">Cuota virtual</a></li>
-                        </ul>
-                    </li>
-                    <li><a href='#'>Novas</a></li>
-                    <li><a href='#'>Calendario</a></li>
-                    <li><a href='#'>Contacto</a></li>
-                    <li><a href='#'>FAQ'S</a></li>
+                    <li><a href='index.htm'><fmt:message key="msg_menu01"/></a></li>
+                    <li><a href='acceder.htm'><fmt:message key="msg_menu02"/></a></li>
+                    <li><a href='registrar.htm'><fmt:message key="msg_menu03"/></a></li>
+                    <li><a href='#'><fmt:message key="msg_menu04"/></a></li>
+                    <li><a href='#'><fmt:message key="msg_menu05"/></a></li>
+                    <li><a href='#'><fmt:message key="msg_menu06"/></a></li>
+                    <li><a href='#'><fmt:message key="msg_menu07"/></a></li>
                 </ul>
             </nav>
         </div>

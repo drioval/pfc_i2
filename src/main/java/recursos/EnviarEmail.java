@@ -19,8 +19,8 @@ import javax.mail.internet.MimeMessage;
  */
 public class EnviarEmail {
 
-    String remitenteEmail = "congresocientifico2013@gmail.com",
-            password = "congreso2013",
+    String remitenteEmail = "congresocientifico2014@gmail.com",
+            password = "congreso2014",
             host = "smtp.gmail.com",
             port = "465";
 

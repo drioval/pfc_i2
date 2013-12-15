@@ -4,6 +4,7 @@
  */
 package vista;
 
+import encrypt.GenerarPassword;
 import java.util.Set;
 import modelo.UserProfile;
 import modelo.UserProfileDaoHibernate;
@@ -81,6 +82,10 @@ public class UserServiceImpl implements UserService {
                     Set<UserProfileDetails> userProfileDetails = user.getUserProfileDetailses();
                     UserProfileDetails detalleUsuario = (UserProfileDetails) userProfileDetails.toArray()[0];
 
+                    GenerarPassword pass = new GenerarPassword();
+                    String newPassword = pass.generarContrasinal();
+                    user.setContrasinal(newPassword);
+
                     EnviarEmail enviarEmail = new EnviarEmail();
                     String asunto = "Congreso 2013: Solicitude de reenvio do contrasinal";
                     String cuerpo = "Solicitouse o reenvio de contrasinal para o seu usuario. "
@@ -106,6 +111,9 @@ public class UserServiceImpl implements UserService {
                 vista.addObject("mensaxe", "O email introducido non existe. Por favor, verifique que o email e correcto.");
                 vista.addObject("email", email);
             } else {
+                GenerarPassword pass = new GenerarPassword();
+                String newPassword = pass.generarContrasinal();
+                detalleUsuario.getUserProfile().setContrasinal(newPassword);
 
                 String asunto = "Congreso 2013: Solicitude de reenvio do contrasinal";
                 String cuerpo = "Solicitouse o reenvio de contrasinal para o seu usuario. "
