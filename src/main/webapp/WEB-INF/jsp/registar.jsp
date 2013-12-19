@@ -49,33 +49,40 @@
             </nav>
         </div>
 
-        <section>
+        <fieldset class="center_form gris_oscuro">
+            <legend><a class="subtitulo"><fmt:message key="reg_msg_01"/></a></legend>
             <br>
-            <form class="center_form gris_oscuro" method="post" action="enviar_registro.htm">
-                <a class="subtitulo tab"><fmt:message key="reg_msg_01"/></a>
+            <form method="post" action="enviar_registro.htm">
+
+                <a class="articulo"><fmt:message key="reg_msg_02"/></a>
+                <br><br>
+                <a class="articulo"><fmt:message key="reg_msg_03"/></a>
                 <br>
-                <a class="articulo "><fmt:message key="reg_msg_02"/></a>
+                <input name="email" type="email" class="recordar_email" style="width:250px;">
                 <br>
-                <a class=""><fmt:message key="reg_msg_03"/></a>
-                <input name="email" type="email" class="recordar_email">
+                <a class="articulo"><fmt:message key="reg_msg_04"/></a>
                 <br>
-                <a class="articulo tap"><fmt:message key="reg_msg_04"/></a>
+                <input name="usuario" type="text" maxlength="45" class="recordar_usuario" style="width:250px;">
                 <br>
-                <input name="usuario" type="text" maxlength="45" class="recordar_usuario">
+                <a class="articulo"><fmt:message key="reg_msg_05"/></a>
                 <br>
-                <a class="articulo tap"><fmt:message key="reg_msg_05"/></a>
+                <input name="password" type="password" maxlength="15" class="recordar_usuario" style="width:250px;">
                 <br>
-                <input name="password" type="password" maxlength="15" class="recordar_usuario">
+                <a class="articulo"><fmt:message key="reg_msg_06"/></a>
+                <br>
+                <input name="re_password" type="password" maxlength="15" class="recordar_usuario" style="width:250px;">
                 <br>
                 
-                <button class="button blue" title="Enviar">Enviar</button>
-            </form>
-            <form class="center_form_p gris_claro" method="post" action="contactar_admin">
-                <a class="footer"><fmt:message key="msg_footer_01"/></a>                
-                <a class="footer" href="contactar.htm"><fmt:message key="msg_footer_02"/></a>
-            </form>
-        </section>
+                <input type="submit" class="button blue" value="Enviar">
+                <input type="reset" class="button blue" value="Borrar">
 
-        <footer class="footer"><fmt:message key="msg_footer_02"/></footer>
+            </form>
+        </fieldset>
+        <fieldset class="center_form_p gris_claro">
+            <legend><a class="articulo"><fmt:message key="msg_footer_01"/></a></legend>
+            <a class="articulo" href="contactar.htm"><fmt:message key="msg_footer_02"/></a>
+        </fieldset>
+
+        <footer class="footer"><fmt:message key="msg_footer_03"/></footer>
     </body>
 </html>
