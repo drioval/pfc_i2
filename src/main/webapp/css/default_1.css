@@ -5,29 +5,19 @@
     Description:
         Purpose of the stylesheet follows.
 */
-html {
-    position: relative;
+.cuerpo{
     min-height: 100%;
-}
-
-body {
-    margin: 0 0 80px;
-
+    height: auto;
+    height: 100%;
+    margin: 0 auto -60px;
     background: whitesmoke;
 }
-
-footer {
+.cabecera{
+    margin: 0;
     background: url(../images/background.png);
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    height: 20px;
-    width: 100%;
 }
 
 .header {
-    margin: 0;
-    background: url(../images/background.png);
 }
 
 .logo{
@@ -336,7 +326,7 @@ button:hover {
     line-height:1em;
     margin:0 0 0 75px;
 }
-
+    
 .titulo {
     font-family: 'Yellowtail', cursive;
     font-size:30px;

@@ -20,19 +20,21 @@
         <title>PFC - Congreso Científico - Iteración 1</title>
     </head>
     <body class="cuerpo">
-        <header class="header">
-            <img src="images/logo.png" class="logo">
-            <form class="form" method="post" action="acceder.htm" >
-                <input name="username" type="text" placeholder="Nome de usuario" maxlength="45" required/>
-                <input name="password" type="password" placeholder="Contrasinal" maxlength="45" required/>
-                <button class="button blue" title="Preme para acceder ao teu perfil de usuario">Entrar</button>
-                <a class="articulo" href="recordar.htm">¿Recordar contrasinal?</a>
-            </form>
+        <div class="cabecera">
+            <header class="header">
+                <img src="images/logo.png" class="logo">
+                <form class="form" method="post" action="acceder.htm" >
+                    <input name="username" type="text" placeholder="Nome de usuario" maxlength="45" required/>
+                    <input name="password" type="password" placeholder="Contrasinal" maxlength="45" required/>
+                    <button class="button blue" title="Preme para acceder ao teu perfil de usuario">Entrar</button>
+                    <a class="articulo" href="recordar.htm">¿Recordar contrasinal?</a>
+                </form>
 
-            <h class="title"><fmt:message key="msg_header_title" /></h><br>
-            <h class="subtitle"><fmt:message key="msg_header_subtitle" /></h>
-            <br>    
-        </header>
+                <h class="title"><fmt:message key="msg_header_title" /></h><br>
+                <h class="subtitle"><fmt:message key="msg_header_subtitle" /></h>
+            </header>
+            <br>
+        </div>
         <div class="menu">
             <nav>
                 <ul>
@@ -46,6 +48,8 @@
                 </ul>
             </nav>
         </div>
+        <fieldset class="wrap">
+            <div id="main">
                 <fieldset class="center_form gris_oscuro">
                     <legend><a class="subtitulo">¿Olvidaches o contrasinal?</a></legend>
                     <form method="post" action="reenviar_contrasinal.htm">
@@ -66,9 +70,9 @@
                     <legend><a class="articulo"><fmt:message key="msg_footer_01"/></a></legend>
                     <a class="articulo" href="contactar.htm"><fmt:message key="msg_footer_02"/></a>
                 </fieldset>
+            </div>
+        </fieldset>
 
-        <footer>
-            <a class="articulo"><fmt:message key="msg_footer_03"/></a>
-        </footer>
+        <footer class="footer"><fmt:message key="msg_footer_03"/></footer>
     </body>
 </html>
