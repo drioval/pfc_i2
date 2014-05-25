@@ -118,9 +118,6 @@ input[type="password"]{
     -moz-box-shadow: 0px 0px 8px #d9d9d9;
     -webkit-box-shadow: 0px 0px 8px #d9d9d9;
 }
-input[type="reset"]{
-    border: 2px double #2476E0;
-}
 
 input:focus {
     outline: none;
@@ -314,29 +311,6 @@ button:hover {
     margin: 0;
 }
 
-.section{
-    background: white;
-    font-family:Georgia,serif;
-    color:#666666;
-    font-size:20px;
-    line-height:1em;
-    position: absolute;
-    margin:0 0 0 25px;
-}
-
-.article{
-    height:120px; /* Alto del menú */
-    size: 500px; 
-    text-align: left;
-    position: absolute;
-    padding: 10px 0;
-    font-family:Georgia,serif;
-    color:black;
-    font-size:12px;
-    line-height:1em;
-    margin:0 0 0 75px;
-}
-
 .titulo {
     font-family: 'Yellowtail', cursive;
     font-size:30px;
@@ -362,4 +336,14 @@ button:hover {
 .centrado{
     position: relative;
     text-align: center;
+}
+
+.areaTexto{
+    width: 400px; 
+    min-width:400px; 
+    max-width:400px; 
+
+    height:200px; 
+    min-height:200px;  
+    max-height:200px;
 }

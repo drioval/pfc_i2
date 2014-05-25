@@ -8,14 +8,16 @@ and open the template in the editor.
 <web-app xmlns="http://java.sun.com/xml/ns/javaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
-         version="3.0">
-    
+         version="3.0">   
     
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>/WEB-INF/spring/app-config.xml</param-value>
+        <param-value>
+            /WEB-INF/spring/app-config.xml
+            /WEB-INF/spring/spring-security.xml
+        </param-value>
     </context-param>
-    
+      
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
@@ -27,8 +29,7 @@ and open the template in the editor.
             <param-name>sessionFactoryBeanName</param-name>
             <param-value>sessionFactory</param-value>
         </init-param>
-    </filter>
-     
+    </filter>     
     <filter-mapping>
         <filter-name>openSessionInView</filter-name>
         <url-pattern>/*</url-pattern>
@@ -36,7 +37,16 @@ and open the template in the editor.
         <dispatcher>FORWARD</dispatcher>
         <dispatcher>ERROR</dispatcher>
     </filter-mapping>
-
+    
+    <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter> 
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    
     <display-name>Springapp</display-name>
 
     <servlet>
@@ -48,7 +58,6 @@ and open the template in the editor.
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
-
     <servlet-mapping>
         <servlet-name>springapp</servlet-name>
         <url-pattern>*.htm</url-pattern>

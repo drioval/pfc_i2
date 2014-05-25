@@ -4,6 +4,7 @@
  */
 package vista;
 
+import encrypt.EncriptarPassword;
 import encrypt.GenerarPassword;
 import java.util.Set;
 import modelo.UserProfile;
@@ -112,13 +113,19 @@ public class UserServiceImpl implements UserService {
                 vista.addObject("email", email);
             } else {
                 GenerarPassword pass = new GenerarPassword();
-                String newPassword = pass.generarContrasinal();
-                detalleUsuario.getUserProfile().setContrasinal(newPassword);
-
+                //String newPassword = pass.generarContrasinal();
+                String newPassword = "encriptado";
+                EncriptarPassword passEncripted = new EncriptarPassword();
+                String newPasswordEncripted = passEncripted.encriptarContrasinal(newPassword);
+                detalleUsuario.getUserProfile().setContrasinal(newPasswordEncripted.toString());
+                
+                System.out.println("Compara passwords: "+passEncripted.compararContrasinal("encriptado", newPasswordEncripted));
+                System.out.println("Compara passwords: "+passEncripted.compararContrasinal("revisor", newPasswordEncripted));
+                
                 String asunto = "Congreso 2013: Solicitude de reenvio do contrasinal";
                 String cuerpo = "Solicitouse o reenvio de contrasinal para o seu usuario. "
                         + "A continuación indicamoslle os seus datos de acceso: ";
-                cuerpo = cuerpo + "<br><br> Usuario: " + usuario + "<br><br> Contrasinal: " + detalleUsuario.getUserProfile().getContrasinal()
+                cuerpo = cuerpo + "<br><br> Usuario: " + detalleUsuario.getUserProfile().getUsuario() + "<br><br> Contrasinal: " + newPassword
                         + "<br><br> Un saludo.";
 
                 EnviarEmail enviarEmail = new EnviarEmail();
@@ -131,4 +138,58 @@ public class UserServiceImpl implements UserService {
         }
         return vista;
     }
+
+    @Override
+    @Transactional
+    public ModelAndView contactar(String nome, String email, String asunto, String texto) {
+
+        ModelAndView vista = new ModelAndView("WEB-INF/jsp/contactar.jsp");
+
+        if (nome.equals("")) {
+            vista.addObject("mensaxe", "Parece que introduciches información non válida. Por favor, revise os campos e ténteo de novo.");
+        } else if (email.equals("")) {
+            vista.addObject("mensaxe", "Parece que introduciches información non válida. Por favor, revise os campos e ténteo de novo.");
+        } else if (texto.equals("")) {
+            vista.addObject("mensaxe", "Parece que introduciches información non válida. Por favor, revise os campos e ténteo de novo.");
+        } else {
+            EnviarEmail enviarEmail = new EnviarEmail();
+            String asuntoMail = asunto;
+            String cuerpo = "Contacto:"+nome+"<br><br> Email: "+email+"<br><br>"+texto;
+            enviarEmail.enviarEmail("congresocientifico2014@gmail.com", asuntoMail, cuerpo);
+
+            vista.addObject("mensaxe", "Enviouselle a súa dirección de correo electrónico as instruccións para reestablecer o seu contrasinal.");
+        }
+        return vista;
+    }
+    
+    @Override
+    @Transactional
+    public ModelAndView enviarRegistro(String email,String usuario, String password, String password2){
+        
+        ModelAndView vista = new ModelAndView("WEB-INF/jsp/enviar_registro.jsp");
+        
+        if (password.equals(password2)){
+            System.out.println("Dentro do if de password");
+                UserProfileDaoHibernate userProfileDao = new UserProfileDaoHibernate();
+                userProfileDao.setSessionFactory(sessionFactory);
+            System.out.println("Dentro do if de password2"+userProfileDao.getCurrentSession().toString());
+            if(userProfileDao.existeUserProfile(usuario)==false){
+                UserProfileDetailsDaoHibernate userDetails = new UserProfileDetailsDaoHibernate();
+                userDetails.setSessionFactory(sessionFactory);
+                if(userDetails.exists(email)==false){
+                    System.out.println("Non exite usuario nin email");
+                }else{
+                    System.out.println("Non existe usuario PERO EXISTE email");
+                }
+            }else{
+                System.out.println("EXISTE USUARIO e xa non miramos si existe email");
+            }
+        }else{
+            System.out.println("Os paswords non coinciden");
+            vista = new ModelAndView("WEB-INF/jsp/error_registro.jsp");
+        }
+
+        return vista;
+    }
+    
 }

@@ -1,3 +1,8 @@
+<%-- 
+    Document   : contacto
+    Created on : 17-ene-2014, 19:59:48
+    Author     : insdrv00
+--%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -19,7 +24,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>PFC - Congreso Científico - Iteración 1</title>
     </head>
-    <body class="cuerpo">
+    <body>        
         <header class="header">
             <img src="images/logo.png" class="logo">
             <form class="form" method="post" action="acceder.htm" >
@@ -31,41 +36,48 @@
 
             <h class="title"><fmt:message key="msg_header_title" /></h><br>
             <h class="subtitle"><fmt:message key="msg_header_subtitle" /></h>
-            <br>    
+            <br>
         </header>
-        <div class="menu">
-            <nav>
-                <ul>
-                    <li><a href='index.htm'><fmt:message key="msg_menu01"/></a></li>
-                    <li><a href='acceder.htm'><fmt:message key="msg_menu02"/></a></li>
-                    <li><a href='registrar.htm'><fmt:message key="msg_menu03"/></a></li>
-                    <li><a href='#'><fmt:message key="msg_menu04"/></a></li>
-                    <li><a href='#'><fmt:message key="msg_menu05"/></a></li>
-                    <li><a href='#'><fmt:message key="msg_menu06"/></a></li>
-                    <li><a href='#'><fmt:message key="msg_menu07"/></a></li>
-                </ul>
-            </nav>
-        </div>
+        <nav class="menu">
+            <ul>
+                <li><a href='index.htm'><fmt:message key="msg_menu01"/></a></li>
+                <li><a href='acceder.htm'><fmt:message key="msg_menu02"/></a></li>
+                <li><a href='registrar.htm'><fmt:message key="msg_menu03"/></a></li>
+                <li><a href='#'><fmt:message key="msg_menu04"/></a></li>
+                <li><a href='#'><fmt:message key="msg_menu05"/></a></li>
+                <li><a href='contacto.htm'><fmt:message key="msg_menu06"/></a></li>
+                <li><a href='#'><fmt:message key="msg_menu07"/></a></li>
+            </ul>
+        </nav>
         <fieldset class="center_form gris_oscuro">
-            <legend class="subtitulo">¿Olvidaches o contrasinal?</legend>
-            <form method="post" action="reenviar_contrasinal.htm">
-                <a class="articulo tab">Introduze a túa dirección de correo electrónico</a>
+            <legend class="subtitulo"><fmt:message key="cont_msg_01"/></legend>
+            <br>
+            <form method="post" action="contactar.htm">
+
+                <a class="articulo"><fmt:message key="cont_msg_02"/></a>
+                <br><br>
+                <a class="articulo"><fmt:message key="cont_msg_03"/></a>
                 <br>
-                <input name="email" type="email" class="recordar_email">
+                <input name="nome" type="text" maxlength="45" class="recordar_usuario" style="width:250px;">
                 <br>
-                <a class="subtitulo tab">ou</a>
+                <a class="articulo"><fmt:message key="reg_msg_03"/></a>
                 <br>
-                <a class="articulo tap">Introduze o teu nome de usuario</a>
+                <input name="email" type="email" class="recordar_email" style="width:250px;">
                 <br>
-                <input name="usuario" type="text" maxlength="45" class="recordar_usuario">
+                <a class="articulo"><fmt:message key="cont_msg_04"/></a>
                 <br>
-                <button class="button blue" title="Enviar recordatorio">Enviar</button>
+                <input name="asunto" type="text" class="recordar_email" style="width:250px;">
+                <br>
+                <a class="articulo"><fmt:message key="cont_msg_05"/></a>
+                <br>
+                <textarea name="texto" maxlength="250" class="areaTexto"></textarea>
+                <br>
+                
+                <input type="submit" class="button blue" value="Enviar">
+                <input type="reset" class="button blue" value="Borrar">
             </form>
         </fieldset>
-        <fieldset class="center_form gris_claro">
-            <legend class="articulo"><fmt:message key="msg_footer_01"/></legend>
-            <a class="articulo" href="contacto.htm"><fmt:message key="msg_footer_02"/></a>
-        </fieldset>
+        
         <footer>
             <a class="articulo"><fmt:message key="msg_footer_03"/></a>
         </footer>
