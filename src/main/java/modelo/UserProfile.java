@@ -5,12 +5,12 @@ import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
+
 /**
  * Clase entidad UserProfile
  *
  * @author insdrv00
  */
-
 @Entity
 public class UserProfile implements java.io.Serializable {
 
@@ -21,6 +21,7 @@ public class UserProfile implements java.io.Serializable {
     private String usuario;
     private String contrasinal;
     private Set<UserProfileDetails> userProfileDetailses = new HashSet<UserProfileDetails>(0);
+    private Integer activo;
 
     public UserProfile() {
     }
@@ -29,6 +30,7 @@ public class UserProfile implements java.io.Serializable {
         this.userRol = userRol;
         this.usuario = usuario;
         this.contrasinal = contrasinal;
+        this.activo=0;
     }
 
     public UserProfile(UserRol userRol, String usuario, String contrasinal, Set<UserProfileDetails> userProfileDetailses) {
@@ -36,6 +38,7 @@ public class UserProfile implements java.io.Serializable {
         this.usuario = usuario;
         this.contrasinal = contrasinal;
         this.userProfileDetailses = userProfileDetailses;
+        this.activo=0;
     }
 
     public Integer getUserId() {
@@ -76,5 +79,13 @@ public class UserProfile implements java.io.Serializable {
 
     public void setUserProfileDetailses(Set<UserProfileDetails> userProfileDetailses) {
         this.userProfileDetailses = userProfileDetailses;
+    }
+
+    public Integer getActivo() {
+        return activo;
+    }
+
+    public void setActivo(Integer activo) {
+        this.activo = activo;
     }
 }

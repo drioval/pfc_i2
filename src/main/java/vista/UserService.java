@@ -15,4 +15,7 @@ public interface UserService {
      public ModelAndView reenviarContrasinal(String email, String usuario);
      public ModelAndView contactar(String nome, String email, String asunto, String texto);
      public ModelAndView enviarRegistro(String email,String usuario, String password, String password2);
+     public ModelAndView rematarRexistro(String usuario, String key);
+     public ModelAndView completarPerfil(String usuario, String key, String nome, String apelido1, String apelido2,
+                String telefono);
 }

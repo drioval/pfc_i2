@@ -5,12 +5,9 @@
 <hibernate-mapping>
     <class name="modelo.UserProfileDetails" table="UserProfileDetails" catalog="congreso">
         <id name="userprofileid" type="java.lang.Integer">
-            <column name="userprofileid" length="45" />
+            <column name="userprofileid" />
             <generator class="identity" />
-        </id>
-        <many-to-one name="userProfile" class="modelo.UserProfile" fetch="select">
-            <column name="userId" not-null="true" />
-        </many-to-one>
+        </id>     
         <property name="nome" type="string">
             <column name="nome" length="45" />
         </property>
@@ -25,6 +22,9 @@
         </property>
         <property name="email" type="string">
             <column name="email" length="45" />
+        </property>
+        <property name="userid" type="java.lang.Integer">
+            <column name="userid"/>
         </property>
     </class>
 </hibernate-mapping>

@@ -30,7 +30,7 @@ public class UserProfileDetailsDaoHibernate extends GenericDaoHibernate implemen
     }
 
     public void eliminarUserProfileDetails(UserProfileDetails usuario) {
-        genericDao.remove(UserProfile.class, usuario.getUserprofileid());
+        genericDao.remove(UserProfileDetails.class, usuario.getUserprofileid());
     }
 
     @Override
@@ -38,7 +38,7 @@ public class UserProfileDetailsDaoHibernate extends GenericDaoHibernate implemen
     public boolean existeUserProfileDetails(Integer usuario) {
         Integer userId = null;
         try {
-            userId = (Integer) genericDao.getCurrentSession().createQuery("SELECT a.userprofileid FROM userProfileDetails a WHERE a.userId = :usuario ").setParameter("usuario", usuario).uniqueResult();
+            userId = (Integer) genericDao.getCurrentSession().createQuery("SELECT a.userprofileid FROM userProfileDetails a WHERE a.userid = :usuario ").setParameter("usuario", usuario).uniqueResult();
         } catch (HibernateException e) {
             return false;
         } finally {
@@ -48,14 +48,16 @@ public class UserProfileDetailsDaoHibernate extends GenericDaoHibernate implemen
 
     @Override
     @Transactional
-    public UserProfileDetails obtenerUserProfileDetails(Integer usuario) {
+    public UserProfileDetails obtenerUserProfileDetails(Integer idUsuario) {
         Integer userId = null;
         try {
-            userId = (Integer) genericDao.getCurrentSession().createQuery("SELECT a.userprofileid FROM UserProfileDetails a WHERE a.userId = :usuario ").setParameter("usuario", usuario).uniqueResult();
+            userId = (Integer) genericDao.getCurrentSession().createQuery("SELECT a.userprofileid FROM UserProfileDetails a WHERE a.userid = :usuario ").setParameter("usuario", idUsuario).uniqueResult();
         } catch (HibernateException e) {
+            System.out.println(e);
             throw e;
         } finally {
-            return (UserProfileDetails) genericDao.find(UserProfile.class, userId);
+            System.out.println("userId en obtenerUserProfileDetails: "+userId);
+            return (UserProfileDetails) genericDao.find(UserProfileDetails.class, userId);
         }
     }
 
@@ -68,9 +70,9 @@ public class UserProfileDetailsDaoHibernate extends GenericDaoHibernate implemen
         } catch (HibernateException e) {
             throw e;
         } finally {
-            if(userId==null){
+            if (userId == null) {
                 return null;
-            }else{
+            } else {
                 return (UserProfileDetails) genericDao.find(UserProfileDetails.class, userId);
             }
         }

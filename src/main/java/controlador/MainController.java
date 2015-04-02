@@ -27,15 +27,27 @@ public class MainController {
     private SessionFactory sessionFactory;
     private UserServiceImpl servicio;
 
-    @RequestMapping(value = "/acceder.htm", params = "username")
+    @RequestMapping(value = "/index.htm")
+    public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        return new ModelAndView("WEB-INF/jsp/index.jsp");
+    }
+
+    /*@RequestMapping(value = "/acceder.htm", params = "username")
+     public ModelAndView acceder(HttpServletRequest request, HttpServletResponse response)
+     throws ServletException, IOException {
+
+     servicio = new UserServiceImpl();
+     servicio.setSessionFactory(sessionFactory);
+
+     return servicio.comprobarUsuario(request.getParameter("username").toString(),
+     request.getParameter("password").toString());
+     }*/
+    @RequestMapping("/acceder.htm")
     public ModelAndView acceder(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        servicio = new UserServiceImpl();
-        servicio.setSessionFactory(sessionFactory);
-
-        return servicio.comprobarUsuario(request.getParameter("username").toString(),
-                request.getParameter("password").toString());
+        System.out.println("Estou dentro de acceder");
+        return new ModelAndView("WEB-INF/jsp/access/acceder.jsp");
     }
 
     @RequestMapping(value = "/recordar.htm")
@@ -57,26 +69,6 @@ public class MainController {
                 request.getParameter("usuario").toString());
     }
 
-    @RequestMapping(value = "/registrar.htm")
-    public ModelAndView registar(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-        ModelAndView vista = new ModelAndView("WEB-INF/jsp/registar.jsp");
-        return vista;
-    }
-
-    @RequestMapping(value = "/enviar_registro.htm")
-    public ModelAndView enviar_registro(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-        servicio = new UserServiceImpl();
-
-        return servicio.enviarRegistro(request.getParameter("email").toString(),
-                request.getParameter("usuario").toString(), 
-                request.getParameter("password").toString(),
-                request.getParameter("re_password").toString());
-    }
-
     @RequestMapping(value = "/contacto.htm")
     public ModelAndView contacto(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -94,5 +86,50 @@ public class MainController {
 
         return servicio.contactar(request.getParameter("nome").toString(),
                 request.getParameter("email").toString(), request.getParameter("asunto").toString(), request.getParameter("texto").toString());
+    }
+
+    @RequestMapping(value = "/registrar.htm")
+    public ModelAndView registar(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        ModelAndView vista = new ModelAndView("WEB-INF/jsp/registar.jsp");
+        return vista;
+    }
+
+    @RequestMapping(value = "/enviar_registro.htm")
+    public ModelAndView enviar_registro(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        servicio = new UserServiceImpl();
+        servicio.setSessionFactory(sessionFactory);
+
+        return servicio.enviarRegistro(request.getParameter("email").toString(),
+                request.getParameter("usuario").toString(),
+                request.getParameter("password").toString(),
+                request.getParameter("re_password").toString());
+    }
+
+    @RequestMapping(value = "/rematar_rexistro.htm")
+    public ModelAndView rematar_rexistro(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        servicio = new UserServiceImpl();
+        servicio.setSessionFactory(sessionFactory);
+
+        return servicio.rematarRexistro(request.getParameter("user").toString(),
+                request.getParameter("key"));
+    }
+
+    @RequestMapping(value = "/completar_perfil.htm")
+    public ModelAndView completar_perfil(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        servicio = new UserServiceImpl();
+        servicio.setSessionFactory(sessionFactory);
+
+        return servicio.completarPerfil(request.getParameter("usuario").toString(),
+                request.getParameter("key"), request.getParameter("nome").toString(),
+                request.getParameter("apelido1").toString(), request.getParameter("apelido2"),
+                request.getParameter("telefono").toString());
     }
 }

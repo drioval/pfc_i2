@@ -15,29 +15,28 @@ public class UserProfileDetails implements java.io.Serializable {
     @Id
     @NotNull
     private Integer userprofileid;
-    private UserProfile userProfile;
     private String nome;
     private String apelido1;
     private String apelido2;
     private String telefono;
     private String email;
+    private Integer userid;
 
     public UserProfileDetails() {
     }
 
-    public UserProfileDetails(Integer userprofileid, UserProfile userProfile) {
+    public UserProfileDetails(Integer userprofileid, Integer userid) {
         this.userprofileid = userprofileid;
-        this.userProfile = userProfile;
+        this.userid = userid;
     }
 
-    public UserProfileDetails(Integer userprofileid, UserProfile userProfile, String nome, String apelido1, String apelido2, String telefono, String email) {
-        this.userprofileid = userprofileid;
-        this.userProfile = userProfile;
+    public UserProfileDetails(String nome, String apelido1, String apelido2, String email, String telefono, Integer userid) {
         this.nome = nome;
         this.apelido1 = apelido1;
         this.apelido2 = apelido2;
         this.telefono = telefono;
         this.email = email;
+        this.userid = userid;
     }
 
     public Integer getUserprofileid() {
@@ -46,14 +45,6 @@ public class UserProfileDetails implements java.io.Serializable {
 
     public void setUserprofileid(Integer userprofileid) {
         this.userprofileid = userprofileid;
-    }
-
-    public UserProfile getUserProfile() {
-        return this.userProfile;
-    }
-
-    public void setUserProfile(UserProfile userProfile) {
-        this.userProfile = userProfile;
     }
 
     public String getNome() {
@@ -94,5 +85,13 @@ public class UserProfileDetails implements java.io.Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Integer getUserid() {
+        return userid;
+    }
+
+    public void setUserid(Integer userid) {
+        this.userid = userid;
     }
 }

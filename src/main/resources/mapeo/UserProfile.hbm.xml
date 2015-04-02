@@ -18,6 +18,9 @@
         <property name="contrasinal" type="string">
             <column name="contrasinal" length="45" not-null="true" />
         </property>
+        <property name="activo" type="java.lang.Integer">
+            <column name="activo" length="1" not-null="true" />
+        </property>
         <set name="userProfileDetailses" inverse="true">
             <key>
                 <column name="userId" not-null="true" />

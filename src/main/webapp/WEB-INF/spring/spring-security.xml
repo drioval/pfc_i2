@@ -6,15 +6,23 @@
           http://www.springframework.org/schema/security
           http://www.springframework.org/schema/security/spring-security-3.1.xsd">
            
+    <http pattern="/css/**" security="none"/>
+    <http pattern="/images/**" security="none"/>
+    <http pattern="/index.htm" security="none"/>
+
     <http auto-config='true'>
-      <intercept-url pattern="/access/*" access="ROLE_USER" />
+        <intercept-url pattern='/acceder.htm' access='ROLE_USER' />
+        <form-login login-page='/index.htm' default-target-url='/acceder.htm'
+                always-use-default-target='true' authentication-failure-url="/index.htm?error=true"/>
+        <logout logout-success-url="/index.htm" delete-cookies="JSESSIONID" />
     </http>
-       
+ 
     <authentication-manager>
-      <authentication-provider>
-        <user-service>
-          <user name="root" password="toor" authorities="ROLE_USER" />
-        </user-service>
-      </authentication-provider>
-    </authentication-manager>  
+        <authentication-provider>
+            <user-service>
+                <user name="root" password="toor" authorities="ROLE_USER" />
+            </user-service>
+        </authentication-provider>
+    </authentication-manager>
+    
 </beans:beans>

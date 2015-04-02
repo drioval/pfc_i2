@@ -3,11 +3,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>congreso</groupId>
-    <artifactId>congreso_1.4</artifactId>
+    <artifactId>congreso_i1</artifactId>
     <version>1.4</version>
     <packaging>war</packaging>
 
-    <name>congreso_1.4</name>
+    <name>congreso_i1</name>
 
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
@@ -238,4 +238,9 @@
             </plugin>
         </plugins>
     </build>
+    <description>Proxecto fin de Carreira Daniel Rios Val.
+
+Aplicación web para a xestión de un Congreso Científico.
+
+Primeira Iteración.</description>
 </project>

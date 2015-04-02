@@ -13,6 +13,6 @@ import java.io.Serializable;
 public interface UserProfileDetailsDao {
     public void guardarUserProfileDetails(UserProfileDetails userProfileDetails);
     public boolean existeUserProfileDetails(Integer usuario);
-    public UserProfileDetails obtenerUserProfileDetails(Integer usuario);
+    public UserProfileDetails obtenerUserProfileDetails(Integer idUsuario);
     public UserProfileDetails obtenerUserProfileDetailsEmail(String email);
 }

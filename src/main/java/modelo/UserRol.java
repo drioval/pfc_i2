@@ -19,7 +19,7 @@ public class UserRol implements java.io.Serializable {
     @NotNull
     private int rolId;
     private String descricion;
-    private Set<UserProfile> userProfiles = new HashSet<UserProfile>(0);
+    private Set<UserProfile> userProfiles = new HashSet<>(0);
 
     public UserRol() {
     }

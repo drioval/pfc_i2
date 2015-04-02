@@ -5,6 +5,7 @@
 package modelo;
 
 import java.io.Serializable;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
@@ -48,11 +49,15 @@ public class GenericDaoHibernate implements GenericDao {
 
     @Override
     public Object find(Class claseEntidad, Serializable PK) {
-        Object entidad = sessionFactory.getCurrentSession().get(claseEntidad, PK);
-        if (entidad == null) {
-            throw null;//Lanzar excepción si no encontrado.
+        Object entidad=null;
+        try{
+            entidad = sessionFactory.getCurrentSession().get(claseEntidad, PK);
+        } catch (HibernateException e) {
+            System.out.println(e);
+            throw e;
+        }finally{
+            return entidad;
         }
-        return entidad;
     }
 
     @Override
