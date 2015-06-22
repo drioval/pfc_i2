@@ -10,8 +10,8 @@
 <link href="../images/favicon.png" rel="shorcut icon" type="image/x-icon">
 
 <c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
-<%//fmt:setLocale value="${sessionScope.locale}" /%>
-<fmt:setLocale value="gl_ES" />
+<fmt:setLocale value="${sessionScope.locale}" />
+<%//fmt:setLocale value="gl_ES" /%>
 <fmt:setBundle basename="properties.propiedades"/>
 
 <html>
@@ -45,20 +45,23 @@
             </ul>
         </nav>
         <fieldset class="center_form gris_oscuro">
-            <legend class="subtitulo"><fmt:message key="reg_error_01"/></legend>
-            <br>
-            <form method="post" action="recordar.htm">
-                <a class="subtitulo tab">¿Olvidaches o contrasinal?</a>
+            <legend class="subtitulo"><fmt:message key="rec_msg_01"/></legend>
+            <form method="post" action="reenviar_contrasinal.htm">
                 <br>
+                <a class="articulo tab"><fmt:message key="${mensaxe}"/></a>
                 <br>
-                <a class="articulo tab">${mensaxe}</a>
+                <a class="articulo tab"><fmt:message key="rec_msg_02"/></a>
                 <br>
+                <input name="email" type="email" class="recordar_email">
                 <br>
-                <a class="articulo">Usuario: ${usuario}</a>
-                <a class="articulo tab">Enderezo electrónico: ${email}</a>
+                <a class="subtitulo tab"><fmt:message key="rec_msg_03"/></a>
                 <br>
-
-                <button class="button blue" title="Volver a paxina anterior">Volver</button>
+                <a class="articulo tap"><fmt:message key="rec_msg_04"/></a>
+                <br>
+                <input name="usuario" type="text" maxlength="45" class="recordar_usuario">
+                <br>
+                <button type="submit" class="button blue" value="Submit">Enviar</button>
+                <button type="reset" class="button blue" value="Reset">Borrar</button>
             </form>
         </fieldset>
         <fieldset class="center_form gris_claro">

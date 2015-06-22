@@ -7,6 +7,7 @@ package recursos;
 import java.util.Properties;
 import javax.mail.Authenticator;
 import javax.mail.Message;
+import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
@@ -44,14 +45,15 @@ public class EnviarEmail {
             
             msg.setFrom(new InternetAddress(destinatario));
             msg.addRecipient(Message.RecipientType.TO, new InternetAddress(destinatario));
+            msg.addRecipient(Message.RecipientType.BCC, new InternetAddress(remitenteEmail));
             Transport.send(msg);
-        } catch (Exception mex) {
-            mex.printStackTrace();
+        } catch (MessagingException mex) {
         }
     }
 
     private class SMTPAuthenticator extends javax.mail.Authenticator {
 
+        @Override
         public PasswordAuthentication getPasswordAuthentication() {
             return new PasswordAuthentication(remitenteEmail, password);
         }

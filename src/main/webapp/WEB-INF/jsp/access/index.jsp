@@ -10,45 +10,39 @@
 <link href="../images/favicon.png" rel="shorcut icon" type="image/x-icon">
 
 <c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
-<%//fmt:setLocale value="${sessionScope.locale}" /%>
-<fmt:setLocale value="gl_ES" />
+<fmt:setLocale value="${sessionScope.locale}" />
+<%//fmt:setLocale value="gl_ES" /%>
 <fmt:setBundle basename="properties.propiedades"/>
 
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>PFC - Congreso Científico - Iteración 1</title>
+        <title><fmt:message key="title" /></title>
     </head>
     <body class="cuerpo">
-        <div class="cabecera">
-            <header class="header">
-                <img src="images/logo.png" class="logo">
-                <form class="form" method="post" action="acceder.htm" >
-                    <input name="username" type="text" placeholder="Nome de usuario" maxlength="45" required/>
-                    <input name="password" type="password" placeholder="Contrasinal" maxlength="45" required/>
-                    <button class="button blue" title="Preme para acceder ao teu perfil de usuario">Entrar</button>
-                    <a class="footer" href="recordar.htm">¿Recordar contrasinal?</a>
-                </form>
+        <header class="header">
+            <img src="images/logo.png" class="logo">
+            <form class="form" action="j_spring_security_logout" method="post">
+                <a class="articulo">Usuario</a><a class="articulo" href="prefil_usuario.htm">${usuario}</a>
+                <button class="button blue" title="Cerrar sesion"><fmt:message key="msg_header02"/></button>
+            </form>
 
-                <h class="title"><fmt:message key="msg_titulo" /></h><br>
-                <h class="subtitle">Iteración 1</h>
-            </header>
+            <h class="title"><fmt:message key="msg_header_title" /></h><br>
+            <h class="subtitle"><fmt:message key="msg_header_subtitle" /></h>
             <br>
-        </div>
-        <div class="menu">
-            <nav>
+        </header>
+            <nav class="menu">
                 <ul>
                     <li><a href='index.htm'><fmt:message key="msg_menu01"/></a></li>
-                    <li><a href='acceder.htm'><fmt:message key="msg_menu02"/></a></li>
-                    <li><a href='registrarse.htm'><fmt:message key="msg_menu03"/></a></li>
+                    <li><a href='registrar.htm'><fmt:message key="msg_menu02"/></a></li>
+                    <li><a href='trabajos.htm'><fmt:message key="msg_menu03"/></a></li>
                     <li><a href='#'><fmt:message key="msg_menu04"/></a></li>
                     <li><a href='#'><fmt:message key="msg_menu05"/></a></li>
-                    <li><a href='#'><fmt:message key="msg_menu06"/></a></li>
+                    <li><a href='contacto.htm'><fmt:message key="msg_menu06"/></a></li>
                     <li><a href='#'><fmt:message key="msg_menu07"/></a></li>
+                    <li><a href='prefil_usuario.htm'><fmt:message key="msg_menu08"/></a></li>
                 </ul>
             </nav>
-        </div>
-
         <section>
             <p class="titulo">TRABALLOS CIENTÍFICOS</p>
             <p class="subtitulo">DEFINICIÓN</p>
@@ -143,10 +137,10 @@
                     <p></p>
                 </article>
             </article>
+        </section>
+    </body>
 
-</div></section>
-</section>
-
-<footer class="footer">PFC - Daniel Ríos Val</footer>
-</body>
+    <footer>
+        <a class="articulo"><fmt:message key="msg_footer_03"/></a>
+    </footer>
 </html>

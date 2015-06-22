@@ -30,24 +30,23 @@ public class MainController {
     @RequestMapping(value = "/index.htm")
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        return new ModelAndView("WEB-INF/jsp/index.jsp");
+        if (request.getUserPrincipal() == null) {
+            return new ModelAndView("WEB-INF/jsp/index.jsp");
+        }
+        ModelAndView vista = new ModelAndView("WEB-INF/jsp/access/index.jsp");
+        vista.addObject("usuario", request.getUserPrincipal().getName());
+        return vista;
     }
 
-    /*@RequestMapping(value = "/acceder.htm", params = "username")
-     public ModelAndView acceder(HttpServletRequest request, HttpServletResponse response)
-     throws ServletException, IOException {
-
-     servicio = new UserServiceImpl();
-     servicio.setSessionFactory(sessionFactory);
-
-     return servicio.comprobarUsuario(request.getParameter("username").toString(),
-     request.getParameter("password").toString());
-     }*/
-    @RequestMapping("/acceder.htm")
-    public ModelAndView acceder(HttpServletRequest request, HttpServletResponse response)
+    @RequestMapping(value = "/aindex.htm")
+    public ModelAndView inicioAutor(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        System.out.println("Estou dentro de acceder");
-        return new ModelAndView("WEB-INF/jsp/access/acceder.jsp");
+        if (request.getUserPrincipal() == null) {
+            return new ModelAndView("WEB-INF/jsp/index.jsp");
+        }
+        ModelAndView vista = new ModelAndView("WEB-INF/jsp/access/index.jsp");
+        vista.addObject("usuario", request.getUserPrincipal().getName());
+        return vista;
     }
 
     @RequestMapping(value = "/recordar.htm")
@@ -132,4 +131,47 @@ public class MainController {
                 request.getParameter("apelido1").toString(), request.getParameter("apelido2"),
                 request.getParameter("telefono").toString());
     }
+
+    @RequestMapping(value = "/acceder.htm")
+    public ModelAndView acceder(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        ModelAndView vista = new ModelAndView("WEB-INF/jsp/access/perfil_usuario.jsp");
+        vista.addObject("usuario", request.getUserPrincipal().getName());
+        return vista;
+    }
+    
+    @RequestMapping(value = "/trabajos.htm")
+    public ModelAndView trabajos(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        ModelAndView vista = new ModelAndView("WEB-INF/jsp/access/trabajos_usuario.jsp");
+        vista.addObject("usuario", request.getUserPrincipal().getName());
+        return vista;
+    }
+    
+    @RequestMapping(value = "/prefil_usuario.htm")
+    public ModelAndView prefil_usuario(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        servicio = new UserServiceImpl();
+        servicio.setSessionFactory(sessionFactory);
+
+        return servicio.obtenerPerfil(request.getUserPrincipal().getName());
+    }
+    
+    @RequestMapping(value = "/actualizar_prefil.htm")
+    public ModelAndView actualizar_usuario(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        servicio = new UserServiceImpl();
+        servicio.setSessionFactory(sessionFactory);
+
+        return servicio.actualizarPrefil(request.getUserPrincipal().getName(),
+                request.getParameter("email"),request.getParameter("nome"), request.getParameter("apelido1"),
+                        request.getParameter("apelido2"),request.getParameter("telefono"),
+                        request.getParameter("password"),request.getParameter("re_password"),
+                        request.getParameter("re_password_2"));
+    }
+    
 }

@@ -10,14 +10,14 @@
 <link href="../images/favicon.png" rel="shorcut icon" type="image/x-icon">
 
 <c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
-<%//fmt:setLocale value="${sessionScope.locale}" /%>
-<fmt:setLocale value="gl_ES" />
+<fmt:setLocale value="${sessionScope.locale}" />
+<%//fmt:setLocale value="gl_ES" /%>
 <fmt:setBundle basename="properties.propiedades"/>
 
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>PFC - Congreso Científico - Iteración 1</title>
+        <title><fmt:message key="title" /></title>
     </head>
     <body class="cuerpo">
         <header class="header">
@@ -25,8 +25,8 @@
             <form class="form" action="j_spring_security_check" method="post">
                 <input name="j_username" type="text" placeholder="Nome de usuario" maxlength="45" required/>
                 <input name="j_password" type="password" placeholder="Contrasinal" maxlength="45" required/>
-                <button class="button blue" title="Preme para acceder ao teu perfil de usuario">Entrar</button>
-                <a class="articulo" href="recordar.htm">¿Recordar contrasinal?</a>
+                <button class="button blue" title="Preme para acceder ao teu perfil de usuario"><fmt:message key="msg_header01" /></button>
+                <a class="articulo" href="recordar.htm"><fmt:message key="msg_header03" /></a>
             </form>
 
             <h class="title"><fmt:message key="msg_header_title" /></h><br>

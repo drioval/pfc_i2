@@ -10,56 +10,57 @@
 <link href="../images/favicon.png" rel="shorcut icon" type="image/x-icon">
 
 <c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
-<%//fmt:setLocale value="${sessionScope.locale}" /%>
-<fmt:setLocale value="gl_ES" />
+<fmt:setLocale value="${sessionScope.locale}" />
+<%//fmt:setLocale value="gl_ES" /%>
 <fmt:setBundle basename="properties.propiedades"/>
 
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>PFC - Congreso Científico - Iteración 1</title>
+        <title><fmt:message key="title" /></title>
     </head>
     <body class="cuerpo">
         <header class="header">
             <img src="images/logo.png" class="logo">
-            <form class="form" method="post" action="acceder.htm" >
-                <input name="username" type="text" placeholder="Nome de usuario" maxlength="45" required/>
-                <input name="password" type="password" placeholder="Contrasinal" maxlength="45" required/>
-                <button class="button blue" title="Preme para acceder ao teu perfil de usuario">Entrar</button>
-                <a class="articulo" href="recordar.htm">¿Recordar contrasinal?</a>
+            <form class="form" action="j_spring_security_check" method="post">
+                <input name="j_username" type="text" placeholder="Nome de usuario" maxlength="45" required/>
+                <input name="j_password" type="password" placeholder="Contrasinal" maxlength="45" required/>
+                <button class="button blue" title="Preme para acceder ao teu perfil de usuario"><fmt:message key="msg_header01" /></button>
+                <a class="articulo" href="recordar.htm"><fmt:message key="msg_header03" /></a>
             </form>
 
             <h class="title"><fmt:message key="msg_header_title" /></h><br>
             <h class="subtitle"><fmt:message key="msg_header_subtitle" /></h>
-            <br>    
+            <br>
         </header>
-        <div class="menu">
-            <nav>
-                <ul>
-                    <li><a href='index.htm'><fmt:message key="msg_menu01"/></a></li>
-                    <li><a href='acceder.htm'><fmt:message key="msg_menu02"/></a></li>
-                    <li><a href='registrar.htm'><fmt:message key="msg_menu03"/></a></li>
-                    <li><a href='#'><fmt:message key="msg_menu04"/></a></li>
-                    <li><a href='#'><fmt:message key="msg_menu05"/></a></li>
-                    <li><a href='#'><fmt:message key="msg_menu06"/></a></li>
-                    <li><a href='#'><fmt:message key="msg_menu07"/></a></li>
-                </ul>
-            </nav>
-        </div>
+        <nav class="menu">
+            <ul>
+                <li><a href='index.htm'><fmt:message key="msg_menu01"/></a></li>
+                <li><a href='registrar.htm'><fmt:message key="msg_menu02"/></a></li>
+                <li><a href='acceder.htm'><fmt:message key="msg_menu03"/></a></li>
+                <li><a href='#'><fmt:message key="msg_menu04"/></a></li>
+                <li><a href='#'><fmt:message key="msg_menu05"/></a></li>
+                <li><a href='contacto.htm'><fmt:message key="msg_menu06"/></a></li>
+                <li><a href='#'><fmt:message key="msg_menu07"/></a></li>
+            </ul>
+        </nav>
         <fieldset class="center_form gris_oscuro">
-            <legend class="subtitulo">¿Olvidaches o contrasinal?</legend>
+            <legend class="subtitulo"><fmt:message key="rec_msg_01"/></legend>
             <form method="post" action="reenviar_contrasinal.htm">
-                <a class="articulo tab">Introduze a túa dirección de correo electrónico</a>
+                <br>
+                <br>
+                <a class="articulo tab"><fmt:message key="rec_msg_02"/></a>
                 <br>
                 <input name="email" type="email" class="recordar_email">
                 <br>
-                <a class="subtitulo tab">ou</a>
+                <a class="subtitulo tab"><fmt:message key="rec_msg_03"/></a>
                 <br>
-                <a class="articulo tap">Introduze o teu nome de usuario</a>
+                <a class="articulo tap"><fmt:message key="rec_msg_04"/></a>
                 <br>
                 <input name="usuario" type="text" maxlength="45" class="recordar_usuario">
                 <br>
-                <button class="button blue" title="Enviar recordatorio">Enviar</button>
+                <button type="submit" class="button blue" value="Submit">Enviar</button>
+                <button type="reset" class="button blue" value="Reset">Borrar</button>
             </form>
         </fieldset>
         <fieldset class="center_form gris_claro">

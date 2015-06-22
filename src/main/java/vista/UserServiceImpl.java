@@ -13,7 +13,10 @@ import modelo.UserProfileDetails;
 import modelo.UserProfileDetailsDaoHibernate;
 import modelo.UserRol;
 import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
@@ -24,14 +27,19 @@ import recursos.EnviarEmail;
  * @author insdrv00
  */
 @Service(value = "UserService")
+@PropertySource("classpath:/config.properties")
 public class UserServiceImpl implements UserService {
 
+    @Autowired
     private SessionFactory sessionFactory;
-    
-    private @Value(value="${config.url}") String url;
 
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
+    }
+
+    @Bean
+    public static PropertySourcesPlaceholderConfigurer propertyPlaceHolderConfigurer() {
+        return new PropertySourcesPlaceholderConfigurer();
     }
 
     @Override
@@ -44,7 +52,11 @@ public class UserServiceImpl implements UserService {
             UserProfile user = UserProfileDao.obtenerUserProfile(usuario);
             vista.addObject("usuario", user.getUsuario());
             if (user.getContrasinal().equals(contrasinal)) {
-                vista.addObject("userRol", user.getUserRol());
+                if (UserProfileDao.existeUserProfileActivo(usuario) == false) {
+                    vista.setViewName("WEB-INF/jsp/completar_perfil.jsp");
+                } else {
+                    vista.addObject("userRol", user.getUserRol());
+                }
             } else {
                 vista.addObject("contrasinal", false);
             }
@@ -77,7 +89,8 @@ public class UserServiceImpl implements UserService {
 
         if (email.equals("")) {
             if (usuario.equals("")) {
-                vista.addObject("mensaxe", "Parece que introduciches información non válida. Por favor, revise os campos e ténteo de novo.");
+                vista.addObject("mensaxe", "recordar_error_01");
+                vista.setViewName("WEB-INF/jsp/recordar_error.jsp");
             } else {
                 UserProfileDaoHibernate userProfileDao = new UserProfileDaoHibernate();
                 userProfileDao.setSessionFactory(sessionFactory);
@@ -93,7 +106,7 @@ public class UserServiceImpl implements UserService {
                     user.setContrasinal(passEncripted.encriptarContrasinal(newPassword).toString());
 
                     EnviarEmail enviarEmail = new EnviarEmail();
-                    String asunto = "Congreso 2014: Solicitude de reenvio do contrasinal";
+                    String asunto = "Congreso 2015: Solicitude de reenvio do contrasinal";
                     String cuerpo = "Solicitouse o reenvio do contrasinal para o seu usuario. "
                             + "A continuación indicamoslle os seus datos de acceso: ";
                     cuerpo = cuerpo + "<br><br> Usuario: " + usuario + "<br><br> Contrasinal: " + newPassword
@@ -128,7 +141,7 @@ public class UserServiceImpl implements UserService {
                 user.setContrasinal(passEncripted.encriptarContrasinal(newPassword).toString());
                 userProfileDao.guardarUserProfile(user);
 
-                String asunto = "Congreso 2014: Solicitude de reenvio do contrasinal";
+                String asunto = "Congreso 2015: Solicitude de reenvio do contrasinal";
                 String cuerpo = "Solicitouse o reenvio de contrasinal para o seu usuario. "
                         + "A continuación indicamoslle os seus datos de acceso: ";
                 cuerpo = cuerpo + "<br><br> Usuario: " + user.getUsuario().toString() + "<br><br> Contrasinal: " + newPassword
@@ -170,17 +183,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
+    @Bean
     public ModelAndView enviarRegistro(String email, String usuario, String password, String password2) {
 
         ModelAndView vista = new ModelAndView("WEB-INF/jsp/registro_error.jsp");
-        System.out.println("Ando por aqui: enviando registro");
         if (password.equals(password2)) {
-
             UserProfileDaoHibernate userProfileDao = new UserProfileDaoHibernate();
             userProfileDao.setSessionFactory(sessionFactory);
+            UserProfileDetailsDaoHibernate userDetails = new UserProfileDetailsDaoHibernate();
+            userDetails.setSessionFactory(sessionFactory);
             if (userProfileDao.existeUserProfile(usuario) == false) {
-                UserProfileDetailsDaoHibernate userDetails = new UserProfileDetailsDaoHibernate();
-                userDetails.setSessionFactory(sessionFactory);
                 if (userDetails.obtenerUserProfileDetailsEmail(email) == null) {
                     EncriptarPassword passEncripted = new EncriptarPassword();
 
@@ -195,17 +207,15 @@ public class UserServiceImpl implements UserService {
                     UserProfileDetails usuarioDetalle = new UserProfileDetails(null, null, null, email, null, usuarioNovo.getUserId());
 
                     userProfileDetailsDao.guardarUserProfileDetails(usuarioDetalle);
-                    
-                    System.out.println("Url:"+url);
-                    
-                    String asunto = "Congreso 2014: Alta de usuario " + usuario;
-                    String cuerpo = "Solicitouse voste a alta como autor/a para o Congreso Cientfífico 2014. "
+
+                    String asunto = "Congreso 2015: Alta de usuario " + usuario;
+                    String cuerpo = "Solicitouse voste a alta como autor/a para o Congreso Cientfífico 2015. "
                             + "<br><br> Usuario: " + usuario.toString() + "<br><br>"
                             + "Para confirmar a alta como usuario, por favor, prema no seguinte enlace e complete "
                             + "os datos do seu perfil: <br><br>";
-                    cuerpo = cuerpo + "<href>" + url + "/rematar_rexistro.htm?user=" + usuarioNovo.getUsuario().toString()
-                            + "&key=" + usuarioNovo.getContrasinal().toString() + "<href>"
-                            + "<br><br> Un saudo.</href>";
+                    cuerpo = cuerpo + "<href>http://localhost:8084/congreso_1.4/rematar_rexistro.htm?user=" + usuarioNovo.getUsuario().toString()
+                            + "&key=" + usuarioNovo.getContrasinal().toString() + "</href>"
+                            + "<br><br> Un saudo";
 
                     EnviarEmail enviarEmail = new EnviarEmail();
                     enviarEmail.enviarEmail(email, asunto, cuerpo);
@@ -216,15 +226,19 @@ public class UserServiceImpl implements UserService {
                     vista.addObject("email", email);
 
                 } else {
-                    vista.addObject("mensaxeEmail", "Email xa rexistrado.");
+                    vista.addObject("email", email);
+                    vista.addObject("usuario", userProfileDao.obtenerUserProfile(userDetails.obtenerUserProfileDetailsEmail(email).getUserid()).getUsuario());
                 }
             } else {
-                vista.addObject("mensaxeUsuario", "Usuari@ xa rexistrado.");
+                vista.addObject("email", userDetails.obtenerUserProfileDetails(userProfileDao.obtenerUserProfile(usuario).getUserId()).getEmail());
+                vista.addObject("usuario", usuario);
             }
         } else {
-            vista.addObject("mensaxePassword", "Os contrasinais non coinciden.");
+            vista.setViewName("WEB-INF/jsp/registar_error.jsp");
+            vista.addObject("mensaxePassword", "reg_msg_error_01");
+            vista.addObject("email", email);
+            vista.addObject("usuario", usuario);
         }
-
         return vista;
     }
 
@@ -251,7 +265,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public ModelAndView completarPerfil(String usuario, String key, String nome, String apelido1, String apelido2,
             String telefono) {
-        ModelAndView vista = new ModelAndView("WEB-INF/jsp/registro_completo.jsp");
+        ModelAndView vista = new ModelAndView("WEB-INF/jsp/access/perfil_usuario.jsp");
 
         UserProfileDaoHibernate userProfileDao = new UserProfileDaoHibernate();
         userProfileDao.setSessionFactory(sessionFactory);
@@ -287,4 +301,96 @@ public class UserServiceImpl implements UserService {
 
         return vista;
     }
+
+    @Override
+    @Transactional
+    public ModelAndView obtenerPerfil(String usuario) {
+        ModelAndView vista = new ModelAndView("WEB-INF/jsp/access/perfil_usuario.jsp");
+
+        UserProfileDaoHibernate userProfileDao = new UserProfileDaoHibernate();
+        userProfileDao.setSessionFactory(sessionFactory);
+
+        UserProfileDetailsDaoHibernate userProfileDetailsDao = new UserProfileDetailsDaoHibernate();
+        userProfileDetailsDao.setSessionFactory(sessionFactory);
+
+        UserProfile usuarioBd = userProfileDao.obtenerUserProfile(usuario);
+        UserProfileDetails usuarioBbDetalle = userProfileDetailsDao.obtenerUserProfileDetails(usuarioBd.getUserId());
+
+        vista.addObject("usuario", usuarioBd.getUsuario());
+        vista.addObject("email", usuarioBbDetalle.getEmail());
+        vista.addObject("nome", usuarioBbDetalle.getNome());
+        vista.addObject("apelido1", usuarioBbDetalle.getApelido1());
+        vista.addObject("apelido2", usuarioBbDetalle.getApelido2());
+        vista.addObject("telefono", usuarioBbDetalle.getTelefono());
+
+        return vista;
+    }
+
+    @Override
+    @Transactional
+    public ModelAndView actualizarPrefil(String usuario, String email, String nome, String apelido1, String apelido2,
+            String telefono, String password, String re_password, String re_password_2) {
+        ModelAndView vista = new ModelAndView("/WEB-INF/jsp/access/perfil_actualizado.jsp");
+        vista.addObject("usuario", usuario);
+        vista.addObject("email", email);
+        vista.addObject("nome", nome);
+        vista.addObject("apelido1", apelido1);
+        vista.addObject("apelido2", apelido2);
+        vista.addObject("telefono", telefono);
+
+        UserProfileDaoHibernate userProfileDao = new UserProfileDaoHibernate();
+        userProfileDao.setSessionFactory(sessionFactory);
+
+        String contrasinalBD = userProfileDao.obtenerUserProfile(usuario).getContrasinal();
+        EncriptarPassword comparaPassword = new EncriptarPassword();
+
+        if (comparaPassword.compararContrasinal(password, contrasinalBD)) {
+            boolean haiCambioPassword = true;
+            boolean cambiarPassword = false;
+            if (re_password.equals("")) {
+                haiCambioPassword = false;
+            }
+            if (haiCambioPassword) {
+                if (re_password.equals(re_password_2)) {
+                    cambiarPassword = true;
+                } else {
+                    vista.setViewName("/WEB-INF/jsp/access/error_act_prefil.jsp");
+                    vista.addObject("errorActualizarPerfil", "msg_act_perfil01");
+                    return vista;
+                }
+            }
+
+            UserProfile user = userProfileDao.obtenerUserProfile(usuario);
+            
+            if (cambiarPassword) {
+                user.setContrasinal(comparaPassword.encriptarContrasinal(re_password));
+                userProfileDao.guardarUserProfile(user);
+            }
+
+            Set<UserProfileDetails> userProfileDetails = user.getUserProfileDetailses();
+            UserProfileDetails userDetails = (UserProfileDetails) userProfileDetails.toArray()[0];
+
+            userDetails.setNome(nome);
+            userDetails.setApelido1(apelido1);
+            userDetails.setApelido2(apelido2);
+            userDetails.setEmail(email);
+            System.out.println("Telefono antes:"+userDetails.getTelefono());
+            userDetails.setTelefono(telefono);
+            System.out.println("Telefono despois:"+userDetails.getTelefono());
+
+            UserProfileDetailsDaoHibernate userProfileDetailsDao = new UserProfileDetailsDaoHibernate();
+            userProfileDetailsDao.setSessionFactory(sessionFactory);
+
+            userProfileDetailsDao.guardarUserProfileDetails(userDetails);
+
+        } else {
+            vista.setViewName("/WEB-INF/jsp/access/error_act_prefil.jsp");
+            vista.addObject("errorActualizarPerfil", "msg_act_perfil02");
+
+            return vista;
+        }
+        vista.addObject("perfilActualizado", "msg_act_perfil03");
+        return vista;
+    }
+
 }

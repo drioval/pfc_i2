@@ -18,4 +18,7 @@ public interface UserService {
      public ModelAndView rematarRexistro(String usuario, String key);
      public ModelAndView completarPerfil(String usuario, String key, String nome, String apelido1, String apelido2,
                 String telefono);
+     public ModelAndView obtenerPerfil(String usuario);
+     public ModelAndView actualizarPrefil(String usuario,String email, String nome, String apelido1, String apelido2,
+             String telefono, String password, String re_password, String re_password_2);
 }

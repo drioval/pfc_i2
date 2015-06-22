@@ -1,28 +1,31 @@
 <beans:beans xmlns="http://www.springframework.org/schema/security"
-  xmlns:beans="http://www.springframework.org/schema/beans"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://www.springframework.org/schema/beans
-          http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
           http://www.springframework.org/schema/security
-          http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+          http://www.springframework.org/schema/security/spring-security-3.2.xsd">
            
     <http pattern="/css/**" security="none"/>
     <http pattern="/images/**" security="none"/>
     <http pattern="/index.htm" security="none"/>
 
     <http auto-config='true'>
-        <intercept-url pattern='/acceder.htm' access='ROLE_USER' />
-        <form-login login-page='/index.htm' default-target-url='/acceder.htm'
-                always-use-default-target='true' authentication-failure-url="/index.htm?error=true"/>
+        <intercept-url pattern='/acceder.htm' access='ROLE_AUTOR,ROLE_REVISOR,ROLE_ORGANIZADOR' />
+        <intercept-url pattern='/aindex.htm' access='ROLE_AUTOR,ROLE_REVISOR,ROLE_ORGANIZADOR' />
+        <intercept-url pattern='/trabajos.htm' access='ROLE_AUTOR,ROLE_REVISOR,ROLE_ORGANIZADOR' />
+        <intercept-url pattern='/prefil_usuario.htm' access='ROLE_AUTOR,ROLE_REVISOR,ROLE_ORGANIZADOR'/>
+        
+        <form-login login-page='/index.htm' default-target-url='/trabajos.htm'
+                    always-use-default-target='true' authentication-failure-url="/index.htm?error=true"/>
         <logout logout-success-url="/index.htm" delete-cookies="JSESSIONID" />
     </http>
  
     <authentication-manager>
-        <authentication-provider>
-            <user-service>
-                <user name="root" password="toor" authorities="ROLE_USER" />
-            </user-service>
+        <authentication-provider user-service-ref="myUserDetailsService">
+            <password-encoder ref="bCryptPasswordEncoder"/>
         </authentication-provider>
+        
     </authentication-manager>
     
 </beans:beans>

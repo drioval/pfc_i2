@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
  *
  * @author insdrv00
  */
-@Entity
+    @Entity
 public class UserProfile implements java.io.Serializable {
 
     @Id

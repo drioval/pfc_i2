@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository(value = "UserProfileDao")
 public class UserProfileDaoHibernate extends GenericDaoHibernate implements UserProfileDao {
 
-    private GenericDaoHibernate genericDao = new GenericDaoHibernate();
+    private final GenericDaoHibernate genericDao = new GenericDaoHibernate();
 
     @Override
     public void setSessionFactory(SessionFactory sessionFactory) {
@@ -39,7 +39,6 @@ public class UserProfileDaoHibernate extends GenericDaoHibernate implements User
             System.out.println(e);
             throw e;
         } finally {
-            System.out.println("userId en obtenerUserProfile: "+userId);
             return (UserProfile) genericDao.find(UserProfile.class, userId);
         }
     }
@@ -51,11 +50,9 @@ public class UserProfileDaoHibernate extends GenericDaoHibernate implements User
         try {
             userId = (Integer) genericDao.getCurrentSession().createQuery("SELECT a.userId FROM UserProfile a WHERE a.userId = :idUsuario ").setParameter("idUsuario", idUsuario).uniqueResult();
         } catch (HibernateException e) {
-            System.out.println(e);
             throw e;
-        } finally {
-            return (UserProfile) genericDao.find(UserProfile.class, userId);
         }
+        return (UserProfile) genericDao.find(UserProfile.class, userId);
     }
 
     @Override

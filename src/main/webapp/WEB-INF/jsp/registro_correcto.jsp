@@ -10,37 +10,37 @@
 <link href="../images/favicon.png" rel="shorcut icon" type="image/x-icon">
 
 <c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
-<%//fmt:setLocale value="${sessionScope.locale}" /%>
-<fmt:setLocale value="gl_ES" />
+<fmt:setLocale value="${sessionScope.locale}" />
+<%//fmt:setLocale value="gl_ES" /%>
 <fmt:setBundle basename="properties.propiedades"/>
 
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>PFC - Congreso Científico - Iteración 1</title>
+        <title><fmt:message key="title" /></title>
     </head>
-    <body>        
+    <body class="cuerpo">
         <header class="header">
             <img src="images/logo.png" class="logo">
-            <form class="form" method="post" action="acceder.htm" >
-                <input name="username" type="text" placeholder="Nome de usuario" maxlength="45" required/>
-                <input name="password" type="password" placeholder="Contrasinal" maxlength="45" required/>
-                <button class="button blue" title="Preme para acceder ao teu perfil de usuario">Entrar</button>
-                <a class="articulo" href="recordar.htm">¿Recordar contrasinal?</a>
+            <form class="form" action="j_spring_security_check" method="post">
+                <input name="j_username" type="text" placeholder="Nome de usuario" maxlength="45" required/>
+                <input name="j_password" type="password" placeholder="Contrasinal" maxlength="45" required/>
+                <button class="button blue" title="Preme para acceder ao teu perfil de usuario"><fmt:message key="msg_header01" /></button>
+                <a class="articulo" href="recordar.htm"><fmt:message key="msg_header03" /></a>
             </form>
 
             <h class="title"><fmt:message key="msg_header_title" /></h><br>
             <h class="subtitle"><fmt:message key="msg_header_subtitle" /></h>
             <br>
         </header>
-        <nav class="menu">
+            <nav class="menu">
                 <ul>
                     <li><a href='index.htm'><fmt:message key="msg_menu01"/></a></li>
-                    <li><a href='acceder.htm'><fmt:message key="msg_menu02"/></a></li>
-                    <li><a href='registrar.htm'><fmt:message key="msg_menu03"/></a></li>
+                    <li><a href='registrar.htm'><fmt:message key="msg_menu02"/></a></li>
+                    <li><a href='acceder.htm'><fmt:message key="msg_menu03"/></a></li>
                     <li><a href='#'><fmt:message key="msg_menu04"/></a></li>
                     <li><a href='#'><fmt:message key="msg_menu05"/></a></li>
-                    <li><a href='#'><fmt:message key="msg_menu06"/></a></li>
+                    <li><a href='contacto.htm'><fmt:message key="msg_menu06"/></a></li>
                     <li><a href='#'><fmt:message key="msg_menu07"/></a></li>
                 </ul>
             </nav>
@@ -50,7 +50,7 @@
             <form method="post" action="index.htm">
                 <a class="articulo"><fmt:message key="reg_correcto_02"/></a>
                 <br><br>
-                <a class="articulo tab">Enderezo electrónico: ${email}</a>
+                <a class="articulo tab"><fmt:message key="reg_msg_03"/> ${email}</a>
                 <br><br>
                 <input type="submit" class="button blue" value="Regresar">
             </form>

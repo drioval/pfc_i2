@@ -56,7 +56,6 @@ public class UserProfileDetailsDaoHibernate extends GenericDaoHibernate implemen
             System.out.println(e);
             throw e;
         } finally {
-            System.out.println("userId en obtenerUserProfileDetails: "+userId);
             return (UserProfileDetails) genericDao.find(UserProfileDetails.class, userId);
         }
     }
