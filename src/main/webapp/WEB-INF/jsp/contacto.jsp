@@ -41,8 +41,8 @@
             <nav class="menu">
                 <ul>
                     <li><a href='index.htm'><fmt:message key="msg_menu01"/></a></li>
-                    <li><a href='registrar.htm'><fmt:message key="msg_menu02"/></a></li>
-                    <li><a href='acceder.htm'><fmt:message key="msg_menu03"/></a></li>
+                    <li><a href='congreso.htm'><fmt:message key="msg_menu02"/></a></li>
+                    <li><a href='registrar.htm'><fmt:message key="msg_menu03"/></a></li>
                     <li><a href='#'><fmt:message key="msg_menu04"/></a></li>
                     <li><a href='#'><fmt:message key="msg_menu05"/></a></li>
                     <li><a href='contacto.htm'><fmt:message key="msg_menu06"/></a></li>

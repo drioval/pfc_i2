@@ -10,8 +10,7 @@
 <link href="../images/favicon.png" rel="shorcut icon" type="image/x-icon">
 
 <c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
-<fmt:setLocale value="${sessionScope.locale}" />
-<%//fmt:setLocale value="gl_ES" /%>
+<fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="properties.propiedades"/>
 
 <html>
@@ -22,6 +21,7 @@
     <body class="cuerpo">
         <header class="header">
             <img src="images/logo.png" class="logo">
+
             <form class="form" action="j_spring_security_check" method="post">
                 <input name="j_username" type="text" placeholder="Nome de usuario" maxlength="45" required/>
                 <input name="j_password" type="password" placeholder="Contrasinal" maxlength="45" required/>
@@ -45,23 +45,16 @@
             </ul>
         </nav>
         <fieldset class="center_form gris_oscuro">
-            <legend class="subtitulo"><fmt:message key="rec_msg_01"/></legend>
-            <form method="post" action="reenviar_contrasinal.htm">
-                <br>
-                <a class="articulo tab"><fmt:message key="${mensaxe}"/></a>
-                <br>
-                <a class="articulo tab"><fmt:message key="rec_msg_02"/></a>
-                <br>
-                <input name="email" type="email" class="recordar_email">
-                <br>
-                <a class="subtitulo tab"><fmt:message key="rec_msg_03"/></a>
-                <br>
-                <a class="articulo tap"><fmt:message key="rec_msg_04"/></a>
-                <br>
-                <input name="usuario" type="text" maxlength="45" class="recordar_usuario">
-                <br>
-                <button type="submit" class="button blue" value="Submit">Enviar</button>
-                <button type="reset" class="button blue" value="Reset">Borrar</button>
+            <legend class="subtitulo"><fmt:message key="reg_correcto_01"/></legend>
+            <br>
+            <form method="post" action="index.htm">
+                <a class="articulo"><fmt:message key="reg_correcto_04"/></a>
+                <br><br>
+                <a class="articulo tab"><fmt:message key="reg_msg_03"/> ${email}</a>
+                <br><br>
+                <a class="articulo tab"><fmt:message key="reg_msg_04"/> ${usuario}</a>
+                <br><br>
+                <input type="submit" class="button blue" value="Regresar">
             </form>
         </fieldset>
         <fieldset class="center_form gris_claro">

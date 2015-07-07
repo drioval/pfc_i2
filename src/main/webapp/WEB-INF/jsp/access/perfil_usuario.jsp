@@ -34,7 +34,7 @@
         <nav class="menu">
             <ul>
                 <li><a href='aindex.htm'><fmt:message key="msg_menu01"/></a></li>
-                <li><a href='registrar.htm'><fmt:message key="msg_menu02"/></a></li>
+                <li><a href='congreso.htm'><fmt:message key="msg_menu02"/></a></li>
                 <li><a href='trabajos.htm'><fmt:message key="msg_menu03"/></a></li>
                 <li><a href='#'><fmt:message key="msg_menu04"/></a></li>
                 <li><a href='#'><fmt:message key="msg_menu05"/></a></li>
@@ -47,10 +47,10 @@
             <legend class="subtitulo"><fmt:message key="msg_actualizarPerf01"/></legend>
             <br>
             <form method="post" action="actualizar_prefil.htm">
-                
+
                 <input name="usuario" type="text" maxlength="45" class="recordar_usuario" style="width:250px;" value="${usuario}" hidden    ">
 
-                <a class="articulo"><fmt:message key="msg_actualizarPerf02"/></a>
+                       <a class="articulo"><fmt:message key="msg_actualizarPerf02"/></a>
                 <br><br>
                 <a class="articulo"><fmt:message key="reg_msg_03"/></a>
                 <br>
@@ -83,7 +83,7 @@
                 <br>
                 <a class="articulo"><fmt:message key="act_msg_08"/></a>
                 <br>
-                <input name="re_password_2" type="password" maxlength="15" class="recordar_usuario" style="width:250px;"
+                <input name="re_password_2" type="password" maxlength="15" class="recordar_usuario" style="width:250px;">
                 <br>
                 <input type="submit" class="button blue" value="Actualizar">
             </form>

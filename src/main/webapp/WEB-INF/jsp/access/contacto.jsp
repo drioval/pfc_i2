@@ -22,11 +22,9 @@
     <body class="cuerpo">
         <header class="header">
             <img src="images/logo.png" class="logo">
-            <form class="form" action="j_spring_security_check" method="post">
-                <input name="j_username" type="text" placeholder="Nome de usuario" maxlength="45" required/>
-                <input name="j_password" type="password" placeholder="Contrasinal" maxlength="45" required/>
-                <button class="button blue" title="Preme para acceder ao teu perfil de usuario"><fmt:message key="msg_header01" /></button>
-                <a class="articulo" href="recordar.htm"><fmt:message key="msg_header03" /></a>
+            <form class="form" action="j_spring_security_logout" method="post">
+                <a class="articulo">Usuario</a><a class="articulo" href="prefil_usuario.htm">${usuario}</a>
+                <button class="button blue" title="Cerrar sesion"><fmt:message key="msg_header02"/></button>
             </form>
 
             <h class="title"><fmt:message key="msg_header_title" /></h><br>
@@ -35,39 +33,45 @@
         </header>
         <nav class="menu">
             <ul>
-                <li><a href='index.htm'><fmt:message key="msg_menu01"/></a></li>
+                <li><a href='aindex.htm'><fmt:message key="msg_menu01"/></a></li>
                 <li><a href='congreso.htm'><fmt:message key="msg_menu02"/></a></li>
-                <li><a href='registrar.htm'><fmt:message key="msg_menu03"/></a></li>
+                <li><a href='trabajos.htm'><fmt:message key="msg_menu03"/></a></li>
                 <li><a href='#'><fmt:message key="msg_menu04"/></a></li>
                 <li><a href='#'><fmt:message key="msg_menu05"/></a></li>
                 <li><a href='contacto.htm'><fmt:message key="msg_menu06"/></a></li>
                 <li><a href='#'><fmt:message key="msg_menu07"/></a></li>
+                <li><a href='prefil_usuario.htm'><fmt:message key="msg_menu08"/></a></li>
             </ul>
         </nav>
         <fieldset class="center_form gris_oscuro">
-            <legend class="subtitulo"><fmt:message key="rec_msg_01"/></legend>
-            <form method="post" action="reenviar_contrasinal.htm">
+            <legend class="subtitulo"><fmt:message key="cont_msg_01"/></legend>
+            <br>
+            <form method="post" action="contactar.htm">
+
+                <a class="articulo"><fmt:message key="cont_msg_02"/></a>
+                <br><br>
+                <a class="articulo"><fmt:message key="cont_msg_03"/></a>
                 <br>
-                <a class="articulo tab"><fmt:message key="${mensaxe}"/></a>
+                <input name="nome" type="text" maxlength="45" class="recordar_usuario" style="width:250px;" value="${nome}" readonly>
                 <br>
-                <a class="articulo tab"><fmt:message key="rec_msg_02"/></a>
+                <a class="articulo"><fmt:message key="reg_msg_03"/></a>
                 <br>
-                <input name="email" type="email" class="recordar_email">
+                <input name="email" type="email" class="recordar_email" style="width:250px;" value="${email}" readonly>
                 <br>
-                <a class="subtitulo tab"><fmt:message key="rec_msg_03"/></a>
+                <a class="articulo"><fmt:message key="cont_msg_04"/></a>
                 <br>
-                <a class="articulo tap"><fmt:message key="rec_msg_04"/></a>
+                <input name="asunto" type="text" class="recordar_email" style="width:250px;">
                 <br>
-                <input name="usuario" type="text" maxlength="45" class="recordar_usuario">
+                <a class="articulo"><fmt:message key="cont_msg_05"/></a>
                 <br>
-                <button type="submit" class="button blue" value="Submit">Enviar</button>
-                <button type="reset" class="button blue" value="Reset">Borrar</button>
+                <textarea name="texto" maxlength="250" class="areaTexto"></textarea>
+                <br>
+
+                <input type="submit" class="button blue" value="Enviar">
+                <input type="reset" class="button blue" value="Borrar">
             </form>
         </fieldset>
-        <fieldset class="center_form gris_claro">
-            <legend class="articulo"><fmt:message key="msg_footer_01"/></legend>
-            <a class="articulo" href="contacto.htm"><fmt:message key="msg_footer_02"/></a>
-        </fieldset>
+
         <footer>
             <a class="articulo"><fmt:message key="msg_footer_03"/></a>
         </footer>

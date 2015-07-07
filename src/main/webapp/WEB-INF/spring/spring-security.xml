@@ -15,6 +15,7 @@
         <intercept-url pattern='/aindex.htm' access='ROLE_AUTOR,ROLE_REVISOR,ROLE_ORGANIZADOR' />
         <intercept-url pattern='/trabajos.htm' access='ROLE_AUTOR,ROLE_REVISOR,ROLE_ORGANIZADOR' />
         <intercept-url pattern='/prefil_usuario.htm' access='ROLE_AUTOR,ROLE_REVISOR,ROLE_ORGANIZADOR'/>
+        <intercept-url pattern='/actualizar_prefil.htm' access='ROLE_AUTOR,ROLE_REVISOR,ROLE_ORGANIZADOR'/>
         
         <form-login login-page='/index.htm' default-target-url='/trabajos.htm'
                     always-use-default-target='true' authentication-failure-url="/index.htm?error=true"/>

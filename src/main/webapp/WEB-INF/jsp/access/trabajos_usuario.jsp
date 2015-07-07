@@ -34,7 +34,7 @@
         <nav class="menu">
             <ul>
                 <li><a href='aindex.htm'><fmt:message key="msg_menu01"/></a></li>
-                <li><a href='registrar.htm'><fmt:message key="msg_menu02"/></a></li>
+                <li><a href='congreso.htm'><fmt:message key="msg_menu02"/></a></li>
                 <li><a href='trabajos.htm'><fmt:message key="msg_menu03"/></a></li>
                 <li><a href='#'><fmt:message key="msg_menu04"/></a></li>
                 <li><a href='#'><fmt:message key="msg_menu05"/></a></li>
@@ -49,7 +49,7 @@
             <article class="articulo">
 
                 <p>Aqui figurará la lista de trabajos presentados por le usuario.</p>
-                
+
             </article>
         </section>
     </body>

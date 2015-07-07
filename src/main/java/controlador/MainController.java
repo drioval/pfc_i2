@@ -72,9 +72,14 @@ public class MainController {
     public ModelAndView contacto(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        ModelAndView vista = new ModelAndView("WEB-INF/jsp/contacto.jsp");
-        return vista;
-
+        if (request.getUserPrincipal() == null) {
+            ModelAndView vista = new ModelAndView("WEB-INF/jsp/contacto.jsp");
+            return vista;
+        }
+        servicio = new UserServiceImpl();
+        servicio.setSessionFactory(sessionFactory);
+        System.out.println("Usuario: " + request.getUserPrincipal().getName());
+        return servicio.contacto(request.getUserPrincipal().getName());
     }
 
     @RequestMapping(value = "/contactar.htm")
@@ -83,8 +88,13 @@ public class MainController {
 
         servicio = new UserServiceImpl();
 
-        return servicio.contactar(request.getParameter("nome").toString(),
+        if (request.getUserPrincipal() == null) {
+            return servicio.contactar(null, request.getParameter("nome").toString(),
+                    request.getParameter("email").toString(), request.getParameter("asunto").toString(), request.getParameter("texto").toString());
+        }
+        return servicio.contactar(request.getUserPrincipal().getName(), request.getParameter("nome").toString(),
                 request.getParameter("email").toString(), request.getParameter("asunto").toString(), request.getParameter("texto").toString());
+
     }
 
     @RequestMapping(value = "/registrar.htm")
@@ -132,6 +142,17 @@ public class MainController {
                 request.getParameter("telefono").toString());
     }
 
+    @RequestMapping(value = "/congreso.htm")
+    public ModelAndView congreso(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        ModelAndView vista = new ModelAndView("WEB-INF/jsp/congreso.jsp");
+        if (request.getUserPrincipal() != null) {
+            vista.setViewName("WEB-INF/jsp/access/congreso.jsp");
+            vista.addObject("usuario", request.getUserPrincipal().getName());
+        }
+        return vista;
+    }
+
     @RequestMapping(value = "/acceder.htm")
     public ModelAndView acceder(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -140,7 +161,7 @@ public class MainController {
         vista.addObject("usuario", request.getUserPrincipal().getName());
         return vista;
     }
-    
+
     @RequestMapping(value = "/trabajos.htm")
     public ModelAndView trabajos(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -149,29 +170,29 @@ public class MainController {
         vista.addObject("usuario", request.getUserPrincipal().getName());
         return vista;
     }
-    
+
     @RequestMapping(value = "/prefil_usuario.htm")
     public ModelAndView prefil_usuario(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         servicio = new UserServiceImpl();
         servicio.setSessionFactory(sessionFactory);
 
         return servicio.obtenerPerfil(request.getUserPrincipal().getName());
     }
-    
+
     @RequestMapping(value = "/actualizar_prefil.htm")
     public ModelAndView actualizar_usuario(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         servicio = new UserServiceImpl();
         servicio.setSessionFactory(sessionFactory);
 
         return servicio.actualizarPrefil(request.getUserPrincipal().getName(),
-                request.getParameter("email"),request.getParameter("nome"), request.getParameter("apelido1"),
-                        request.getParameter("apelido2"),request.getParameter("telefono"),
-                        request.getParameter("password"),request.getParameter("re_password"),
-                        request.getParameter("re_password_2"));
+                request.getParameter("email"), request.getParameter("nome"), request.getParameter("apelido1"),
+                request.getParameter("apelido2"), request.getParameter("telefono"),
+                request.getParameter("password"), request.getParameter("re_password"),
+                request.getParameter("re_password_2"));
     }
-    
+
 }
