@@ -22,4 +22,5 @@ public interface UserService {
      public ModelAndView actualizarPrefil(String usuario,String email, String nome, String apelido1, String apelido2,
              String telefono, String password, String re_password, String re_password_2);
      public ModelAndView contacto(String usuario);
+     public ModelAndView congreso(String usuario);
 }

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="modelo.EstadoCongreso" table="EstadoCongreso" catalog="congreso">
+        <id name="idEstadoCongreso" type="integer">
+            <column name="idEstadoCongreso"/>
+            <generator class="assigned"/>
+        </id>
+        <property name="nomeEstadoCongreso" type="string">
+            <column name="nomeEstadoCongreso" length="45" not-null="true"/>
+        </property>
+        <set name="congreso" table="congreso" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idEstadoCongreso" not-null="true"/>
+            </key>
+            <one-to-many class="modelo.Congreso"/>
+        </set>
+            
+    </class>
+</hibernate-mapping>

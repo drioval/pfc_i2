@@ -3,8 +3,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>congreso</groupId>
-    <artifactId>congreso_i1</artifactId>
-    <version>1.4</version>
+    <artifactId>congreso_i2</artifactId>
+    <version>2.0</version>
     <packaging>war</packaging>
 
     <name>congreso_i1</name>
@@ -237,5 +237,5 @@
 
 Aplicación web para a xestión de un Congreso Científico.
 
-Primeira Iteración.</description>
+Segunda Iteración.</description>
 </project>

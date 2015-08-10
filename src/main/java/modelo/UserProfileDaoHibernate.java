@@ -36,7 +36,6 @@ public class UserProfileDaoHibernate extends GenericDaoHibernate implements User
         try {
             userId = (Integer) genericDao.getCurrentSession().createQuery("SELECT a.userId FROM UserProfile a WHERE a.usuario = :usuario ").setParameter("usuario", usuario).uniqueResult();
         } catch (HibernateException e) {
-            System.out.println(e);
             throw e;
         } finally {
             return (UserProfile) genericDao.find(UserProfile.class, userId);

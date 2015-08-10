@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="modelo.EstadoTraballo" table="EstadoTraballo" catalog="congreso">
+      <id name="idEstadoTraballo" type="integer">
+          <column name="idEstadoTraballo"/>
+      </id>
+      <property name="nomeEstado" type="string">
+          <column name="nomeEstado" length="45" not-null="true"/>
+      </property>
+      
+  </class>
+</hibernate-mapping>

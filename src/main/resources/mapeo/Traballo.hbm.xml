@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="modelo.Traballo" table="Traballo">
+        <id name="idTraballo" type="integer">
+            <column name="idTraballo" />
+            <generator class="identity" />
+        </id>
+        <one-to-one name="idTraballoDetalle" class="modelo.TraballoDetalle" constrained="true"/>
+        <one-to-one name="idCongreso" class="modelo.Congreso" constrained="true"/>
+        <one-to-one name="idUsuario" class="modelo.UserProfile" constrained="true"/>
+    </class>
+</hibernate-mapping>

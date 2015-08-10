@@ -78,7 +78,6 @@ public class MainController {
         }
         servicio = new UserServiceImpl();
         servicio.setSessionFactory(sessionFactory);
-        System.out.println("Usuario: " + request.getUserPrincipal().getName());
         return servicio.contacto(request.getUserPrincipal().getName());
     }
 
@@ -145,12 +144,16 @@ public class MainController {
     @RequestMapping(value = "/congreso.htm")
     public ModelAndView congreso(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         ModelAndView vista = new ModelAndView("WEB-INF/jsp/congreso.jsp");
-        if (request.getUserPrincipal() != null) {
-            vista.setViewName("WEB-INF/jsp/access/congreso.jsp");
-            vista.addObject("usuario", request.getUserPrincipal().getName());
+        
+        servicio = new UserServiceImpl();
+        servicio.setSessionFactory(sessionFactory);
+        
+        if (request.getUserPrincipal() == null) {
+            return servicio.congreso(null);
         }
-        return vista;
+        return servicio.congreso(request.getUserPrincipal().getName());
     }
 
     @RequestMapping(value = "/acceder.htm")

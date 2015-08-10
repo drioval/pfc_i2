@@ -7,6 +7,8 @@ package vista;
 import encrypt.EncriptarPassword;
 import encrypt.GenerarPassword;
 import java.util.Set;
+import modelo.Congreso;
+import modelo.CongresoDaoHibernate;
 import modelo.UserProfile;
 import modelo.UserProfileDaoHibernate;
 import modelo.UserProfileDetails;
@@ -160,10 +162,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public ModelAndView contactar(String usuario,String nome, String email, String asunto, String texto) {
-        
+    public ModelAndView contactar(String usuario, String nome, String email, String asunto, String texto) {
+
         ModelAndView vista = new ModelAndView("WEB-INF/jsp/contactar.jsp");
-        if(usuario!=null){
+        if (usuario != null) {
             vista.setViewName("WEB-INF/jsp/access/contactar.jsp");
             vista.addObject("usuario", usuario);
         }
@@ -299,7 +301,7 @@ public class UserServiceImpl implements UserService {
                     userProfileDetailsDao.setSessionFactory(sessionFactory);
 
                     userProfileDetailsDao.guardarUserProfileDetails(detalleUsuario);
-                    
+
                     vista.addObject("usuario", usuario);
                     vista.addObject("email", detalleUsuario.getEmail());
                     vista.addObject("nome", nome);
@@ -363,7 +365,7 @@ public class UserServiceImpl implements UserService {
         UserProfileDetails usuarioDetalleEmail = userProfileDetailsDao.obtenerUserProfileDetailsEmail(email);
 
         if (usuarioDetalleEmail != null) {
-            if (usuarioDetalleEmail.getUserid().compareTo(user.getUserId())!=0) {
+            if (usuarioDetalleEmail.getUserid().compareTo(user.getUserId()) != 0) {
                 vista.setViewName("/WEB-INF/jsp/access/error_act_prefil.jsp");
                 vista.addObject("errorActualizarPerfil", "msg_act_perfil04");
                 return vista;
@@ -424,16 +426,50 @@ public class UserServiceImpl implements UserService {
         Set<UserProfileDetails> userProfileDetails = user.getUserProfileDetailses();
         UserProfileDetails userDetails = (UserProfileDetails) userProfileDetails.toArray()[0];
 
-/*        UserProfileDetailsDaoHibernate userProfileDetailsDao = new UserProfileDetailsDaoHibernate();
-        userProfileDetailsDao.setSessionFactory(sessionFactory);
+        /*        UserProfileDetailsDaoHibernate userProfileDetailsDao = new UserProfileDetailsDaoHibernate();
+         userProfileDetailsDao.setSessionFactory(sessionFactory);
 
-        UserProfileDetails usuarioDetalleEmail = userProfileDetailsDao.obtenerUserProfileDetails(user.getUserId());
-*/        
+         UserProfileDetails usuarioDetalleEmail = userProfileDetailsDao.obtenerUserProfileDetails(user.getUserId());
+         */
         vista.addObject("usuario", usuario);
-        vista.addObject("nome", userDetails.getNome()+" "+userDetails.getApelido1()+" "+userDetails.getApelido2());
+        vista.addObject("nome", userDetails.getNome() + " " + userDetails.getApelido1() + " " + userDetails.getApelido2());
         vista.addObject("email", userDetails.getEmail());
 
         return vista;
     }
 
+    @Override
+    public ModelAndView congreso(String usuario) {
+        ModelAndView vista = new ModelAndView("WEB-INF/jsp/congreso.jsp");
+        if (usuario == null) {
+            return vista;
+        }
+        UserProfileDaoHibernate userProfileDao = new UserProfileDaoHibernate();
+        userProfileDao.setSessionFactory(sessionFactory);
+
+        UserProfile user = userProfileDao.obtenerUserProfile(usuario);
+
+        Integer rol=user.getUserRol().getRolId();
+        switch(rol){
+            case 1:
+                CongresoDaoHibernate congresoDao=new CongresoDaoHibernate();
+                congresoDao.setSessionFactory(sessionFactory);
+                Congreso congreso=congresoDao.obtenerCongresoActivo();
+                if (congreso==null){
+                    System.out.println("Alta de congeso");
+                }else{
+                    System.out.println("Modificación de congreso");
+                }
+                vista.setViewName("/WEB-INF/jsp/access/admin_congreso.jsp");
+                break;
+            case 2:
+                vista.setViewName("WEB-INF/jsp/access/congreso.jsp");
+                break;
+            case 3:
+                vista.setViewName("WEB-INF/jsp/access/congreso.jsp");
+                break;
+        }
+        vista.addObject("usuario", usuario);
+        return vista;
+    }
 }

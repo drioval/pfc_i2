@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="modelo.CongresoDetalle" table="CongresoDetalle">
+        <id name="idDetalleCongreso" type="integer">
+            <column name="idDetalleCongreso" />
+            <generator class="identity" />
+        </id>
+        <property name="fInicioEnvio" type="timestamp">
+            <column name="fInicioEnvio"/>
+        </property>
+        <property name="fFinEnvio" type="timestamp">
+            <column name="fFinEnvio"/>
+        </property>
+        <property name="fInicioRevision" type="timestamp">
+            <column name="fInicioRevision"/>
+        </property>
+        <property name="fFinRevision" type="timestamp">
+            <column name="fFinRevision"/>
+        </property>
+    </class>
+</hibernate-mapping>

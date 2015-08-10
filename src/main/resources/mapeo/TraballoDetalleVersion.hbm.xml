@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="modelo.TraballoDetalleVersion" table="TraballoDetalleVersion">
+        <id name="idTraballoDetalleVersion" type="integer">
+            <column name="idTraballoDetalleVersion" />
+            <generator class="identity" />
+        </id>
+        <property name="idTraballoDetalle" type="integer">
+            <column name="idTraballoDetalle" not-null="true"/>
+        </property>
+        <property name="idTraballo" type="integer">
+            <column name="idTraballo" not-null="true"/>
+        </property>
+        <property name="nomeTraballo" type="string">
+            <column name="nomeTraballo" length="45" not-null="true"/>
+        </property>
+        <property name="categoria" type="string">
+            <column name="categoria" length="45"/>
+        </property>
+        <property name="autores" type="string">
+            <column name="autores" length="45"/>
+        </property>
+        <property name="traballo" type="blob">
+            <column name="traballo" not-null="true"/>
+        </property>
+        <many-to-one name="idEstadoTraballo" class="modelo.EstadoTraballo" fetch="select">
+            <column name="idEstadoTraballo" not-null="true"/>
+        </many-to-one>
+        <property name="fInicioEnvio" type="timestamp">
+            <column name="fInicioEnvio"/>
+        </property>
+        <property name="fFinEnvio" type="timestamp">
+            <column name="fFinEnvio"/>
+        </property>
+        <property name="fIncioRevision" type="timestamp">
+            <column name="fInicioRevision"/>
+        </property>
+        <property name="fFinRevision" type="timestamp">
+            <column name="fFinRevision"/>
+        </property>
+    </class>
+</hibernate-mapping>

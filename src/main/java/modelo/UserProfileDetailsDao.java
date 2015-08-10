@@ -4,8 +4,6 @@
  */
 package modelo;
 
-import java.io.Serializable;
-
 /**
  *
  * @author insdrv00
