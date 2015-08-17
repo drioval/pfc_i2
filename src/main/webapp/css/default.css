@@ -119,6 +119,36 @@ input[type="password"]{
     -webkit-box-shadow: 0px 0px 8px #d9d9d9;
 }
 
+input[type="calendar"]{
+    background: url(../images/calendar.png) no-repeat right center buttonhighlight;
+    border: 1px solid #c4c4c4;
+    width: 160px;
+    height: 18px;
+    font-size: 14px;
+    padding: 2px 2px 2px 2px;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    box-shadow: 0px 0px 8px #d9d9d9;
+    -moz-box-shadow: 0px 0px 8px #d9d9d9;
+    -webkit-box-shadow: 0px 0px 8px #d9d9d9;
+}
+
+input[type="congreso"]{
+    background: url(../images/favicon.png) no-repeat right center buttonhighlight;
+    border: 1px solid #c4c4c4;
+    width: 160px;
+    height: 18px;
+    font-size: 14px;
+    padding: 2px 2px 2px 2px;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    box-shadow: 0px 0px 8px #d9d9d9;
+    -moz-box-shadow: 0px 0px 8px #d9d9d9;
+    -webkit-box-shadow: 0px 0px 8px #d9d9d9;
+}
+
 input:focus {
     outline: none;
     border: 1px solid #7bc1f7;

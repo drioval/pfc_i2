@@ -46,27 +46,34 @@
         <fieldset class="center_form gris_oscuro">
             <legend class="subtitulo"><fmt:message key="admin_congreso01"/></legend>
             <br>
-            <form method="post" action="administrar_congreso.htm">
+            <form method="post" action="modifica_congreso.htm">
 
                 <a class="articulo"><fmt:message key="admin_congreso02"/></a>
                 <br><br>
-                <a class="articulo"><fmt:message key="reg_msg_03"/></a>
+                <a class="articulo"><fmt:message key="nombre_congreso"/></a>
                 <br>
-                <input type="email"  name="email" class="recordar_email" style="width:250px;" value="${email}" required>
+                <input name="nome_congreso" type="text" maxlength="45" class="recordar_usuario" style="width:250px;">
                 <br>
-                <a class="articulo"><fmt:message key="reg_msg_04"/></a>
+                <a class="articulo"><fmt:message key="estado_congreso"/></a>
                 <br>
-                <input name="usuario" type="text" maxlength="45" class="recordar_usuario" style="width:250px;" value="${usuario}" required>
+                <input name="estado_congreso" type="text" maxlength="45" class="recordar_usuario" style="width:250px;">
                 <br>
-                <a class="articulo"><fmt:message key="reg_msg_05"/></a>
+                <a class="articulo"><fmt:message key="fecha_inicio_envio"/></a>
                 <br>
-                <input name="password" type="password" maxlength="15" class="recordar_usuario" style="width:250px;" required>
+                <input name="fecha_inicio_envio" type="date" class="recordar_usuario" style="width:250px;">
                 <br>
-                <a class="articulo"><fmt:message key="reg_msg_06"/></a>
+                <a class="articulo"><fmt:message key="fecha_fin_envio"/></a>
                 <br>
-                <input name="re_password" type="password" maxlength="15" class="recordar_usuario" style="width:250px;" required>
+                <input name="fecha_fin_envio" type="date" class="recordar_usuario" style="width:250px;">
                 <br>
-
+                <a class="articulo"><fmt:message key="fecha_inicio_revision"/></a>
+                <br>
+                <input name="fecha_inicio_revision" type="date" class="recordar_usuario" style="width:250px;">
+                <br>       
+                <a class="articulo"><fmt:message key="fecha_fin_revision"/></a>
+                <br>
+                <input name="fecha_fin_revision" type="date" class="recordar_usuario" style="width:250px;">
+                <br>
                 <button type="submit" class="button blue" value="Submit">Enviar</button>
                 <button type="reset" class="button blue" value="Reset">Borrar</button>
             </form>

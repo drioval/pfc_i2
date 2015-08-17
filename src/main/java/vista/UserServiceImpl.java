@@ -426,11 +426,6 @@ public class UserServiceImpl implements UserService {
         Set<UserProfileDetails> userProfileDetails = user.getUserProfileDetailses();
         UserProfileDetails userDetails = (UserProfileDetails) userProfileDetails.toArray()[0];
 
-        /*        UserProfileDetailsDaoHibernate userProfileDetailsDao = new UserProfileDetailsDaoHibernate();
-         userProfileDetailsDao.setSessionFactory(sessionFactory);
-
-         UserProfileDetails usuarioDetalleEmail = userProfileDetailsDao.obtenerUserProfileDetails(user.getUserId());
-         */
         vista.addObject("usuario", usuario);
         vista.addObject("nome", userDetails.getNome() + " " + userDetails.getApelido1() + " " + userDetails.getApelido2());
         vista.addObject("email", userDetails.getEmail());
@@ -456,11 +451,12 @@ public class UserServiceImpl implements UserService {
                 congresoDao.setSessionFactory(sessionFactory);
                 Congreso congreso=congresoDao.obtenerCongresoActivo();
                 if (congreso==null){
-                    System.out.println("Alta de congeso");
+                    System.out.println("Hai que dar de alta un congreso");
+                    vista.setViewName("/WEB-INF/jsp/access/alta_congreso.jsp");
                 }else{
-                    System.out.println("Modificación de congreso");
+                    System.out.println("Hai que dar modificar un congreso");                    
+                    vista.setViewName("/WEB-INF/jsp/access/admin_congreso.jsp");
                 }
-                vista.setViewName("/WEB-INF/jsp/access/admin_congreso.jsp");
                 break;
             case 2:
                 vista.setViewName("WEB-INF/jsp/access/congreso.jsp");
