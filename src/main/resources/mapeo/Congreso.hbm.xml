@@ -9,12 +9,7 @@
     <property name="nomeCongreso" type="string">
       <column length="45" name="nomeCongreso" not-null="true" unique="true"/>
     </property>
-    <set inverse="true" name="idDetalleCongreso">
-      <key>
-        <column name="idDetalleCongreso" not-null="true"/>
-      </key>
-      <one-to-many class="modelo.CongresoDetalle"/>
-    </set>
+    <one-to-one name="congresoDetalle" class="modelo.CongresoDetalle" fetch="select"/>
     <many-to-one name="estadoCongreso" class="modelo.EstadoCongreso" fetch="select">
         <column name="idEstadoCongreso" not-null="true"/>
     </many-to-one>

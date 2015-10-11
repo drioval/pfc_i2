@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 
 <link href="css/default.css" rel="stylesheet" />
+<link href="css/jquery-ui.css" rel="stylesheet" type="text/css" />
 <link href='http://fonts.googleapis.com/css?family=Yellowtail' rel='stylesheet' type='text/css'>
 <link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,300' rel='stylesheet' type='text/css'>
 <link href='http://fonts.googleapis.com/css?family=Homemade+Apple' rel='stylesheet' type='text/css'>
@@ -16,12 +17,11 @@
 
 <html>
     <head>
-        <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.5.1.min.js"></script>
-        <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.10/jquery-ui.min.js"></script>
-        <link href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.10/themes/ui-lightness/jquery-ui.css" rel="stylesheet" type="text/css" />
+        <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+        <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+        
         <script>
             $(function() {
-
                 $.datepicker.regional['es'] =
                         {
                             closeText: 'Cerrar',
@@ -94,6 +94,7 @@
                     minDate: new Date(),
                     maxDate: '+2y'
                 });
+
             });
         </script>
 
@@ -137,8 +138,8 @@
                 <br>
                 <a class="articulo"><fmt:message key="estado_congreso"/></a>
                 <br>
-                <select name="estado_congreso" form="alta_congreso">
-                    <option value="1">Iniciado</option>
+                <select name="estado_congreso" id="estado_congreso" required="">
+                    <option value="1" selected>Iniciado</option>
                     <option value="2">Enviando_Publicaciones</option>
                     <option value="3">Revisando_Publicaciones</option>
                     <option value="4">Corrigiendo_Publicaciones</option>

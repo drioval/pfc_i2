@@ -146,10 +146,10 @@ public class MainController {
             throws ServletException, IOException {
 
         ModelAndView vista = new ModelAndView("WEB-INF/jsp/congreso.jsp");
-        
+
         servicio = new UserServiceImpl();
         servicio.setSessionFactory(sessionFactory);
-        
+
         if (request.getUserPrincipal() == null) {
             return servicio.congreso(null);
         }
@@ -198,4 +198,19 @@ public class MainController {
                 request.getParameter("re_password_2"));
     }
 
+    @RequestMapping(value = "/alta_congreso.htm")
+    public ModelAndView alta_congreso(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        servicio = new UserServiceImpl();
+        servicio.setSessionFactory(sessionFactory);
+
+        System.out.println("EstadoCongreso:" + request.getParameter("estado_congreso"));
+        System.out.println("EstadoCongreso parseado:" + Integer.parseInt(request.getParameter("estado_congreso")));
+
+        return servicio.altaCongreso(request.getUserPrincipal().getName(), request.getParameter("nome_congreso"),
+                Integer.parseInt(request.getParameter("estado_congreso")), request.getParameter("fecha_inicio_envio"),
+                request.getParameter("fecha_fin_envio"), request.getParameter("fecha_inicio_revision"),
+                request.getParameter("fecha_fin_revision"));
+    }
 }

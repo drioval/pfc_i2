@@ -5,10 +5,10 @@
  */
 package modelo;
 
-import java.util.HashSet;
-import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,17 +29,17 @@ public class Congreso implements java.io.Serializable {
     private Integer idCongreso;
     @NotNull @Column(name = "nomeCongreso")
     private String nomeCongreso;
-    @NotNull @OneToOne @Column(name = "idDetalleCongreso")
-    private Set<CongresoDetalle> idDetalleCongreso = new HashSet<>(0);
+    @NotNull @OneToOne
+    private CongresoDetalle congresoDetalle;
     @NotNull @ManyToOne @Column(name = "idEstadoCongreso")
     private EstadoCongreso estadoCongreso;
 
     public Congreso() {
     }
 
-    public Congreso(String nomeCongreso, Set<CongresoDetalle> idCongresoDetalle, EstadoCongreso estadoCongreso) {
+    public Congreso(String nomeCongreso, CongresoDetalle congresoDetalle, EstadoCongreso estadoCongreso) {
         this.nomeCongreso = nomeCongreso;
-        this.idDetalleCongreso = idCongresoDetalle;
+        this.congresoDetalle = congresoDetalle;
         this.estadoCongreso = estadoCongreso;
     }
 
@@ -65,20 +65,6 @@ public class Congreso implements java.io.Serializable {
     }
 
     /**
-     * @return the idDetalleCongreso
-     */
-    public Set<CongresoDetalle> getIdDetalleCongreso() {
-        return this.idDetalleCongreso;
-    }
-
-    /**
-     * @param idDetalleCongreso the idDetalleCongreso to set
-     */
-    public void setIdDetalleCongreso(Set<CongresoDetalle> idDetalleCongreso) {
-        this.idDetalleCongreso = idDetalleCongreso;
-    }
-
-    /**
      * @param idCongreso the idCongreso to set
      */
     public void setIdCongreso(Integer idCongreso) {
@@ -97,5 +83,20 @@ public class Congreso implements java.io.Serializable {
      */
     public void setEstadoCongreso(EstadoCongreso estadoCongreso) {
         this.estadoCongreso = estadoCongreso;
+    }
+
+    /**
+     * @return the congresoDetalle
+     */
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "Congreso", cascade = CascadeType.ALL)
+    public CongresoDetalle getCongresoDetalle() {
+        return congresoDetalle;
+    }
+
+    /**
+     * @param congresoDetalle the congresoDetalle to set
+     */
+    public void setCongresoDetalle(CongresoDetalle congresoDetalle) {
+        this.congresoDetalle = congresoDetalle;
     }
 }

@@ -6,9 +6,15 @@ package vista;
 
 import encrypt.EncriptarPassword;
 import encrypt.GenerarPassword;
+import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.Set;
 import modelo.Congreso;
 import modelo.CongresoDaoHibernate;
+import modelo.CongresoDetalle;
+import modelo.CongresoDetalleDaoHibernate;
+import modelo.EstadoCongreso;
+import modelo.EstadoCongresoDaoHibernate;
 import modelo.UserProfile;
 import modelo.UserProfileDaoHibernate;
 import modelo.UserProfileDetails;
@@ -23,6 +29,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
 import recursos.EnviarEmail;
+import recursos.ToTimeStamp;
 
 /**
  *
@@ -444,17 +451,17 @@ public class UserServiceImpl implements UserService {
 
         UserProfile user = userProfileDao.obtenerUserProfile(usuario);
 
-        Integer rol=user.getUserRol().getRolId();
-        switch(rol){
+        Integer rol = user.getUserRol().getRolId();
+        switch (rol) {
             case 1:
-                CongresoDaoHibernate congresoDao=new CongresoDaoHibernate();
+                CongresoDaoHibernate congresoDao = new CongresoDaoHibernate();
                 congresoDao.setSessionFactory(sessionFactory);
-                Congreso congreso=congresoDao.obtenerCongresoActivo();
-                if (congreso==null){
+                Congreso congreso = congresoDao.obtenerCongresoActivo();
+                if (congreso == null) {
                     System.out.println("Hai que dar de alta un congreso");
                     vista.setViewName("/WEB-INF/jsp/access/alta_congreso.jsp");
-                }else{
-                    System.out.println("Hai que dar modificar un congreso");                    
+                } else {
+                    System.out.println("Hai que dar modificar un congreso");
                     vista.setViewName("/WEB-INF/jsp/access/admin_congreso.jsp");
                 }
                 break;
@@ -466,6 +473,37 @@ public class UserServiceImpl implements UserService {
                 break;
         }
         vista.addObject("usuario", usuario);
+        return vista;
+    }
+
+    @Override
+    @Transactional
+    public ModelAndView altaCongreso(String usuario, String nombreCongreso, Integer idEstadoCongreso, String fechaInicioEnvio, String fechaFinEnvio,
+            String fechaInicioRevision, String fechaFinRevision) {
+
+        CongresoDaoHibernate congresoDao = new CongresoDaoHibernate();
+        congresoDao.setSessionFactory(sessionFactory);
+
+        CongresoDetalleDaoHibernate congresoDetalleDaoHibernate = new CongresoDetalleDaoHibernate();
+        congresoDetalleDaoHibernate.setSessionFactory(sessionFactory);
+
+        ToTimeStamp fecha=new ToTimeStamp();
+        Timestamp fechaIEnvio=fecha.convertToTimeStamp(fechaInicioEnvio);
+        Timestamp fechaFEnvio=fecha.convertToTimeStamp(fechaFinEnvio);
+        Timestamp fechaIRevision=fecha.convertToTimeStamp(fechaInicioRevision);
+        Timestamp fechaFRevision=fecha.convertToTimeStamp(fechaFinRevision);
+
+        CongresoDetalle congresoDetalle = new CongresoDetalle(fechaIEnvio, fechaFEnvio, fechaIRevision, fechaFRevision);
+        congresoDetalleDaoHibernate.guardarCongresoDetalle(congresoDetalle);
+            
+        EstadoCongresoDaoHibernate estadoCongresoDao = new EstadoCongresoDaoHibernate();
+        estadoCongresoDao.setSessionFactory(sessionFactory);
+        EstadoCongreso estadoCongreso = estadoCongresoDao.obtenerEstadoCongreso(idEstadoCongreso);
+
+        Congreso congreso = new Congreso(nombreCongreso, congresoDetalle, estadoCongreso);
+        congresoDao.guardarCongreso(congreso);
+
+        ModelAndView vista = new ModelAndView("WEB-INF/jsp/index.jsp");
         return vista;
     }
 }

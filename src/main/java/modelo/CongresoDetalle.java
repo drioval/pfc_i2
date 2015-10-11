@@ -37,7 +37,7 @@ public class CongresoDetalle implements java.io.Serializable {
     }
 
     public CongresoDetalle(Timestamp fInicioEnvio, Timestamp fFinEnvio,
-            Timestamp fInicioRevion, Timestamp fFinRevision, EstadoCongreso estadoCongreso) {
+            Timestamp fInicioRevion, Timestamp fFinRevision) {
         this.fInicioEnvio = fInicioEnvio;
         this.fFinEnvio = fFinEnvio;
         this.fInicioRevision = fInicioRevion;
