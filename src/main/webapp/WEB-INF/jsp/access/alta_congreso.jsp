@@ -19,7 +19,6 @@
     <head>
         <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
         <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-        
         <script>
             $(function() {
                 $.datepicker.regional['es'] =
@@ -97,7 +96,6 @@
 
             });
         </script>
-
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title><fmt:message key="title" /></title>
     </head>
@@ -150,19 +148,19 @@
                 <br>
                 <a class="articulo"><fmt:message key="fecha_inicio_envio"/></a>
                 <br>
-                <input name="fecha_inicio_envio" type="calendar" id="fecha_inicio_envio" required="true" placeholder="dd/mm/aa">
+                <input name="fecha_inicio_envio" type="calendar" id="fecha_inicio_envio" required="true" placeholder="dd/mm/aaaa">
                 <br>
                 <a class="articulo"><fmt:message key="fecha_fin_envio"/></a>
                 <br>
-                <input name="fecha_fin_envio" type="calendar" id="fecha_fin_envio" required="true" placeholder="dd/mm/aa">
+                <input name="fecha_fin_envio" type="calendar" id="fecha_fin_envio" required="true" placeholder="dd/mm/aaaa">
                 <br>
                 <a class="articulo"><fmt:message key="fecha_inicio_revision"/></a>
                 <br>
-                <input name="fecha_inicio_revision" type="calendar" id="fecha_inicio_revision" required="true" placeholder="dd/mm/aa">
+                <input name="fecha_inicio_revision" type="calendar" id="fecha_inicio_revision" required="true" placeholder="dd/mm/aaaa">
                 <br>       
                 <a class="articulo"><fmt:message key="fecha_fin_revision"/></a>
                 <br>
-                <input name="fecha_fin_revision" type="calendar" id="fecha_fin_revision" required="true" placeholder="dd/mm/aa">
+                <input name="fecha_fin_revision" type="calendar" id="fecha_fin_revision" required="true" placeholder="dd/mm/aaaa">
                 <br>
                 <button type="submit" class="button blue" value="Submit">Enviar</button>
                 <button type="reset" class="button blue" value="Reset">Borrar</button>

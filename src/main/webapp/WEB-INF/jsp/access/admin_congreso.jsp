@@ -16,6 +16,87 @@
 
 <html>
     <head>
+        <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+        <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+        
+        <script>
+            $(function() {
+                $.datepicker.regional['es'] =
+                        {
+                            closeText: 'Cerrar',
+                            prevText: 'Previo',
+                            nextText: 'Próximo',
+                            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+                                'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                            monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
+                                'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                            monthStatus: 'Ver otro mes', yearStatus: 'Ver otro año',
+                            dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                            dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sáb'],
+                            dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
+                            firstDay: 1,
+                            initStatus: 'Selecciona la fecha', isRTL: false};
+                $.datepicker.setDefaults($.datepicker.regional['es']);
+
+                $("#fecha_inicio_envio").datepicker({
+                    dateFormat: "mm/dd/yy",
+                    altFormat: "dd/mm/yy",
+                    altField: "#fecha_inicio_envio",
+                    minDate: new Date(),
+                    maxDate: '+2y',
+                    onSelect: function(date) {
+                        var selectedDate = new Date(date);
+                        var msecsInADay = 86400000; //1 dia
+                        var msecsInADay2 = 63072000000; //2 anos
+                        var endDate = new Date(selectedDate.getTime() + msecsInADay);
+                        var maxDate = new Date(selectedDate.getTime() + msecsInADay2);
+                        $("#fecha_fin_envio").datepicker("option", "minDate", endDate);
+                        $("#fecha_fin_envio").datepicker("option", "maxDate", maxDate);
+                    }
+                });
+                $("#fecha_fin_envio").datepicker({
+                    dateFormat: "mm/dd/yy",
+                    altFormat: "dd/mm/yy",
+                    altField: "#fecha_fin_envio",
+                    minDate: new Date(),
+                    maxDate: '+2y',
+                    onSelect: function(date) {
+                        var selectedDate = new Date(date);
+                        var msecsInADay = 86400000; //1 dia
+                        var msecsInADay2 = 63072000000; //2 anos
+                        var endDate = new Date(selectedDate.getTime() + msecsInADay);
+                        var maxDate = new Date(selectedDate.getTime() + msecsInADay2);
+                        $("#fecha_inicio_revision").datepicker("option", "minDate", endDate);
+                        $("#fecha_inicio_revision").datepicker("option", "maxDate", maxDate);
+                    }
+                });
+                $("#fecha_inicio_revision").datepicker({
+                    dateFormat: "mm/dd/yy",
+                    altFormat: "dd/mm/yy",
+                    altField: "#fecha_inicio_revision",
+                    minDate: new Date(),
+                    maxDate: '+2y',
+                    onSelect: function(date) {
+                        var selectedDate = new Date(date);
+                        var msecsInADay = 86400000; //1 dia
+                        var msecsInADay2 = 63072000000; //2 anos
+                        var endDate = new Date(selectedDate.getTime() + msecsInADay);
+                        var maxDate = new Date(selectedDate.getTime() + msecsInADay2);
+                        $("#fecha_fin_revision").datepicker("option", "minDate", endDate);
+                        $("#fecha_fin_revision").datepicker("option", "maxDate", maxDate);
+                    }
+                });
+                $("#fecha_fin_revision").datepicker({
+                    dateFormat: "mm/dd/yy",
+                    altFormat: "dd/mm/yy",
+                    altField: "#fecha_fin_revision",
+                    minDate: new Date(),
+                    maxDate: '+2y'
+                });
+
+            });
+        </script>
+
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title><fmt:message key="title" /></title>
     </head>
@@ -52,27 +133,40 @@
                 <br><br>
                 <a class="articulo"><fmt:message key="nombre_congreso"/></a>
                 <br>
-                <input name="nome_congreso" type="text" maxlength="45" class="recordar_usuario" style="width:250px;">
+                <input name="nome_congreso" type="congreso" maxlength="250" style="width:600px;" required="true" value="${nombreCongreso}">
                 <br>
                 <a class="articulo"><fmt:message key="estado_congreso"/></a>
                 <br>
-                <input name="estado_congreso" type="text" maxlength="45" class="recordar_usuario" style="width:250px;">
+                <select name="estado_congreso" id="estado_congreso" required="" >
+                    <option value="${idEstadoCongreso}" selected>${estadoCongreso} - Actual</option>
+                    <option value="1">Iniciado</option>
+                    <option value="2">Enviando_Publicaciones</option>
+                    <option value="3">Revisando_Publicaciones</option>
+                    <option value="4">Corrigiendo_Publicaciones</option>
+                    <option value="5">Seleccionando_Publicaciones</option>
+                    <option value="6">Publicando</option>
+                    <option value="7">Finalizado</option>
+                </select>
                 <br>
                 <a class="articulo"><fmt:message key="fecha_inicio_envio"/></a>
                 <br>
-                <input name="fecha_inicio_envio" type="date" class="recordar_usuario" style="width:250px;">
+                <input name="fecha_inicio_envio" type="calendar" id="fecha_inicio_envio" required="true" placeholder="dd/mm/aa"
+                       value="${fechaInicioEnvio}">
                 <br>
                 <a class="articulo"><fmt:message key="fecha_fin_envio"/></a>
                 <br>
-                <input name="fecha_fin_envio" type="date" class="recordar_usuario" style="width:250px;">
+                <input name="fecha_fin_envio" type="calendar" id="fecha_fin_envio" required="true" placeholder="dd/mm/aa"
+                       value="${fechaFinEnvio}">
                 <br>
                 <a class="articulo"><fmt:message key="fecha_inicio_revision"/></a>
                 <br>
-                <input name="fecha_inicio_revision" type="date" class="recordar_usuario" style="width:250px;">
+                <input name="fecha_inicio_revision" type="calendar" id="fecha_inicio_revision" required="true" placeholder="dd/mm/aa"
+                       value="${fechaInicioRevision}">
                 <br>       
                 <a class="articulo"><fmt:message key="fecha_fin_revision"/></a>
                 <br>
-                <input name="fecha_fin_revision" type="date" class="recordar_usuario" style="width:250px;">
+                <input name="fecha_fin_revision" type="calendar" id="fecha_fin_revision" required="true" placeholder="dd/mm/aa"
+                       value="${fechaFinRevision}">
                 <br>
                 <button type="submit" class="button blue" value="Submit">Enviar</button>
                 <button type="reset" class="button blue" value="Reset">Borrar</button>

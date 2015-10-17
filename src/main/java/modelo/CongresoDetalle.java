@@ -8,9 +8,14 @@ package modelo;
 import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
 /**
  *
@@ -21,7 +26,8 @@ import javax.validation.constraints.NotNull;
 public class CongresoDetalle implements java.io.Serializable {
 
     @Id
-    @NotNull
+    @NotNull @GeneratedValue(generator = "generator")
+    @GenericGenerator(name = "generator", strategy = "foreing", parameters = @Parameter(name = "property", value = "congreso"))
     @Column(name = "idDetalleCongreso")
     private Integer idDetalleCongreso;
     @Column(name = "fInicioEnvio")
@@ -32,16 +38,20 @@ public class CongresoDetalle implements java.io.Serializable {
     private Timestamp fInicioRevision;
     @Column(name = "fFinRevision")
     private Timestamp fFinRevision;
+    @OneToOne
+    @PrimaryKeyJoinColumn
+    private Congreso congreso;
 
     public CongresoDetalle() {
     }
 
     public CongresoDetalle(Timestamp fInicioEnvio, Timestamp fFinEnvio,
-            Timestamp fInicioRevion, Timestamp fFinRevision) {
+            Timestamp fInicioRevion, Timestamp fFinRevision, Congreso congreso) {
         this.fInicioEnvio = fInicioEnvio;
         this.fFinEnvio = fFinEnvio;
         this.fInicioRevision = fInicioRevion;
         this.fFinRevision = fFinRevision;
+        this.congreso=congreso;
     }
 
     /**
@@ -112,6 +122,20 @@ public class CongresoDetalle implements java.io.Serializable {
      */
     public void setfFinRevision(Timestamp fFinRevision) {
         this.fFinRevision = fFinRevision;
+    }
+
+    /**
+     * @return the congreso
+     */
+    public Congreso getCongreso() {
+        return congreso;
+    }
+
+    /**
+     * @param congreso the congreso to set
+     */
+    public void setCongreso(Congreso congreso) {
+        this.congreso = congreso;
     }
 
 }

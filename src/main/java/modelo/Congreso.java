@@ -29,7 +29,7 @@ public class Congreso implements java.io.Serializable {
     private Integer idCongreso;
     @NotNull @Column(name = "nomeCongreso")
     private String nomeCongreso;
-    @NotNull @OneToOne
+    @NotNull @OneToOne(mappedBy = "congreso", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private CongresoDetalle congresoDetalle;
     @NotNull @ManyToOne @Column(name = "idEstadoCongreso")
     private EstadoCongreso estadoCongreso;
@@ -49,6 +49,13 @@ public class Congreso implements java.io.Serializable {
     public Integer getIdCongreso() {
         return this.idCongreso;
     }
+    
+    /**
+     * @param idCongreso the idCongreso to set
+     */
+    public void setIdCongreso(Integer idCongreso) {
+        this.idCongreso = idCongreso;
+    }    
 
     /**
      * @return the nomeCongreso
@@ -62,13 +69,6 @@ public class Congreso implements java.io.Serializable {
      */
     public void setNomeCongreso(String nomeCongreso) {
         this.nomeCongreso = nomeCongreso;
-    }
-
-    /**
-     * @param idCongreso the idCongreso to set
-     */
-    public void setIdCongreso(Integer idCongreso) {
-        this.idCongreso = idCongreso;
     }
 
     /**
@@ -88,7 +88,6 @@ public class Congreso implements java.io.Serializable {
     /**
      * @return the congresoDetalle
      */
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "Congreso", cascade = CascadeType.ALL)
     public CongresoDetalle getCongresoDetalle() {
         return congresoDetalle;
     }

@@ -9,7 +9,7 @@
     <property name="nomeCongreso" type="string">
       <column length="45" name="nomeCongreso" not-null="true" unique="true"/>
     </property>
-    <one-to-one name="congresoDetalle" class="modelo.CongresoDetalle" fetch="select"/>
+    <one-to-one name="congresoDetalle" cascade="all" class="modelo.CongresoDetalle"/>
     <many-to-one name="estadoCongreso" class="modelo.EstadoCongreso" fetch="select">
         <column name="idEstadoCongreso" not-null="true"/>
     </many-to-one>

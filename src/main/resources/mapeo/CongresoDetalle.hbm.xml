@@ -4,7 +4,9 @@
     <class name="modelo.CongresoDetalle" table="CongresoDetalle">
         <id name="idDetalleCongreso" type="integer">
             <column name="idDetalleCongreso" />
-            <generator class="identity" />
+            <generator class="foreign">
+                <param name="property">congreso</param>
+            </generator>
         </id>
         <property name="fInicioEnvio" type="timestamp">
             <column name="fInicioEnvio"/>
@@ -18,5 +20,6 @@
         <property name="fFinRevision" type="timestamp">
             <column name="fFinRevision"/>
         </property>
+        <one-to-one name="congreso" constrained="true" class="modelo.Congreso"/>
     </class>
 </hibernate-mapping>
