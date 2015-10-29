@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 
 <link href="css/default.css" rel="stylesheet" />
+<link href="css/jquery-ui.css" rel="stylesheet" type="text/css" />
 <link href='http://fonts.googleapis.com/css?family=Yellowtail' rel='stylesheet' type='text/css'>
 <link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,300' rel='stylesheet' type='text/css'>
 <link href='http://fonts.googleapis.com/css?family=Homemade+Apple' rel='stylesheet' type='text/css'>
@@ -128,7 +129,8 @@
             <legend class="subtitulo"><fmt:message key="admin_congreso01"/></legend>
             <br>
             <form method="post" action="modifica_congreso.htm">
-
+                <input type="hidden" name="idCongreso" value="${idCongreso}"/>
+                
                 <a class="articulo"><fmt:message key="admin_congreso02"/></a>
                 <br><br>
                 <a class="articulo"><fmt:message key="nombre_congreso"/></a>
@@ -150,26 +152,25 @@
                 <br>
                 <a class="articulo"><fmt:message key="fecha_inicio_envio"/></a>
                 <br>
-                <input name="fecha_inicio_envio" type="calendar" id="fecha_inicio_envio" required="true" placeholder="dd/mm/aa"
+                <input name="fecha_inicio_envio" type="calendar" id="fecha_inicio_envio" required="true" placeholder="dd/mm/aaaa"
                        value="${fechaInicioEnvio}">
                 <br>
                 <a class="articulo"><fmt:message key="fecha_fin_envio"/></a>
                 <br>
-                <input name="fecha_fin_envio" type="calendar" id="fecha_fin_envio" required="true" placeholder="dd/mm/aa"
+                <input name="fecha_fin_envio" type="calendar" id="fecha_fin_envio" required="true" placeholder="dd/mm/aaaa"
                        value="${fechaFinEnvio}">
                 <br>
                 <a class="articulo"><fmt:message key="fecha_inicio_revision"/></a>
                 <br>
-                <input name="fecha_inicio_revision" type="calendar" id="fecha_inicio_revision" required="true" placeholder="dd/mm/aa"
+                <input name="fecha_inicio_revision" type="calendar" id="fecha_inicio_revision" required="true" placeholder="dd/mm/aaaa"
                        value="${fechaInicioRevision}">
                 <br>       
                 <a class="articulo"><fmt:message key="fecha_fin_revision"/></a>
                 <br>
-                <input name="fecha_fin_revision" type="calendar" id="fecha_fin_revision" required="true" placeholder="dd/mm/aa"
+                <input name="fecha_fin_revision" type="calendar" id="fecha_fin_revision" required="true" placeholder="dd/mm/aaaa"
                        value="${fechaFinRevision}">
                 <br>
                 <button type="submit" class="button blue" value="Submit">Enviar</button>
-                <button type="reset" class="button blue" value="Reset">Borrar</button>
             </form>
         </fieldset>
         <fieldset class="center_form gris_claro">

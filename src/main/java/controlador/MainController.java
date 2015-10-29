@@ -205,10 +205,20 @@ public class MainController {
         servicio = new UserServiceImpl();
         servicio.setSessionFactory(sessionFactory);
 
-        System.out.println("EstadoCongreso:" + request.getParameter("estado_congreso"));
-        System.out.println("EstadoCongreso parseado:" + Integer.parseInt(request.getParameter("estado_congreso")));
-
         return servicio.altaCongreso(request.getUserPrincipal().getName(), request.getParameter("nome_congreso"),
+                Integer.parseInt(request.getParameter("estado_congreso")), request.getParameter("fecha_inicio_envio"),
+                request.getParameter("fecha_fin_envio"), request.getParameter("fecha_inicio_revision"),
+                request.getParameter("fecha_fin_revision"));
+    }
+    
+    @RequestMapping(value = "/modifica_congreso.htm")
+    public ModelAndView admin_congreso(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        servicio = new UserServiceImpl();
+        servicio.setSessionFactory(sessionFactory);
+        return servicio.modificaCongreso(request.getUserPrincipal().getName(), Integer.parseInt(request.getParameter("idCongreso")),
+                request.getParameter("nome_congreso"),
                 Integer.parseInt(request.getParameter("estado_congreso")), request.getParameter("fecha_inicio_envio"),
                 request.getParameter("fecha_fin_envio"), request.getParameter("fecha_inicio_revision"),
                 request.getParameter("fecha_fin_revision"));

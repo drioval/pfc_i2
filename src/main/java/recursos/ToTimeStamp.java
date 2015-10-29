@@ -24,7 +24,7 @@ public class ToTimeStamp {
 
     public Timestamp convertToTimeStamp(String fecha) {
         try {
-            DateFormat formatter = new SimpleDateFormat("dd/MM/yyy");
+            DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
             Date date = formatter.parse(fecha);
             java.sql.Timestamp timeStampDate = new Timestamp(date.getTime());
             return timeStampDate;

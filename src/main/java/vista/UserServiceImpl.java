@@ -7,6 +7,7 @@ package vista;
 import encrypt.EncriptarPassword;
 import encrypt.GenerarPassword;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Set;
 import modelo.Congreso;
 import modelo.CongresoDaoHibernate;
@@ -460,6 +461,17 @@ public class UserServiceImpl implements UserService {
                     vista.setViewName("/WEB-INF/jsp/access/alta_congreso.jsp");
                 } else {
                     vista.setViewName("/WEB-INF/jsp/access/admin_congreso.jsp");
+                    System.out.println(congreso.getIdCongreso());
+                    vista.addObject("idCongreso", congreso.getIdCongreso());
+                    vista.addObject("usuario", usuario);
+                    vista.addObject("nombreCongreso", congreso.getNomeCongreso());
+                    vista.addObject("idEstadoCongreso", congreso.getEstadoCongreso().getIdEstadoCongreso());
+                    vista.addObject("estadoCongreso", congreso.getEstadoCongreso().getNomeEstadoCongreso());
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/YYY");
+                    vista.addObject("fechaInicioEnvio", dateFormat.format(congreso.getCongresoDetalle().getfInicioEnvio()));
+                    vista.addObject("fechaFinEnvio", dateFormat.format(congreso.getCongresoDetalle().getfFinEnvio()));
+                    vista.addObject("fechaInicioRevision", dateFormat.format(congreso.getCongresoDetalle().getfInicioRevision()));
+                    vista.addObject("fechaFinRevision", dateFormat.format(congreso.getCongresoDetalle().getfFinRevision()));
                 }
                 break;
             case 2:
@@ -484,12 +496,12 @@ public class UserServiceImpl implements UserService {
         CongresoDetalleDaoHibernate congresoDetalleDaoHibernate = new CongresoDetalleDaoHibernate();
         congresoDetalleDaoHibernate.setSessionFactory(sessionFactory);
 
-        ToTimeStamp fecha=new ToTimeStamp();
-        Timestamp fechaIEnvio=fecha.convertToTimeStamp(fechaInicioEnvio);
-        Timestamp fechaFEnvio=fecha.convertToTimeStamp(fechaFinEnvio);
-        Timestamp fechaIRevision=fecha.convertToTimeStamp(fechaInicioRevision);
-        Timestamp fechaFRevision=fecha.convertToTimeStamp(fechaFinRevision);
-        
+        ToTimeStamp fecha = new ToTimeStamp();
+        Timestamp fechaIEnvio = fecha.convertToTimeStamp(fechaInicioEnvio);
+        Timestamp fechaFEnvio = fecha.convertToTimeStamp(fechaFinEnvio);
+        Timestamp fechaIRevision = fecha.convertToTimeStamp(fechaInicioRevision);
+        Timestamp fechaFRevision = fecha.convertToTimeStamp(fechaFinRevision);
+
         EstadoCongresoDaoHibernate estadoCongresoDao = new EstadoCongresoDaoHibernate();
         estadoCongresoDao.setSessionFactory(sessionFactory);
         EstadoCongreso estadoCongreso = estadoCongresoDao.obtenerEstadoCongreso(idEstadoCongreso);
@@ -499,19 +511,68 @@ public class UserServiceImpl implements UserService {
 
         CongresoDetalle congresoDetalle = new CongresoDetalle(fechaIEnvio, fechaFEnvio, fechaIRevision, fechaFRevision, congreso);
         congresoDetalleDaoHibernate.guardarCongresoDetalle(congresoDetalle);
-        
+
         congreso.setCongresoDetalle(congresoDetalle);
         congresoDao.guardarCongreso(congreso);
 
         ModelAndView vista = new ModelAndView("WEB-INF/jsp/access/admin_congreso.jsp");
+        vista.addObject("idCongreso", congreso.getIdCongreso());
         vista.addObject("usuario", usuario);
-        vista.addObject("nombreCongreso",nombreCongreso);
+        vista.addObject("nombreCongreso", nombreCongreso);
         vista.addObject("idEstadoCongreso", idEstadoCongreso);
         vista.addObject("estadoCongreso", estadoCongreso.getNomeEstadoCongreso());
-        vista.addObject("fechaInicioEnvio",fechaInicioEnvio);
-        vista.addObject("fechaFinEnvio",fechaFinEnvio);
-        vista.addObject("fechaInicioRevision",fechaInicioRevision);
-        vista.addObject("fechaFinRevision",fechaFinRevision);
+        vista.addObject("fechaInicioEnvio", fechaInicioEnvio);
+        vista.addObject("fechaFinEnvio", fechaFinEnvio);
+        vista.addObject("fechaInicioRevision", fechaInicioRevision);
+        vista.addObject("fechaFinRevision", fechaFinRevision);
+        return vista;
+    }
+
+    @Override
+    @Transactional
+    public ModelAndView modificaCongreso(String usuario, Integer idCongreso, String nombreCongreso, Integer idEstadoCongreso, 
+            String fechaInicioEnvio, String fechaFinEnvio, String fechaInicioRevision, String fechaFinRevision) {
+
+        CongresoDaoHibernate congresoDao = new CongresoDaoHibernate();
+        congresoDao.setSessionFactory(sessionFactory);
+
+        CongresoDetalleDaoHibernate congresoDetalleDaoHibernate = new CongresoDetalleDaoHibernate();
+        congresoDetalleDaoHibernate.setSessionFactory(sessionFactory);
+        
+        EstadoCongresoDaoHibernate estadoCongresoDao = new EstadoCongresoDaoHibernate();
+        estadoCongresoDao.setSessionFactory(sessionFactory);
+
+        Congreso congreso=congresoDao.obtenerCongreso(idCongreso);
+        congreso.setNomeCongreso(nombreCongreso);
+        congreso.setEstadoCongreso(estadoCongresoDao.obtenerEstadoCongreso(idEstadoCongreso));
+        
+        CongresoDetalle congresoDetalle=congresoDao.obtenerCongreso(idCongreso).getCongresoDetalle();
+        System.out.println(congresoDao.obtenerCongreso(idCongreso).getCongresoDetalle().getCongreso().getNomeCongreso());
+        ToTimeStamp fecha = new ToTimeStamp();
+        Timestamp fechaIEnvio = fecha.convertToTimeStamp(fechaInicioEnvio);
+        Timestamp fechaFEnvio = fecha.convertToTimeStamp(fechaFinEnvio);
+        Timestamp fechaIRevision = fecha.convertToTimeStamp(fechaInicioRevision);
+        Timestamp fechaFRevision = fecha.convertToTimeStamp(fechaFinRevision);
+        System.out.println(fechaInicioEnvio);
+        System.out.println(fecha.convertToTimeStamp(fechaInicioEnvio));
+        congresoDetalle.setfInicioEnvio(fechaIEnvio);
+        congresoDetalle.setfFinEnvio(fechaFEnvio);
+        congresoDetalle.setfInicioRevision(fechaIRevision);
+        congresoDetalle.setfFinRevision(fechaFRevision);
+        
+        congresoDetalleDaoHibernate.guardarCongresoDetalle(congresoDetalle);
+        congresoDao.guardarCongreso(congreso);
+
+        ModelAndView vista = new ModelAndView("WEB-INF/jsp/access/admin_congreso.jsp");
+        vista.addObject("idCongreso", congreso.getIdCongreso());
+        vista.addObject("usuario", usuario);
+        vista.addObject("nombreCongreso", nombreCongreso);
+        vista.addObject("idEstadoCongreso", idEstadoCongreso);
+        vista.addObject("estadoCongreso", estadoCongresoDao.obtenerEstadoCongreso(idEstadoCongreso).getNomeEstadoCongreso());
+        vista.addObject("fechaInicioEnvio", fechaInicioEnvio);
+        vista.addObject("fechaFinEnvio", fechaFinEnvio);
+        vista.addObject("fechaInicioRevision", fechaInicioRevision);
+        vista.addObject("fechaFinRevision", fechaFinRevision);
         return vista;
     }
 }

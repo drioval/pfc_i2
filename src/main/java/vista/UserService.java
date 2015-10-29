@@ -4,7 +4,6 @@
  */
 package vista;
 
-import java.sql.Timestamp;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -26,4 +25,6 @@ public interface UserService {
      public ModelAndView congreso(String usuario);
      public ModelAndView altaCongreso(String usuario, String nombreCongreso, Integer IdEstadoCongreso, String fechaInicioEnvio, String fechaFinEnvio,
              String fechaInicioRevision, String fechaFinRevision);
+     public ModelAndView modificaCongreso(String usuario, Integer idCongreso, String nombreCongreso, Integer IdEstadoCongreso, 
+             String fechaInicioEnvio, String fechaFinEnvio, String fechaInicioRevision, String fechaFinRevision);
 }
