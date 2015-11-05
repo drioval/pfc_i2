@@ -333,15 +333,22 @@ public class UserServiceImpl implements UserService {
         UserProfileDetailsDaoHibernate userProfileDetailsDao = new UserProfileDetailsDaoHibernate();
         userProfileDetailsDao.setSessionFactory(sessionFactory);
 
-        UserProfile usuarioBd = userProfileDao.obtenerUserProfile(usuario);
-        UserProfileDetails usuarioBbDetalle = userProfileDetailsDao.obtenerUserProfileDetails(usuarioBd.getUserId());
+        UserProfile user = userProfileDao.obtenerUserProfile(usuario);
+        //Set<UserProfileDetails> userProfileDetails = user.getUserProfileDetailses();
+        
+        
+        System.out.println("Usuario: "+user.getUserId()+" - "+user.getUsuario());
+        UserProfileDetails userDetails = userProfileDetailsDao.obtenerUserProfileDetails(user.getUserId());
+        System.out.println("Usuario: "+userDetails.toString());
+        //UserProfileDetails userDetails = (UserProfileDetails) userProfileDetails.toArray()[0];        
+        //UserProfileDetails usuarioBbDetalle = userProfileDetailsDao.obtenerUserProfileDetails(usuarioBd.getUserId());
 
-        vista.addObject("usuario", usuarioBd.getUsuario());
-        vista.addObject("email", usuarioBbDetalle.getEmail());
-        vista.addObject("nome", usuarioBbDetalle.getNome());
-        vista.addObject("apelido1", usuarioBbDetalle.getApelido1());
-        vista.addObject("apelido2", usuarioBbDetalle.getApelido2());
-        vista.addObject("telefono", usuarioBbDetalle.getTelefono());
+        vista.addObject("usuario", user.getUsuario());
+        vista.addObject("email", userDetails.getEmail());
+        vista.addObject("nome", userDetails.getNome());
+        vista.addObject("apelido1", userDetails.getApelido1());
+        vista.addObject("apelido2", userDetails.getApelido2());
+        vista.addObject("telefono", userDetails.getTelefono());
 
         return vista;
     }
@@ -364,7 +371,7 @@ public class UserServiceImpl implements UserService {
         UserProfile user = userProfileDao.obtenerUserProfile(usuario);
 
         Set<UserProfileDetails> userProfileDetails = user.getUserProfileDetailses();
-        UserProfileDetails userDetails = (UserProfileDetails) userProfileDetails.toArray()[0];
+            UserProfileDetails userDetails = (UserProfileDetails) userProfileDetails.toArray()[0];
 
         UserProfileDetailsDaoHibernate userProfileDetailsDao = new UserProfileDetailsDaoHibernate();
         userProfileDetailsDao.setSessionFactory(sessionFactory);
