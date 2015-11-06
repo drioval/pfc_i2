@@ -43,4 +43,19 @@ public class TraballoDaoHibernate extends GenericDaoHibernate implements Traball
             return (Traballo) genericDao.find(Traballo.class, idTraballoBBDD);
         }
     }
+    
+    @Override
+    @Transactional
+    public Traballo obtenerTraballoUsuarioCongreso(Integer idUsuario, Integer idCongreso) {
+        Integer idTraballo = null;
+        try {
+            idTraballo = (Integer) genericDao.getCurrentSession().createQuery("SELECT a.idTraballo FROM Traballo a WHERE a.idUsuario = :idUsuario"
+                    + "AND a.idCongreso = :idCongreso ").setParameter("idUsuario", idUsuario).setParameter("idCongreso", idCongreso).uniqueResult();
+        } catch (HibernateException e) {
+            System.out.println(e);
+            throw e;
+        } finally {
+            return (Traballo) genericDao.find(Traballo.class, idTraballo);
+        }
+    }
 }

@@ -13,4 +13,5 @@ package modelo;
 public interface TraballoDao {
     public void guardarTraballo(Traballo traballo);
     public Traballo obtenerTraballo(Integer idTraballo);
+    public Traballo obtenerTraballoUsuarioCongreso(Integer idUsuario, Integer idCongreso);
 }

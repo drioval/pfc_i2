@@ -15,6 +15,8 @@ import modelo.CongresoDetalle;
 import modelo.CongresoDetalleDaoHibernate;
 import modelo.EstadoCongreso;
 import modelo.EstadoCongresoDaoHibernate;
+import modelo.Traballo;
+import modelo.TraballoDaoHibernate;
 import modelo.UserProfile;
 import modelo.UserProfileDaoHibernate;
 import modelo.UserProfileDetails;
@@ -335,11 +337,10 @@ public class UserServiceImpl implements UserService {
 
         UserProfile user = userProfileDao.obtenerUserProfile(usuario);
         //Set<UserProfileDetails> userProfileDetails = user.getUserProfileDetailses();
-        
-        
-        System.out.println("Usuario: "+user.getUserId()+" - "+user.getUsuario());
+
+        System.out.println("Usuario: " + user.getUserId() + " - " + user.getUsuario());
         UserProfileDetails userDetails = userProfileDetailsDao.obtenerUserProfileDetails(user.getUserId());
-        System.out.println("Usuario: "+userDetails.toString());
+        System.out.println("Usuario: " + userDetails.toString());
         //UserProfileDetails userDetails = (UserProfileDetails) userProfileDetails.toArray()[0];        
         //UserProfileDetails usuarioBbDetalle = userProfileDetailsDao.obtenerUserProfileDetails(usuarioBd.getUserId());
 
@@ -371,7 +372,7 @@ public class UserServiceImpl implements UserService {
         UserProfile user = userProfileDao.obtenerUserProfile(usuario);
 
         Set<UserProfileDetails> userProfileDetails = user.getUserProfileDetailses();
-            UserProfileDetails userDetails = (UserProfileDetails) userProfileDetails.toArray()[0];
+        UserProfileDetails userDetails = (UserProfileDetails) userProfileDetails.toArray()[0];
 
         UserProfileDetailsDaoHibernate userProfileDetailsDao = new UserProfileDetailsDaoHibernate();
         userProfileDetailsDao.setSessionFactory(sessionFactory);
@@ -458,19 +459,21 @@ public class UserServiceImpl implements UserService {
 
         UserProfile user = userProfileDao.obtenerUserProfile(usuario);
 
+        CongresoDaoHibernate congresoDao = new CongresoDaoHibernate();
+        congresoDao.setSessionFactory(sessionFactory);
+        Congreso congreso = congresoDao.obtenerCongresoActivo();
+
         Integer rol = user.getUserRol().getRolId();
         switch (rol) {
-            case 1:
-                CongresoDaoHibernate congresoDao = new CongresoDaoHibernate();
-                congresoDao.setSessionFactory(sessionFactory);
-                Congreso congreso = congresoDao.obtenerCongresoActivo();
+            case 1://rollid: 1 - Organizador
+
                 if (congreso == null) {
                     vista.setViewName("/WEB-INF/jsp/access/alta_congreso.jsp");
+                    vista.addObject("usuario", usuario);
                 } else {
                     vista.setViewName("/WEB-INF/jsp/access/admin_congreso.jsp");
                     System.out.println(congreso.getIdCongreso());
                     vista.addObject("idCongreso", congreso.getIdCongreso());
-                    vista.addObject("usuario", usuario);
                     vista.addObject("nombreCongreso", congreso.getNomeCongreso());
                     vista.addObject("idEstadoCongreso", congreso.getEstadoCongreso().getIdEstadoCongreso());
                     vista.addObject("estadoCongreso", congreso.getEstadoCongreso().getNomeEstadoCongreso());
@@ -481,11 +484,18 @@ public class UserServiceImpl implements UserService {
                     vista.addObject("fechaFinRevision", dateFormat.format(congreso.getCongresoDetalle().getfFinRevision()));
                 }
                 break;
-            case 2:
+            case 2://rollid: 2 - Revisor
                 vista.setViewName("WEB-INF/jsp/access/congreso.jsp");
                 break;
-            case 3:
-                vista.setViewName("WEB-INF/jsp/access/congreso.jsp");
+            case 3://rollid: 3 - Autor
+                TraballoDaoHibernate traballoDao = new TraballoDaoHibernate();
+                traballoDao.setSessionFactory(sessionFactory);
+                Traballo traballo = traballoDao.obtenerTraballoUsuarioCongreso(user.getUserId(),congreso.getIdCongreso());
+                if (traballo==null){
+                    vista.setViewName("WEB-INF/jsp/access/alta_traballo.jsp");
+                }else{
+                    vista.setViewName("WEB-INF/jsp/access/admin_traballo.jsp");
+                }
                 break;
         }
         vista.addObject("usuario", usuario);
@@ -537,7 +547,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public ModelAndView modificaCongreso(String usuario, Integer idCongreso, String nombreCongreso, Integer idEstadoCongreso, 
+    public ModelAndView modificaCongreso(String usuario, Integer idCongreso, String nombreCongreso, Integer idEstadoCongreso,
             String fechaInicioEnvio, String fechaFinEnvio, String fechaInicioRevision, String fechaFinRevision) {
 
         CongresoDaoHibernate congresoDao = new CongresoDaoHibernate();
@@ -545,15 +555,15 @@ public class UserServiceImpl implements UserService {
 
         CongresoDetalleDaoHibernate congresoDetalleDaoHibernate = new CongresoDetalleDaoHibernate();
         congresoDetalleDaoHibernate.setSessionFactory(sessionFactory);
-        
+
         EstadoCongresoDaoHibernate estadoCongresoDao = new EstadoCongresoDaoHibernate();
         estadoCongresoDao.setSessionFactory(sessionFactory);
 
-        Congreso congreso=congresoDao.obtenerCongreso(idCongreso);
+        Congreso congreso = congresoDao.obtenerCongreso(idCongreso);
         congreso.setNomeCongreso(nombreCongreso);
         congreso.setEstadoCongreso(estadoCongresoDao.obtenerEstadoCongreso(idEstadoCongreso));
-        
-        CongresoDetalle congresoDetalle=congresoDao.obtenerCongreso(idCongreso).getCongresoDetalle();
+
+        CongresoDetalle congresoDetalle = congresoDao.obtenerCongreso(idCongreso).getCongresoDetalle();
         System.out.println(congresoDao.obtenerCongreso(idCongreso).getCongresoDetalle().getCongreso().getNomeCongreso());
         ToTimeStamp fecha = new ToTimeStamp();
         Timestamp fechaIEnvio = fecha.convertToTimeStamp(fechaInicioEnvio);
@@ -566,7 +576,7 @@ public class UserServiceImpl implements UserService {
         congresoDetalle.setfFinEnvio(fechaFEnvio);
         congresoDetalle.setfInicioRevision(fechaIRevision);
         congresoDetalle.setfFinRevision(fechaFRevision);
-        
+
         congresoDetalleDaoHibernate.guardarCongresoDetalle(congresoDetalle);
         congresoDao.guardarCongreso(congreso);
 
