@@ -6,8 +6,11 @@
             <column name="idTraballo" />
             <generator class="identity" />
         </id>
-        <one-to-one name="idTraballoDetalle" class="modelo.TraballoDetalle" constrained="true"/>
-        <one-to-one name="idCongreso" class="modelo.Congreso" constrained="true"/>
-        <one-to-one name="idUsuario" class="modelo.UserProfile" constrained="true"/>
+        <many-to-one name="idCongreso" class="modelo.Congreso" fetch="select">
+            <column name="idCongreso" not-null="true"/>
+        </many-to-one>
+        <many-to-one name="userId" class="modelo.UserProfile" fetch="select">
+            <column name="userId" not-null="true"/>
+        </many-to-one>
     </class>
 </hibernate-mapping>

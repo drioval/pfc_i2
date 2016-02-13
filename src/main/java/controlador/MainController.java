@@ -5,22 +5,30 @@
 package controlador;
 
 import java.io.IOException;
+import java.sql.Blob;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.hibernate.Hibernate;
 
+import org.hibernate.SessionFactory;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.support.DefaultMultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import vista.UserServiceImpl;
 
 @Controller
 @Transactional
+@MultipartConfig
 public class MainController {
 
     @Autowired
@@ -169,10 +177,38 @@ public class MainController {
     public ModelAndView trabajos(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        ModelAndView vista = new ModelAndView("WEB-INF/jsp/access/trabajos_usuario.jsp");
-        vista.addObject("usuario", request.getUserPrincipal().getName());
-        return vista;
+        ModelAndView vista = new ModelAndView("WEB-INF/jsp/trabajos.jsp");
+
+        servicio = new UserServiceImpl();
+        servicio.setSessionFactory(sessionFactory);
+
+        if (request.getUserPrincipal() == null) {
+            return servicio.congreso(null);
+        }
+        return servicio.trabajos(request.getUserPrincipal().getName());
     }
+
+    @RequestMapping(value = "/alta_traballo.htm")
+    public ModelAndView alta_trabajos(DefaultMultipartHttpServletRequest req,
+            @RequestParam("nome_traballo") String nomeTraballo, HttpServletRequest request)
+            throws ServletException, IOException {
+        
+        MultipartFile trabajo = req.getFile("trabajo");
+        Blob tabajoBlob = Hibernate.createBlob(trabajo.getInputStream());
+        
+        System.out.println("Parametro nome do traballo: "+trabajo.getName());
+        
+        if (trabajo.isEmpty()) {
+                System.out.println("Saving file: " + trabajo.getOriginalFilename());
+            }
+        
+        servicio = new UserServiceImpl();
+        servicio.setSessionFactory(sessionFactory);
+
+        return servicio.altaTrabajo(request.getUserPrincipal().getName(), request.getParameter("nome_traballo"),
+                Integer.parseInt(request.getParameter("categoria")), request.getParameter("autores"),
+                tabajoBlob);
+        }
 
     @RequestMapping(value = "/prefil_usuario.htm")
     public ModelAndView prefil_usuario(HttpServletRequest request, HttpServletResponse response)
@@ -210,7 +246,7 @@ public class MainController {
                 request.getParameter("fecha_fin_envio"), request.getParameter("fecha_inicio_revision"),
                 request.getParameter("fecha_fin_revision"));
     }
-    
+
     @RequestMapping(value = "/modifica_congreso.htm")
     public ModelAndView admin_congreso(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

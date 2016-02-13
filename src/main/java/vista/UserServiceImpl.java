@@ -8,6 +8,7 @@ import encrypt.EncriptarPassword;
 import encrypt.GenerarPassword;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.HashSet;
 import java.util.Set;
 import modelo.Congreso;
 import modelo.CongresoDaoHibernate;
@@ -336,13 +337,8 @@ public class UserServiceImpl implements UserService {
         userProfileDetailsDao.setSessionFactory(sessionFactory);
 
         UserProfile user = userProfileDao.obtenerUserProfile(usuario);
-        //Set<UserProfileDetails> userProfileDetails = user.getUserProfileDetailses();
 
-        System.out.println("Usuario: " + user.getUserId() + " - " + user.getUsuario());
         UserProfileDetails userDetails = userProfileDetailsDao.obtenerUserProfileDetails(user.getUserId());
-        System.out.println("Usuario: " + userDetails.toString());
-        //UserProfileDetails userDetails = (UserProfileDetails) userProfileDetails.toArray()[0];        
-        //UserProfileDetails usuarioBbDetalle = userProfileDetailsDao.obtenerUserProfileDetails(usuarioBd.getUserId());
 
         vista.addObject("usuario", user.getUsuario());
         vista.addObject("email", userDetails.getEmail());
@@ -488,15 +484,7 @@ public class UserServiceImpl implements UserService {
                 vista.setViewName("WEB-INF/jsp/access/congreso.jsp");
                 break;
             case 3://rollid: 3 - Autor
-                TraballoDaoHibernate traballoDao = new TraballoDaoHibernate();
-                traballoDao.setSessionFactory(sessionFactory);
-                Traballo traballo = traballoDao.obtenerTraballoUsuarioCongreso(user.getUserId(),congreso.getIdCongreso());
-                if (traballo==null){
-                    vista.setViewName("WEB-INF/jsp/access/alta_traballo.jsp");
-                }else{
-                    vista.setViewName("WEB-INF/jsp/access/admin_traballo.jsp");
-                }
-                break;
+                vista.setViewName("WEB-INF/jsp/access/congreso.jsp");
         }
         vista.addObject("usuario", usuario);
         return vista;
@@ -564,7 +552,7 @@ public class UserServiceImpl implements UserService {
         congreso.setEstadoCongreso(estadoCongresoDao.obtenerEstadoCongreso(idEstadoCongreso));
 
         CongresoDetalle congresoDetalle = congresoDao.obtenerCongreso(idCongreso).getCongresoDetalle();
-        System.out.println(congresoDao.obtenerCongreso(idCongreso).getCongresoDetalle().getCongreso().getNomeCongreso());
+
         ToTimeStamp fecha = new ToTimeStamp();
         Timestamp fechaIEnvio = fecha.convertToTimeStamp(fechaInicioEnvio);
         Timestamp fechaFEnvio = fecha.convertToTimeStamp(fechaFinEnvio);
@@ -590,6 +578,94 @@ public class UserServiceImpl implements UserService {
         vista.addObject("fechaFinEnvio", fechaFinEnvio);
         vista.addObject("fechaInicioRevision", fechaInicioRevision);
         vista.addObject("fechaFinRevision", fechaFinRevision);
+        return vista;
+    }
+    
+    @Override
+    public ModelAndView trabajos(String usuario){
+                
+        ModelAndView vista = new ModelAndView("WEB-INF/jsp/registar.jsp");
+        if (usuario == null) {
+            return vista;
+        }
+        UserProfileDaoHibernate userProfileDao = new UserProfileDaoHibernate();
+        userProfileDao.setSessionFactory(sessionFactory);
+
+        UserProfile user = userProfileDao.obtenerUserProfile(usuario);
+
+        CongresoDaoHibernate congresoDao = new CongresoDaoHibernate();
+        congresoDao.setSessionFactory(sessionFactory);
+        Congreso congreso = congresoDao.obtenerCongresoActivo();
+
+        Integer rol = user.getUserRol().getRolId();
+        switch (rol) {
+            case 1://rollid: 1 - Organizador
+
+                if (congreso == null) {
+                    vista.setViewName("/WEB-INF/jsp/access/alta_congreso.jsp");
+                    vista.addObject("usuario", usuario);
+                } else {
+                    vista.setViewName("/WEB-INF/jsp/access/admin_congreso.jsp");
+                    System.out.println(congreso.getIdCongreso());
+                    vista.addObject("idCongreso", congreso.getIdCongreso());
+                    vista.addObject("nombreCongreso", congreso.getNomeCongreso());
+                    vista.addObject("idEstadoCongreso", congreso.getEstadoCongreso().getIdEstadoCongreso());
+                    vista.addObject("estadoCongreso", congreso.getEstadoCongreso().getNomeEstadoCongreso());
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/YYY");
+                    vista.addObject("fechaInicioEnvio", dateFormat.format(congreso.getCongresoDetalle().getfInicioEnvio()));
+                    vista.addObject("fechaFinEnvio", dateFormat.format(congreso.getCongresoDetalle().getfFinEnvio()));
+                    vista.addObject("fechaInicioRevision", dateFormat.format(congreso.getCongresoDetalle().getfInicioRevision()));
+                    vista.addObject("fechaFinRevision", dateFormat.format(congreso.getCongresoDetalle().getfFinRevision()));
+                }
+                break;
+            case 2://rollid: 2 - Revisor
+                vista.setViewName("WEB-INF/jsp/access/congreso.jsp");
+                break;
+            case 3://rollid: 3 - Autor
+                TraballoDaoHibernate traballoDao = new TraballoDaoHibernate();
+                traballoDao.setSessionFactory(sessionFactory);
+                Traballo traballo = traballoDao.obtenerTraballoUsuarioCongreso(user.getUserId(),congreso.getIdCongreso());
+                if (traballo==null){
+                    vista.setViewName("WEB-INF/jsp/access/alta_traballo.jsp");
+                }else{
+                    vista.setViewName("WEB-INF/jsp/access/admin_traballo.jsp");
+                }
+                break;
+        }
+        vista.addObject("usuario", usuario);
+        return vista;
+    }
+    
+    @Override
+    public ModelAndView altaTrabajo(String usuario, String nomeTraballo, Integer categoria, String autores, java.sql.Blob traballo){
+        ModelAndView vista = new ModelAndView("WEB-INF/jsp/access/admin_trabajo.jsp");
+        
+        System.out.println("Parametro usuario:"+usuario);
+        System.out.println("Parametro nomeTraballo:"+nomeTraballo);
+        System.out.println("Parametro categoria:"+categoria);
+        System.out.println("Parametro autores:"+autores);
+        
+        UserProfileDaoHibernate userProfileDao = new UserProfileDaoHibernate();
+        userProfileDao.setSessionFactory(sessionFactory);
+
+        UserProfile user = userProfileDao.obtenerUserProfile(usuario);
+
+        CongresoDaoHibernate congresoDao = new CongresoDaoHibernate();
+        congresoDao.setSessionFactory(sessionFactory);
+        Congreso congreso = congresoDao.obtenerCongresoActivo();
+        
+        //Set<UserProfile> idUsuario=new HashSet<>(0);
+        //idUsuario.add(user);
+        //Set<Congreso> idCongreso=new HashSet<>(0);
+        //idCongreso.add(congreso);
+        
+        Traballo trabajo=new Traballo(user.getUserId(),congreso.getIdCongreso());
+        
+        TraballoDaoHibernate traballoDaoHibernate=new TraballoDaoHibernate();
+        traballoDaoHibernate.setSessionFactory(sessionFactory);
+        
+        traballoDaoHibernate.guardarTraballo(trabajo);
+        
         return vista;
     }
 }

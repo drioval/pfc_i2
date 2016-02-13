@@ -27,4 +27,6 @@ public interface UserService {
              String fechaInicioRevision, String fechaFinRevision);
      public ModelAndView modificaCongreso(String usuario, Integer idCongreso, String nombreCongreso, Integer IdEstadoCongreso, 
              String fechaInicioEnvio, String fechaFinEnvio, String fechaInicioRevision, String fechaFinRevision);
+     public ModelAndView trabajos(String usuario);
+     public ModelAndView altaTrabajo(String usuario, String nomeTraballo, Integer categoria, String autores, java.sql.Blob traballo);
 }

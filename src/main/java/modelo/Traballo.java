@@ -6,11 +6,12 @@
 
 package modelo;
 
-import java.util.HashSet;
-import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -23,23 +24,19 @@ import javax.validation.constraints.NotNull;
 @Table(name = "Traballo")
 public class Traballo implements java.io.Serializable{
     
-    @Id @NotNull @Column(name="idTraballo")
+    @Id @NotNull @Column(name="idTraballo") @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idTraballo;
-    @NotNull @OneToMany @Column(name = "idUsuario")
-    private Set<UserProfile> idUsuario=new HashSet<>(0);
-    @NotNull @OneToMany @Column(name = "idCongreso")
-    private Set<Congreso> idCongreso=new HashSet<>(0);
-    @NotNull @OneToMany @Column(name = "idTraballo")
-    private Set<TraballoDetalle> idTraballoDetalle;
+    @NotNull @ManyToOne @Column(name = "idUsuario")
+    private Integer userId;
+    @NotNull @ManyToOne @Column(name = "idCongreso")
+    private Integer idCongreso;
 
     public Traballo() {
     }
     
-    public Traballo(Set<UserProfile> idUsuario, Set<Congreso> idCongreso,
-            Set<TraballoDetalle> idTraballoDetalle){
-        this.idUsuario=idUsuario;
+    public Traballo(Integer idUsuario, Integer idCongreso){
+        this.userId=idUsuario;
         this.idCongreso=idCongreso;
-        this.idTraballoDetalle=idTraballoDetalle;
     }
 
     /**
@@ -50,45 +47,31 @@ public class Traballo implements java.io.Serializable{
     }
 
     /**
-     * @return the idUsuario
+     * @return the userId
      */
-    public Set<UserProfile> getIdUsuario() {
-        return idUsuario;
+    public Integer getUserId() {
+        return userId;
     }
 
     /**
-     * @param idUsuario the idUsuario to set
+     * @param userId the userId to set
      */
-    public void setIdUsuario(Set<UserProfile> idUsuario) {
-        this.idUsuario = idUsuario;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     /**
      * @return the idCongreso
      */
-    public Set<Congreso> getIdCongreso() {
+    public Integer getIdCongreso() {
         return idCongreso;
     }
 
     /**
      * @param idCongreso the idCongreso to set
      */
-    public void setIdCongreso(Set<Congreso> idCongreso) {
+    public void setIdCongreso(Integer idCongreso) {
         this.idCongreso = idCongreso;
-    }
-
-    /**
-     * @return the idTraballoDetalle
-     */
-    public Set<TraballoDetalle> getIdTraballoDetalle() {
-        return idTraballoDetalle;
-    }
-
-    /**
-     * @param idTraballoDetalle the idTraballoDetalle to set
-     */
-    public void setIdTraballoDetalle(Set<TraballoDetalle> idTraballoDetalle) {
-        this.idTraballoDetalle = idTraballoDetalle;
     }
 
     /**
@@ -97,5 +80,4 @@ public class Traballo implements java.io.Serializable{
     public void setIdTraballo(Integer idTraballo) {
         this.idTraballo = idTraballo;
     }
-    
 }

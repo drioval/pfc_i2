@@ -37,6 +37,9 @@ public class GenericDaoHibernate implements GenericDao {
     
     @Override
     public void save(Object obj) {
+        Traballo traballo=(Traballo) obj;
+        System.out.println("IdUsuario: "+traballo.getUserId());
+        System.out.println("IdCongreso: "+traballo.getIdCongreso());
         sessionFactory.getCurrentSession().save(obj);
     }
 

@@ -47,7 +47,7 @@
         <fieldset class="center_form gris_oscuro">
             <legend class="subtitulo"><fmt:message key="alta_traballo01"/></legend>
             <br>
-            <form method="post" action="alta_traballo.htm" id="alta_traballo">
+            <form method="post" action="alta_traballo.htm" id="alta_traballo" enctype="multipart/form-data">
 
                 <a class="articulo"><fmt:message key="alta_traballo02"/></a>
                 <br><br>
@@ -68,7 +68,10 @@
                 <a class="articulo"><fmt:message key="autores"/></a>
                 <br>
                 <textarea name="autores" maxlength="250" class="areaTexto"></textarea>
-                <br>
+                <br><br>
+                <a class="articulo"><fmt:message key="trabajo"/></a>
+                <input type="file" name="trabajo" class="trabajo" required="true">
+                <br><br>
                 <button type="submit" class="button blue" value="Submit">Enviar</button>
                 <button type="reset" class="button blue" value="Reset">Borrar</button>
             </form>

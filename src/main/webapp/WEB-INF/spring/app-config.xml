@@ -37,12 +37,14 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
     
+    <tx:annotation-driven transaction-manager="hibernateTransactionManager" />
+    
     <bean id="myUserDetailsService" class="seguridad.MyUserDetailsService"/>
     
     <bean id='bCryptPasswordEncoder' class='org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder'/>
     
-    <tx:annotation-driven transaction-manager="hibernateTransactionManager" />
-      
     <bean name="MainController" class="controlador.MainController"/>
+    
+<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
          
 </beans>

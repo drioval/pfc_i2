@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 /**
  *
@@ -26,21 +27,29 @@ public class AppConfiguration {
 
     @Autowired
     private Environment environment;
-      
-    
+
     @Autowired
     ApplicationContext applicationcontex;
-    
+
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertyPlaceHolderConfigurer() {
         return new PropertySourcesPlaceholderConfigurer();
     }
 
     /**
+     * @param parametro
      * @return the env
      */
     @Bean
     public String getEnv(String parametro) {
         return environment.getProperty(parametro);
+    }
+
+    @Bean(name = "multipartResolver")
+    public CommonsMultipartResolver getCommonsMultipartResolver() {
+        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+        multipartResolver.setMaxUploadSize(20971520);   // 20MB
+        multipartResolver.setMaxInMemorySize(1048576);  // 1MB
+        return multipartResolver;
     }
 }
