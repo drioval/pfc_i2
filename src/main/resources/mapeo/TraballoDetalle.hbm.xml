@@ -12,20 +12,17 @@
         <property name="nomeTraballo" type="string">
             <column name="nomeTraballo" length="45" not-null="true"/>
         </property>
-        <property name="categoria" type="string">
-            <column name="categoria" length="45"/>
+        <property name="categoria" type="integer">
+            <column name="categoria" not-null="false"/>
         </property>
         <property name="autores" type="string">
             <column name="autores" length="45"/>
         </property>
-        <property name="traballo" type="blob">
+        <property name="traballo" type="byte[]">
             <column name="traballo" not-null="true"/>
         </property>
-        <many-to-one name="idEstadoTraballo" class="modelo.EstadoTraballo" fetch="select">
+        <many-to-one name="estadoTraballo" class="modelo.EstadoTraballo" fetch="select">
             <column name="idEstadoTraballo" not-null="true"/>
-        </many-to-one>
-        <many-to-one name="idTraballoDetalleVersion" class="modelo.TraballoDetalleVersion" fetch="select">
-            <column name="idTraballoDetalleVersion"/>
         </many-to-one>
         <property name="fInicioEnvio" type="timestamp">
             <column name="fInicioEnvio"/>

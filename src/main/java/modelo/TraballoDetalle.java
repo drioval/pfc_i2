@@ -3,16 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package modelo;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.HashSet;
-import java.util.Set;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -20,52 +17,43 @@ import javax.validation.constraints.NotNull;
  * @author drioval
  */
 @Entity
-public class TraballoDetalle implements java.io.Serializable{
-    
-    @Id @NotNull
+public class TraballoDetalle implements java.io.Serializable {
+
+    @Id
+    @NotNull
     private Integer idTraballoDetalle;
     @NotNull
     private Integer idTraballo;
     @NotNull
     private String nomeTraballo;
-    private String categoria;
+    private Integer categoria;
     private String autores;
     @NotNull
-    private Serializable traballo;
-    @NotNull @OneToOne
-    private Set<EstadoTraballo> idEstadoTraballo=new HashSet<>(0);
+    private byte[] traballo;
+    @NotNull @ManyToOne @Column(name = "idEstadoTraballo")
+    private EstadoTraballo estadoTraballo;
     private Timestamp fInicioEnvio;
-    private Integer idTraballoDetalleVersion;
     private Timestamp fFinEnvio;
     private Timestamp fIncioRevision;
     private Timestamp fFinRevision;
-    
-    public TraballoDetalle(){
+
+    public TraballoDetalle() {
     }
-    
+
     public TraballoDetalle(Integer idTraballo,
-            String nomeTraballo, Serializable traballo, Set<EstadoTraballo> idEstadoTraballo){
-        this.idTraballo=idTraballo;
-        this.nomeTraballo=nomeTraballo;
-        this.traballo=traballo;
-        this.idEstadoTraballo=idEstadoTraballo;
-    }
-    
-    public TraballoDetalle(Integer idTraballo,
-            String nomeTraballo, String categoria, String autores, Serializable traballo,
-            Set<EstadoTraballo> idEstadoTraballo, Integer idTraballoDetalleVersion,Timestamp fInicioEnvio, 
-            Timestamp fFinEnvio, Timestamp fInicioRevision, Timestamp fFinRevision){
-        this.idTraballo=idTraballo;
-        this.nomeTraballo=nomeTraballo;
-        this.categoria=categoria;
-        this.autores=autores;
-        this.traballo=traballo;
-        this.idEstadoTraballo=idEstadoTraballo;
-        this.idTraballoDetalleVersion=idTraballoDetalleVersion;
-        this.fInicioEnvio=fInicioEnvio;
-        this.fFinEnvio=fFinEnvio;
-        this.fIncioRevision=fInicioRevision;
-        this.fFinRevision=fFinRevision;
+            String nomeTraballo, Integer categoria, String autores, byte[] traballo,
+            EstadoTraballo estadoTraballo, Timestamp fInicioEnvio,
+            Timestamp fFinEnvio, Timestamp fInicioRevision, Timestamp fFinRevision) {
+        this.idTraballo = idTraballo;
+        this.nomeTraballo = nomeTraballo;
+        this.categoria = categoria;
+        this.autores = autores;
+        this.traballo = traballo;
+        this.estadoTraballo = estadoTraballo;
+        this.fInicioEnvio = fInicioEnvio;
+        this.fFinEnvio = fFinEnvio;
+        this.fIncioRevision = fInicioRevision;
+        this.fFinRevision = fFinRevision;
     }
 
     /**
@@ -73,6 +61,13 @@ public class TraballoDetalle implements java.io.Serializable{
      */
     public Integer getIdTraballoDetalle() {
         return idTraballoDetalle;
+    }
+
+    /**
+     * @param idTraballoDetalle the idTraballoDetalle to set
+     */
+    public void setIdTraballoDetalle(Integer idTraballoDetalle) {
+        this.idTraballoDetalle = idTraballoDetalle;
     }
 
     /**
@@ -106,14 +101,14 @@ public class TraballoDetalle implements java.io.Serializable{
     /**
      * @return the categoria
      */
-    public String getCategoria() {
+    public Integer getCategoria() {
         return categoria;
     }
 
     /**
      * @param categoria the categoria to set
      */
-    public void setCategoria(String categoria) {
+    public void setCategoria(Integer categoria) {
         this.categoria = categoria;
     }
 
@@ -134,29 +129,15 @@ public class TraballoDetalle implements java.io.Serializable{
     /**
      * @return the traballo
      */
-    public Serializable getTraballo() {
+    public byte[] getTraballo() {
         return traballo;
     }
 
     /**
      * @param traballo the traballo to set
      */
-    public void setTraballo(Serializable traballo) {
+    public void setTraballo(byte[] traballo) {
         this.traballo = traballo;
-    }
-
-    /**
-     * @return the idEstadoTraballo
-     */
-    public Set<EstadoTraballo> getIdEstadoTraballo() {
-        return idEstadoTraballo;
-    }
-
-    /**
-     * @param idEstadoTraballo the idEstadoTraballo to set
-     */
-    public void setIdEstadoTraballo(Set<EstadoTraballo> idEstadoTraballo) {
-        this.idEstadoTraballo = idEstadoTraballo;
     }
 
     /**
@@ -216,23 +197,16 @@ public class TraballoDetalle implements java.io.Serializable{
     }
 
     /**
-     * @return the idTraballoDetalleVersion
+     * @return the estadoTraballo
      */
-    public Integer getIdTraballoDetalleVersion() {
-        return idTraballoDetalleVersion;
+    public EstadoTraballo getEstadoTraballo() {
+        return estadoTraballo;
     }
 
     /**
-     * @param idTraballoDetalleVersion the idTraballoDetalleVersion to set
+     * @param estadoTraballo the estadoTraballo to set
      */
-    public void setIdTraballoDetalleVersion(Integer idTraballoDetalleVersion) {
-        this.idTraballoDetalleVersion = idTraballoDetalleVersion;
-    }
-
-    /**
-     * @param idTraballoDetalle the idTraballoDetalle to set
-     */
-    public void setIdTraballoDetalle(Integer idTraballoDetalle) {
-        this.idTraballoDetalle = idTraballoDetalle;
+    public void setEstadoTraballo(EstadoTraballo estadoTraballo) {
+        this.estadoTraballo = estadoTraballo;
     }
 }

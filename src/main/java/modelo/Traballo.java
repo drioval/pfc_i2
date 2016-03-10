@@ -12,7 +12,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -27,16 +26,16 @@ public class Traballo implements java.io.Serializable{
     @Id @NotNull @Column(name="idTraballo") @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idTraballo;
     @NotNull @ManyToOne @Column(name = "idUsuario")
-    private Integer userId;
+    private UserProfile idUsuario;
     @NotNull @ManyToOne @Column(name = "idCongreso")
-    private Integer idCongreso;
+    private Congreso idCongreso;
 
     public Traballo() {
     }
     
-    public Traballo(Integer idUsuario, Integer idCongreso){
-        this.userId=idUsuario;
-        this.idCongreso=idCongreso;
+    public Traballo(UserProfile usuario, Congreso congreso){
+        this.idUsuario=usuario;
+        this.idCongreso=congreso;
     }
 
     /**
@@ -47,30 +46,16 @@ public class Traballo implements java.io.Serializable{
     }
 
     /**
-     * @return the userId
-     */
-    public Integer getUserId() {
-        return userId;
-    }
-
-    /**
-     * @param userId the userId to set
-     */
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    /**
      * @return the idCongreso
      */
-    public Integer getIdCongreso() {
+    public Congreso getIdCongreso() {
         return idCongreso;
     }
 
     /**
      * @param idCongreso the idCongreso to set
      */
-    public void setIdCongreso(Integer idCongreso) {
+    public void setIdCongreso(Congreso idCongreso) {
         this.idCongreso = idCongreso;
     }
 
@@ -79,5 +64,19 @@ public class Traballo implements java.io.Serializable{
      */
     public void setIdTraballo(Integer idTraballo) {
         this.idTraballo = idTraballo;
+    }
+
+    /**
+     * @return the idUsuario
+     */
+    public UserProfile getIdUsuario() {
+        return idUsuario;
+    }
+
+    /**
+     * @param idUsuario the idUsuario to set
+     */
+    public void setIdUsuario(UserProfile idUsuario) {
+        this.idUsuario = idUsuario;
     }
 }

@@ -193,21 +193,14 @@ public class MainController {
             @RequestParam("nome_traballo") String nomeTraballo, HttpServletRequest request)
             throws ServletException, IOException {
         
-        MultipartFile trabajo = req.getFile("trabajo");
-        Blob tabajoBlob = Hibernate.createBlob(trabajo.getInputStream());
-        
-        System.out.println("Parametro nome do traballo: "+trabajo.getName());
-        
-        if (trabajo.isEmpty()) {
-                System.out.println("Saving file: " + trabajo.getOriginalFilename());
-            }
+        byte[] trabajo = req.getFile("trabajo").getBytes();
         
         servicio = new UserServiceImpl();
         servicio.setSessionFactory(sessionFactory);
 
         return servicio.altaTrabajo(request.getUserPrincipal().getName(), request.getParameter("nome_traballo"),
                 Integer.parseInt(request.getParameter("categoria")), request.getParameter("autores"),
-                tabajoBlob);
+                trabajo);
         }
 
     @RequestMapping(value = "/prefil_usuario.htm")

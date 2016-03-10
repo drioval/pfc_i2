@@ -27,8 +27,6 @@ public class TraballoDaoHibernate extends GenericDaoHibernate implements Traball
     @Override
     @Transactional
     public void guardarTraballo(Traballo traballo) {
-        System.out.println("Idusuario: "+traballo.getUserId());
-        System.out.println("Idcongreso: "+traballo.getIdCongreso());
         genericDao.save(traballo);
     }
 

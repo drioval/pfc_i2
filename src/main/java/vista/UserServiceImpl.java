@@ -8,7 +8,6 @@ import encrypt.EncriptarPassword;
 import encrypt.GenerarPassword;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.HashSet;
 import java.util.Set;
 import modelo.Congreso;
 import modelo.CongresoDaoHibernate;
@@ -16,8 +15,12 @@ import modelo.CongresoDetalle;
 import modelo.CongresoDetalleDaoHibernate;
 import modelo.EstadoCongreso;
 import modelo.EstadoCongresoDaoHibernate;
+import modelo.EstadoTraballo;
+import modelo.EstadoTraballoDaoHibernate;
 import modelo.Traballo;
 import modelo.TraballoDaoHibernate;
+import modelo.TraballoDetalle;
+import modelo.TraballoDetalleDaoHibernate;
 import modelo.UserProfile;
 import modelo.UserProfileDaoHibernate;
 import modelo.UserProfileDetails;
@@ -580,10 +583,10 @@ public class UserServiceImpl implements UserService {
         vista.addObject("fechaFinRevision", fechaFinRevision);
         return vista;
     }
-    
+
     @Override
-    public ModelAndView trabajos(String usuario){
-                
+    public ModelAndView trabajos(String usuario) {
+
         ModelAndView vista = new ModelAndView("WEB-INF/jsp/registar.jsp");
         if (usuario == null) {
             return vista;
@@ -624,10 +627,10 @@ public class UserServiceImpl implements UserService {
             case 3://rollid: 3 - Autor
                 TraballoDaoHibernate traballoDao = new TraballoDaoHibernate();
                 traballoDao.setSessionFactory(sessionFactory);
-                Traballo traballo = traballoDao.obtenerTraballoUsuarioCongreso(user.getUserId(),congreso.getIdCongreso());
-                if (traballo==null){
+                Traballo traballo = traballoDao.obtenerTraballoUsuarioCongreso(user.getUserId(), congreso.getIdCongreso());
+                if (traballo == null) {
                     vista.setViewName("WEB-INF/jsp/access/alta_traballo.jsp");
-                }else{
+                } else {
                     vista.setViewName("WEB-INF/jsp/access/admin_traballo.jsp");
                 }
                 break;
@@ -635,37 +638,43 @@ public class UserServiceImpl implements UserService {
         vista.addObject("usuario", usuario);
         return vista;
     }
-    
+
     @Override
-    public ModelAndView altaTrabajo(String usuario, String nomeTraballo, Integer categoria, String autores, java.sql.Blob traballo){
-        ModelAndView vista = new ModelAndView("WEB-INF/jsp/access/admin_trabajo.jsp");
-        
-        System.out.println("Parametro usuario:"+usuario);
-        System.out.println("Parametro nomeTraballo:"+nomeTraballo);
-        System.out.println("Parametro categoria:"+categoria);
-        System.out.println("Parametro autores:"+autores);
-        
+    public ModelAndView altaTrabajo(String usuario, String nomeTraballo, Integer categoria, String autores, byte[] traballo) {
+        ModelAndView vista = new ModelAndView("WEB-INF/jsp/access/admin_traballo.jsp");
+
         UserProfileDaoHibernate userProfileDao = new UserProfileDaoHibernate();
         userProfileDao.setSessionFactory(sessionFactory);
-
         UserProfile user = userProfileDao.obtenerUserProfile(usuario);
 
         CongresoDaoHibernate congresoDao = new CongresoDaoHibernate();
         congresoDao.setSessionFactory(sessionFactory);
         Congreso congreso = congresoDao.obtenerCongresoActivo();
-        
-        //Set<UserProfile> idUsuario=new HashSet<>(0);
-        //idUsuario.add(user);
-        //Set<Congreso> idCongreso=new HashSet<>(0);
-        //idCongreso.add(congreso);
-        
-        Traballo trabajo=new Traballo(user.getUserId(),congreso.getIdCongreso());
-        
-        TraballoDaoHibernate traballoDaoHibernate=new TraballoDaoHibernate();
+
+        TraballoDaoHibernate traballoDaoHibernate = new TraballoDaoHibernate();
         traballoDaoHibernate.setSessionFactory(sessionFactory);
-        
+        Traballo trabajo = new Traballo(user, congreso);
         traballoDaoHibernate.guardarTraballo(trabajo);
+
+        TraballoDetalleDaoHibernate traballoDetalleDaoHibernate = new TraballoDetalleDaoHibernate();
+        traballoDetalleDaoHibernate.setSessionFactory(sessionFactory);
+
+        EstadoTraballoDaoHibernate estadoTraballoDao = new EstadoTraballoDaoHibernate();
+        estadoTraballoDao.setSessionFactory(sessionFactory);
+
+        EstadoTraballo estado = estadoTraballoDao.obtenerEstadoTraballo(1);
+
+        EstadoTraballo estadoTraballo = new EstadoTraballo();
+        estadoTraballo.setIdEstadoTraballo(1);
+
+        TraballoDetalle traballoDetalle = new TraballoDetalle(trabajo.getIdTraballo(),
+                nomeTraballo, categoria, autores, traballo, estadoTraballo, congreso.getCongresoDetalle().getfInicioEnvio(),
+                congreso.getCongresoDetalle().getfFinEnvio(), congreso.getCongresoDetalle().getfInicioRevision(), congreso.getCongresoDetalle().getfFinRevision());
+
+        traballoDetalleDaoHibernate.guardarTraballoDetalle(traballoDetalle);
         
+        
+
         return vista;
     }
 }

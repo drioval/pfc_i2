@@ -8,11 +8,10 @@ package modelo;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.HashSet;
-import java.util.Set;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 
@@ -36,8 +35,8 @@ public class TraballoDetalleVersion implements java.io.Serializable{
     private String autores;
     @NotNull
     private Serializable traballo;
-    @NotNull @OneToOne
-    private Set<EstadoTraballo> idEstadoTraballo=new HashSet<>(0);
+    @NotNull @ManyToOne @Column(name = "idEstadoTraballo")
+    private EstadoTraballo estadoTraballo;
     private Timestamp fInicioEnvio;
     private Timestamp fFinEnvio;
     private Timestamp fIncioRevision;
@@ -47,17 +46,17 @@ public class TraballoDetalleVersion implements java.io.Serializable{
     }
     
     public TraballoDetalleVersion(Integer idTraballoDetalle, Integer idTraballo,
-            String nomeTraballo, Serializable traballo, Set<EstadoTraballo> idEstadoTraballo){
+            String nomeTraballo, Serializable traballo, EstadoTraballo estadoTraballo){
         this.idTraballoDetalle=idTraballoDetalle;
         this.idTraballo=idTraballo;
         this.nomeTraballo=nomeTraballo;
         this.traballo=traballo;
-        this.idEstadoTraballo=idEstadoTraballo;
+        this.estadoTraballo=estadoTraballo;
     }
     
     public TraballoDetalleVersion(Integer idTraballoDetalle, Integer idTraballo,
             String nomeTraballo, String categoria, String autores, Serializable traballo,
-            Set<EstadoTraballo> idEstadoTraballo,Timestamp fInicioEnvio, 
+            EstadoTraballo estadoTraballo,Timestamp fInicioEnvio, 
             Timestamp fFinEnvio, Timestamp fInicioRevision, Timestamp fFinRevision){
         this.idTraballoDetalle=idTraballoDetalle;
         this.idTraballo=idTraballo;
@@ -65,7 +64,7 @@ public class TraballoDetalleVersion implements java.io.Serializable{
         this.categoria=categoria;
         this.autores=autores;
         this.traballo=traballo;
-        this.idEstadoTraballo=idEstadoTraballo;
+        this.estadoTraballo=estadoTraballo;
         this.fInicioEnvio=fInicioEnvio;
         this.fFinEnvio=fFinEnvio;
         this.fIncioRevision=fInicioRevision;
@@ -164,20 +163,6 @@ public class TraballoDetalleVersion implements java.io.Serializable{
     }
 
     /**
-     * @return the idEstadoTraballo
-     */
-    public Set<EstadoTraballo> getIdEstadoTraballo() {
-        return idEstadoTraballo;
-    }
-
-    /**
-     * @param idEstadoTraballo the idEstadoTraballo to set
-     */
-    public void setIdEstadoTraballo(Set<EstadoTraballo> idEstadoTraballo) {
-        this.idEstadoTraballo = idEstadoTraballo;
-    }
-
-    /**
      * @return the fInicioEnvio
      */
     public Timestamp getfInicioEnvio() {
@@ -238,5 +223,19 @@ public class TraballoDetalleVersion implements java.io.Serializable{
      */
     public void setIdTraballoDetalleVersion(Integer idTraballoDetalleVersion) {
         this.idTraballoDetalleVersion = idTraballoDetalleVersion;
+    }
+
+    /**
+     * @return the estadoTraballo
+     */
+    public EstadoTraballo getEstadoTraballo() {
+        return estadoTraballo;
+    }
+
+    /**
+     * @param estadoTraballo the estadoTraballo to set
+     */
+    public void setEstadoTraballo(EstadoTraballo estadoTraballo) {
+        this.estadoTraballo = estadoTraballo;
     }
 }
