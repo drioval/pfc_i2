@@ -5,13 +5,11 @@
 package controlador;
 
 import java.io.IOException;
-import java.sql.Blob;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.hibernate.Hibernate;
 
 import org.hibernate.SessionFactory;
 
@@ -20,7 +18,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.DefaultMultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -176,8 +173,6 @@ public class MainController {
     @RequestMapping(value = "/trabajos.htm")
     public ModelAndView trabajos(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        ModelAndView vista = new ModelAndView("WEB-INF/jsp/trabajos.jsp");
 
         servicio = new UserServiceImpl();
         servicio.setSessionFactory(sessionFactory);

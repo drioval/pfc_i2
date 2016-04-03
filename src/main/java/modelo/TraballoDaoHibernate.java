@@ -5,6 +5,9 @@
  */
 package modelo;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
@@ -43,19 +46,22 @@ public class TraballoDaoHibernate extends GenericDaoHibernate implements Traball
             return (Traballo) genericDao.find(Traballo.class, idTraballoBBDD);
         }
     }
-    
+
     @Override
     @Transactional
-    public Traballo obtenerTraballoUsuarioCongreso(Integer idUsuario, Integer idCongreso) {
-        Integer idTraballo = null;
+    public List<Traballo> obtenerTraballoUsuarioCongreso(Integer idUsuario, Integer idCongreso) {
+
+        List<Traballo> traballos = new ArrayList<Traballo>();
+        Iterator idTraballo = null;
         try {
-            idTraballo = (Integer) genericDao.getCurrentSession().createQuery("SELECT a.idTraballo FROM Traballo a WHERE a.idUsuario = :idUsuario"
-                    + " AND a.idCongreso = :idCongreso ").setParameter("idUsuario", idUsuario).setParameter("idCongreso", idCongreso).uniqueResult();
+            idTraballo = genericDao.getCurrentSession().createQuery("SELECT t.idTraballo FROM Traballo t, Congreso c, UserProfile u WHERE t.userProfile=u.userId AND c.idCongreso=t.congreso AND c.idCongreso = :idCongreso AND u.userId = :idUsuario").setParameter("idCongreso", idCongreso).setParameter("idUsuario", idUsuario).iterate();
         } catch (HibernateException e) {
-            System.out.println(e);
             throw e;
-        } finally {
-            return (Traballo) genericDao.find(Traballo.class, idTraballo);
         }
+        while (idTraballo.hasNext()) {
+            Traballo traballo=(Traballo)genericDao.find(Traballo.class, (Integer) idTraballo.next());
+            traballos.add(traballo);
+        }
+        return traballos;
     }
 }

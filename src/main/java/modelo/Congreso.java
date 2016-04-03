@@ -5,6 +5,8 @@
  */
 package modelo;
 
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +15,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -33,6 +36,8 @@ public class Congreso implements java.io.Serializable {
     private CongresoDetalle congresoDetalle;
     @NotNull @ManyToOne @Column(name = "idEstadoCongreso")
     private EstadoCongreso estadoCongreso;
+    @OneToMany(mappedBy = "idCongreso")
+    private Set<Traballo> traballo=new HashSet<>(0);
 
     public Congreso() {
     }
@@ -97,5 +102,19 @@ public class Congreso implements java.io.Serializable {
      */
     public void setCongresoDetalle(CongresoDetalle congresoDetalle) {
         this.congresoDetalle = congresoDetalle;
+    }
+
+    /**
+     * @return the traballo
+     */
+    public Set<Traballo> getTraballo() {
+        return traballo;
+    }
+
+    /**
+     * @param traballo the traballo to set
+     */
+    public void setTraballo(Set<Traballo> traballo) {
+        this.traballo = traballo;
     }
 }

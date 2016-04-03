@@ -45,33 +45,37 @@
             </ul>
         </nav>
         <fieldset class="center_form gris_oscuro">
-            <legend class="subtitulo"><fmt:message key="alta_traballo01"/></legend>
+            <legend class="subtitulo"><fmt:message key="admin_traballo01"/></legend>
             <br>
             <form method="post" action="alta_traballo.htm" id="alta_traballo" enctype="multipart/form-data">
 
-                <a class="articulo"><fmt:message key="alta_traballo02"/></a>
+                <a class="articulo"><fmt:message key="admin_traballo02"/></a>
                 <br><br>
-                <a class="articulo"><fmt:message key="nome_traballo"/></a>
-                <br>
-                <input name="nome_traballo" type="congreso" maxlength="250" style="width:600px;" required="true">
-                <br>
-                <a class="articulo"><fmt:message key="categoria"/></a>
-                <br>
-                <select name="categoria" id="categoria" required="">
-                    <option value="1" selected>Publicación</option>
-                    <option value="2">Artículo</option>
-                    <option value="3">Tesis</option>
-                    <option value="4">Investigación</option>
-                    <option value="5">Disertación</option>
-                </select>
-                <br>
-                <a class="articulo"><fmt:message key="autores"/></a>
-                <br>
-                <textarea name="autores" maxlength="250" class="areaTexto"></textarea>
-                <br><br>
+                <div style="overflow-x:auto;">
+                <table id="t01">
+                    <tr>
+                        <th>NomeTraballo</th>
+                        <th>Categoría</th>
+                        <th>Fecha Inicio Envío</th>
+                        <th>Fecha Fin Envío</th>
+                        <th>Fecha Inicio Revisión</th>
+                        <th>Fecha Fin Revisión</th>
+                    </tr>
+                    <c:forEach items="${listaTraballos}" var="traballo">
+                        <tr>
+                            <td><c:out value="${traballo.nomeTraballo}"/></td>
+                            <td><c:out value="${traballo.categoria}"/></td>
+                            <td><fmt:formatDate  pattern="dd/MM/yyyy" value="${traballo.fInicioEnvio}"/></td>
+                            <td><fmt:formatDate  pattern="dd/MM/yyyy" value="${traballo.fFinEnvio}" /></td>
+                            <td><fmt:formatDate  pattern="dd/MM/yyyy" value="${traballo.fIncioRevision}"/></td>
+                            <td><fmt:formatDate  pattern="dd/MM/yyyy" value="${traballo.fFinRevision}"/></td>
+                            <td><a href="${traballo.traballo}"><c:out value="${traballo.nomeTraballo}"/></a></td>
+                            <td><button type="submit" class="button blue" value="Submit">Editar</button></td>
+                        </tr>
+                    </c:forEach>
+                </table>
+                
                 <a class="articulo"><fmt:message key="trabajo"/></a>
-                <input type="file" name="trabajo" class="trabajo" required="true">
-                <br><br>
                 <button type="submit" class="button blue" value="Submit">Enviar</button>
                 <button type="reset" class="button blue" value="Reset">Borrar</button>
             </form>

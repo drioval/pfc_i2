@@ -6,7 +6,6 @@
 <hibernate-mapping>
     <class name="modelo.UserProfile" table="UserProfile" catalog="congreso">
         <id name="userId" type="integer">
-            <column name="userId" />
             <generator class="identity" />
         </id>
         <many-to-one name="userRol" class="modelo.UserRol" fetch="select">

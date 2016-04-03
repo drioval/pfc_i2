@@ -6,6 +6,8 @@
 
 package modelo;
 
+import java.util.List;
+
 /**
  *
  * @author drioval
@@ -13,5 +15,5 @@ package modelo;
 public interface TraballoDao {
     public void guardarTraballo(Traballo traballo);
     public Traballo obtenerTraballo(Integer idTraballo);
-    public Traballo obtenerTraballoUsuarioCongreso(Integer idUsuario, Integer idCongreso);
+    public List<Traballo> obtenerTraballoUsuarioCongreso(Integer idUsuario, Integer idCongreso);
 }

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-  <class name="modelo.Traballo" table="Traballo">
-    <id name="idTraballo" type="integer">
-      <column name="idTraballo"/>
-      <generator class="identity"/>
-    </id>
-    <many-to-one class="modelo.Congreso" fetch="select" name="idCongreso">
-      <column name="idCongreso" not-null="true"/>
-    </many-to-one>
-    <many-to-one class="modelo.UserProfile" fetch="select" name="idUsuario">
-      <column name="idUsuario" not-null="true"/>
-    </many-to-one>
-  </class>
+    <class name="modelo.Traballo" table="Traballo">
+        <id name="idTraballo" type="integer">
+            <column name="idTraballo"/>
+            <generator class="identity"/>
+        </id>
+        <many-to-one name="userProfile" class="modelo.UserProfile" fetch="select">
+            <column name="idUsuario" not-null="true"/>
+        </many-to-one>
+        <many-to-one name="congreso" class="modelo.Congreso" fetch="select">
+            <column name="idCongreso" not-null="true"/>
+        </many-to-one>
+    </class>
 </hibernate-mapping>

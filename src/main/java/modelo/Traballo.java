@@ -25,17 +25,17 @@ public class Traballo implements java.io.Serializable{
     
     @Id @NotNull @Column(name="idTraballo") @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idTraballo;
-    @NotNull @ManyToOne @Column(name = "idUsuario")
-    private UserProfile idUsuario;
+    @NotNull @ManyToOne @Column(name = "userId")
+    private UserProfile userProfile;
     @NotNull @ManyToOne @Column(name = "idCongreso")
-    private Congreso idCongreso;
+    private Congreso congreso;
 
     public Traballo() {
     }
     
     public Traballo(UserProfile usuario, Congreso congreso){
-        this.idUsuario=usuario;
-        this.idCongreso=congreso;
+        this.userProfile=usuario;
+        this.congreso=congreso;
     }
 
     /**
@@ -44,21 +44,7 @@ public class Traballo implements java.io.Serializable{
     public Integer getIdTraballo() {
         return idTraballo;
     }
-
-    /**
-     * @return the idCongreso
-     */
-    public Congreso getIdCongreso() {
-        return idCongreso;
-    }
-
-    /**
-     * @param idCongreso the idCongreso to set
-     */
-    public void setIdCongreso(Congreso idCongreso) {
-        this.idCongreso = idCongreso;
-    }
-
+    
     /**
      * @param idTraballo the idTraballo to set
      */
@@ -67,16 +53,30 @@ public class Traballo implements java.io.Serializable{
     }
 
     /**
-     * @return the idUsuario
+     * @return the userProfile
      */
-    public UserProfile getIdUsuario() {
-        return idUsuario;
+    public UserProfile getUserProfile() {
+        return userProfile;
     }
 
     /**
-     * @param idUsuario the idUsuario to set
+     * @param userProfile the userProfile to set
      */
-    public void setIdUsuario(UserProfile idUsuario) {
-        this.idUsuario = idUsuario;
+    public void setUserProfile(UserProfile userProfile) {
+        this.userProfile = userProfile;
+    }
+
+    /**
+     * @return the congreso
+     */
+    public Congreso getCongreso() {
+        return congreso;
+    }
+
+    /**
+     * @param congreso the congreso to set
+     */
+    public void setCongreso(Congreso congreso) {
+        this.congreso = congreso;
     }
 }

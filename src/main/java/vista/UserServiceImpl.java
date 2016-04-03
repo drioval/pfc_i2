@@ -8,6 +8,9 @@ import encrypt.EncriptarPassword;
 import encrypt.GenerarPassword;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import modelo.Congreso;
 import modelo.CongresoDaoHibernate;
@@ -608,7 +611,7 @@ public class UserServiceImpl implements UserService {
                     vista.setViewName("/WEB-INF/jsp/access/alta_congreso.jsp");
                     vista.addObject("usuario", usuario);
                 } else {
-                    vista.setViewName("/WEB-INF/jsp/access/admin_congreso.jsp");
+                    vista.setViewName("/WEB-INF/jsp/access/admin_traballos.jsp");
                     System.out.println(congreso.getIdCongreso());
                     vista.addObject("idCongreso", congreso.getIdCongreso());
                     vista.addObject("nombreCongreso", congreso.getNomeCongreso());
@@ -622,16 +625,25 @@ public class UserServiceImpl implements UserService {
                 }
                 break;
             case 2://rollid: 2 - Revisor
-                vista.setViewName("WEB-INF/jsp/access/congreso.jsp");
+                vista.setViewName("WEB-INF/jsp/access/revisar_traballos.jsp");
                 break;
             case 3://rollid: 3 - Autor
                 TraballoDaoHibernate traballoDao = new TraballoDaoHibernate();
                 traballoDao.setSessionFactory(sessionFactory);
-                Traballo traballo = traballoDao.obtenerTraballoUsuarioCongreso(user.getUserId(), congreso.getIdCongreso());
-                if (traballo == null) {
+                List<Traballo> traballos;
+                traballos = traballoDao.obtenerTraballoUsuarioCongreso(user.getUserId(), congreso.getIdCongreso());
+                if (traballos.isEmpty()) {
                     vista.setViewName("WEB-INF/jsp/access/alta_traballo.jsp");
                 } else {
+                    Iterator traballo=traballos.iterator();
+                    List<TraballoDetalle> listaTraballos=new ArrayList<TraballoDetalle>();;
+                    TraballoDetalleDaoHibernate traballoDetalle=new TraballoDetalleDaoHibernate();
+                    traballoDetalle.setSessionFactory(sessionFactory);
+                    for(int i=0;i<traballos.size();i++){
+                        listaTraballos.add(traballoDetalle.obtenerTraballoDetalle(traballos.get(i).getIdTraballo()));
+                    }
                     vista.setViewName("WEB-INF/jsp/access/admin_traballo.jsp");
+                    vista.addObject("listaTraballos", listaTraballos);
                 }
                 break;
         }
@@ -673,8 +685,10 @@ public class UserServiceImpl implements UserService {
 
         traballoDetalleDaoHibernate.guardarTraballoDetalle(traballoDetalle);
         
+        vista.addObject("nomeTraballo", nomeTraballo);
+        vista.addObject("idCategoria", categoria);        
+        vista.addObject("traballo", traballo);
         
-
         return vista;
     }
 }
