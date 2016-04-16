@@ -52,32 +52,30 @@
                 <a class="articulo"><fmt:message key="admin_traballo02"/></a>
                 <br><br>
                 <div style="overflow-x:auto;">
-                <table id="t01">
-                    <tr>
-                        <th>NomeTraballo</th>
-                        <th>Categoría</th>
-                        <th>Fecha Inicio Envío</th>
-                        <th>Fecha Fin Envío</th>
-                        <th>Fecha Inicio Revisión</th>
-                        <th>Fecha Fin Revisión</th>
-                    </tr>
-                    <c:forEach items="${listaTraballos}" var="traballo">
+                    <table>
                         <tr>
-                            <td><c:out value="${traballo.nomeTraballo}"/></td>
-                            <td><c:out value="${traballo.categoria}"/></td>
-                            <td><fmt:formatDate  pattern="dd/MM/yyyy" value="${traballo.fInicioEnvio}"/></td>
-                            <td><fmt:formatDate  pattern="dd/MM/yyyy" value="${traballo.fFinEnvio}" /></td>
-                            <td><fmt:formatDate  pattern="dd/MM/yyyy" value="${traballo.fIncioRevision}"/></td>
-                            <td><fmt:formatDate  pattern="dd/MM/yyyy" value="${traballo.fFinRevision}"/></td>
-                            <td><a href="${traballo.traballo}"><c:out value="${traballo.nomeTraballo}"/></a></td>
-                            <td><button type="submit" class="button blue" value="Submit">Editar</button></td>
+                            <th>NomeTraballo</th>
+                            <th>Categoría</th>
+                            <th>Fecha Inicio Envío</th>
+                            <th>Fecha Fin Envío</th>
+                            <th>Fecha Inicio Revisión</th>
+                            <th>Fecha Fin Revisión</th>
+                            <th></th>
                         </tr>
-                    </c:forEach>
-                </table>
-                
-                <a class="articulo"><fmt:message key="trabajo"/></a>
-                <button type="submit" class="button blue" value="Submit">Enviar</button>
-                <button type="reset" class="button blue" value="Reset">Borrar</button>
+                        <c:forEach items="${listaTraballos}" var="traballos">
+                            <tr>
+                                <td><c:out value="${traballos.nomeTraballo}"/></td>
+                                <td><c:out value="${traballos.categoria}"/></td>
+                                <td><fmt:formatDate  pattern="dd/MM/yyyy" value="${traballos.fInicioEnvio}"/></td>
+                                <td><fmt:formatDate  pattern="dd/MM/yyyy" value="${traballos.fFinEnvio}" /></td>
+                                <td><fmt:formatDate  pattern="dd/MM/yyyy" value="${traballos.fIncioRevision}"/></td>
+                                <td><fmt:formatDate  pattern="dd/MM/yyyy" value="${traballos.fFinRevision}"/></td>
+                                <td><a class="articulo" target="_blank" href="abrir_traballo.htm?id=${traballos.idTraballoDetalle}">"${traballos.nomeTraballo}"</a></td>
+                                <td><button type="submit" class="button blue" value="Submit">Editar</button></td>
+                            </tr>
+                        </c:forEach>
+                    </table>
+
             </form>
         </fieldset>
         <fieldset class="center_form gris_claro">

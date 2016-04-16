@@ -67,8 +67,8 @@ footer {
 .center_form {
     position: relative;
     top: 50%;
-    margin-left: 25%;
-    margin-right: 25%;
+    margin-left: 10%;
+    margin-right: 10%;
     border: 1px solid #c4c4c4;
     height: border-box;
     width: border-box;
@@ -380,12 +380,51 @@ button:hover {
 
 table {
     border-collapse: collapse;
-    width: 100%;
+    font-family:Georgia,serif;
+    border: 1px;
+    position: relative;
+    margin:0;
+    padding: 10px 0;
 }
 
-th, td {
+th {
+    color: #000000; /* Color del texto */
+    font-size: 14px; /* Tamaño del texto */
     text-align: left;
     padding: 8px;
+    border-style: solid;
+    border-color: transparent;
+    bottom: -10px;
 }
 
-tr:nth-child(even){background-color: #f2f2f2}
+tr:nth-child(even){
+    font-family:Georgia,serif;
+    color: #000000; /* Color del texto */
+    font-size: 14px; /* Tamaño del texto */
+    background-color: #f2f2f2;
+    border-style: solid;
+    border-color: transparent;
+    bottom: -10px;
+}
+
+tr{
+    font-family:Georgia,serif;
+    color: #000000;
+    font-size:14px; /* Tamaño del texto al pasar el cursor */
+    color: #000000;
+}
+
+tr:hover{
+    font-family:Georgia,serif;
+    font-size:16px; /* Tamaño del texto al pasar el cursor */
+    font-weight: bold;
+    color: #000000;  
+    transition:all .1s linear;
+    -o-transition:all .1s linear;
+    -moz-transition:all .1s linear;
+    -webkit-transition:all .1s linear;
+}
+
+tr:active{
+    
+}

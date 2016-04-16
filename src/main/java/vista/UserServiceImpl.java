@@ -6,12 +6,17 @@ package vista;
 
 import encrypt.EncriptarPassword;
 import encrypt.GenerarPassword;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import modelo.Congreso;
 import modelo.CongresoDaoHibernate;
 import modelo.CongresoDetalle;
@@ -635,15 +640,31 @@ public class UserServiceImpl implements UserService {
                 if (traballos.isEmpty()) {
                     vista.setViewName("WEB-INF/jsp/access/alta_traballo.jsp");
                 } else {
-                    Iterator traballo=traballos.iterator();
-                    List<TraballoDetalle> listaTraballos=new ArrayList<TraballoDetalle>();;
-                    TraballoDetalleDaoHibernate traballoDetalle=new TraballoDetalleDaoHibernate();
-                    traballoDetalle.setSessionFactory(sessionFactory);
-                    for(int i=0;i<traballos.size();i++){
-                        listaTraballos.add(traballoDetalle.obtenerTraballoDetalle(traballos.get(i).getIdTraballo()));
+                    List<TraballoDetalle> listaTraballos = new ArrayList<TraballoDetalle>();
+                    List<OutputStream> ficherosTraballos = new ArrayList<OutputStream>();
+                    TraballoDetalleDaoHibernate traballoDetalleDao = new TraballoDetalleDaoHibernate();
+                    traballoDetalleDao.setSessionFactory(sessionFactory);
+                    for (int i = 0; i < traballos.size(); i++) {
+                        TraballoDetalle traballoDetalle=traballoDetalleDao.obtenerTraballoDetalle(traballos.get(i).getIdTraballo());
+                        listaTraballos.add(traballoDetalle);
+                        
+                        
+                        try {
+                            OutputStream ficheroTraballo = new FileOutputStream(traballoDetalleDao.obtenerTraballoDetalle(traballos.get(i).getIdTraballo()).getNomeTraballo() + ".pdf");
+                            ficheroTraballo.write(traballoDetalleDao.obtenerTraballoDetalle(traballos.get(i).getIdTraballo()).getTraballo());
+                            ficheroTraballo.close();
+                            ficherosTraballos.add(ficheroTraballo);
+
+                        } catch (FileNotFoundException ex) {
+                            Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (IOException ex) {
+                            Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
+
                     vista.setViewName("WEB-INF/jsp/access/admin_traballo.jsp");
                     vista.addObject("listaTraballos", listaTraballos);
+                    vista.addObject("ficherosTraballos", ficherosTraballos);
                 }
                 break;
         }
@@ -681,14 +702,15 @@ public class UserServiceImpl implements UserService {
 
         TraballoDetalle traballoDetalle = new TraballoDetalle(trabajo.getIdTraballo(),
                 nomeTraballo, categoria, autores, traballo, estadoTraballo, congreso.getCongresoDetalle().getfInicioEnvio(),
-                congreso.getCongresoDetalle().getfFinEnvio(), congreso.getCongresoDetalle().getfInicioRevision(), congreso.getCongresoDetalle().getfFinRevision());
+                congreso.getCongresoDetalle().getfFinEnvio(), congreso.getCongresoDetalle().getfInicioRevision(),
+                congreso.getCongresoDetalle().getfFinRevision());
 
         traballoDetalleDaoHibernate.guardarTraballoDetalle(traballoDetalle);
-        
+
         vista.addObject("nomeTraballo", nomeTraballo);
-        vista.addObject("idCategoria", categoria);        
+        vista.addObject("idCategoria", categoria);
         vista.addObject("traballo", traballo);
-        
+
         return vista;
     }
 }

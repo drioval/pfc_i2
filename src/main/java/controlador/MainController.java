@@ -5,11 +5,15 @@
 package controlador;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import modelo.TraballoDetalle;
+import modelo.TraballoDetalleDaoHibernate;
 
 import org.hibernate.SessionFactory;
 
@@ -17,7 +21,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.support.DefaultMultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -187,16 +193,16 @@ public class MainController {
     public ModelAndView alta_trabajos(DefaultMultipartHttpServletRequest req,
             @RequestParam("nome_traballo") String nomeTraballo, HttpServletRequest request)
             throws ServletException, IOException {
-        
+
         byte[] trabajo = req.getFile("trabajo").getBytes();
-        
+
         servicio = new UserServiceImpl();
         servicio.setSessionFactory(sessionFactory);
 
         return servicio.altaTrabajo(request.getUserPrincipal().getName(), request.getParameter("nome_traballo"),
                 Integer.parseInt(request.getParameter("categoria")), request.getParameter("autores"),
                 trabajo);
-        }
+    }
 
     @RequestMapping(value = "/prefil_usuario.htm")
     public ModelAndView prefil_usuario(HttpServletRequest request, HttpServletResponse response)
@@ -246,5 +252,35 @@ public class MainController {
                 Integer.parseInt(request.getParameter("estado_congreso")), request.getParameter("fecha_inicio_envio"),
                 request.getParameter("fecha_fin_envio"), request.getParameter("fecha_inicio_revision"),
                 request.getParameter("fecha_fin_revision"));
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/abrir_traballo.htm", produces = "application/pdf", method = RequestMethod.GET)
+    public byte[] abrir_traballo(@RequestParam("id") Integer idTraballoDetalle,
+            HttpServletRequest request, HttpServletResponse response) {
+
+        TraballoDetalleDaoHibernate traballoDetalleDao = new TraballoDetalleDaoHibernate();
+        traballoDetalleDao.setSessionFactory(sessionFactory);
+        TraballoDetalle traballoDetalle = traballoDetalleDao.obtenerTraballoDetalle(idTraballoDetalle);
+
+        response.setHeader("Expires", "0");
+        response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
+        response.setHeader("Pragma", "public");
+
+        response.setHeader("Content-Disposition", "inline; filename="+traballoDetalle.getNomeTraballo());
+        response.setContentType("application/pdf");
+        response.setContentLength(traballoDetalle.getTraballo().length);
+        try {
+            response.getOutputStream().write(traballoDetalle.getTraballo());
+        } catch (IOException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            response.getOutputStream().flush();
+        } catch (IOException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return traballoDetalle.getTraballo();
     }
 }
