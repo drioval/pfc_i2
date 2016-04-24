@@ -6,6 +6,9 @@
 
 package modelo;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
@@ -33,16 +36,31 @@ public class TraballoDetalleVersionDaoHibernate extends GenericDaoHibernate impl
     
     @Override
     @Transactional
-    public TraballoDetalleVersion obtenerTraballoDetalleVersion(Integer idTraballoDetalleVersion){
-        Integer idTraballoDetalleVersionBBDD=null;
+    public List<TraballoDetalleVersion> obtenerTraballoDetalleVersion(Integer idTraballo){
+        
+        List<TraballoDetalleVersion> traballosDetalleVersion = new ArrayList<TraballoDetalleVersion>();
+        Iterator idTraballoDetalleVersion = null;
         try {
-            idTraballoDetalleVersionBBDD = (Integer) genericDao.getCurrentSession().createQuery("SELECT a.idTraballoDetalleVersion FROM TraballoDetalleVersion a WHERE a.idTraballoDetalleVersion = :idTraballoDetalleVersion ").setParameter("idTraballoDetalleVersion", idTraballoDetalleVersion).uniqueResult();
+            idTraballoDetalleVersion = genericDao.getCurrentSession().createQuery("SELECT v.idTraballoDetalleVersion FROM TraballoDetalleVersion v, Traballo t WHERE v.idTraballo=t.idTraballo AND t.idTraballo = :idTraballo").setParameter("idTraballo", idTraballo).iterate();
         } catch (HibernateException e) {
             System.out.println(e);
             throw e;
         } finally {
-            return (TraballoDetalleVersion) genericDao.find(TraballoDetalleVersion.class, idTraballoDetalleVersionBBDD);
+            if (idTraballoDetalleVersion!=null){
+                while (idTraballoDetalleVersion.hasNext()) {
+                TraballoDetalleVersion traballoDetalleVersion=(TraballoDetalleVersion) genericDao.find(TraballoDetalleVersion.class, (Integer)idTraballoDetalleVersion.next());
+                traballosDetalleVersion.add(traballoDetalleVersion);
+                }
+            }
+            
+        return traballosDetalleVersion;
         }
+    }
+    
+    @Override
+    @Transactional
+    public void eliminarTraballoDetalleVersion(TraballoDetalleVersion traballoDetalleVersion) {
+        genericDao.remove(TraballoDetalleVersion.class, traballoDetalleVersion.getIdTraballoDetalleVersion());
     }
     
 }

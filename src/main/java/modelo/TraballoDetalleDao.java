@@ -13,4 +13,5 @@ package modelo;
 public interface TraballoDetalleDao {
     public void guardarTraballoDetalle(TraballoDetalle traballoDetalle);
     public TraballoDetalle obtenerTraballoDetalle(Integer idTraballoDetalle);
+    public void eliminarTraballoDetalle(TraballoDetalle traballoDetalle);
 }

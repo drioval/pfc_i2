@@ -20,9 +20,9 @@ public interface GenericDao{
 
     void save(Object obj);
 
-    public Object find(Class claseEntidad,Serializable PK);
+    public Object find(Class claseEntidad,Integer PK);
 
-    public void remove(Class claseEntidad,Serializable PK);
+    public void remove(Class claseEntidad,Integer PK);
 
     public boolean exists(Serializable PK);
 }

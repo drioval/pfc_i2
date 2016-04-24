@@ -87,6 +87,6 @@ public class UserProfileDaoHibernate extends GenericDaoHibernate implements User
     @Override
     @Transactional
     public void eliminarUserProfile(UserProfile usuario) {
-        genericDao.remove(UserProfile.class, usuario);
+        genericDao.remove(UserProfile.class, usuario.getUserId());
     }
 }

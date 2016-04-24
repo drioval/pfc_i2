@@ -6,11 +6,14 @@
 
 package modelo;
 
+import java.util.List;
+
 /**
  *
  * @author drioval
  */
 public interface TraballoDetalleVersionDao {
     public void guardarTraballoDetalleVersion(TraballoDetalleVersion traballoDetalleVersion);
-    public TraballoDetalleVersion obtenerTraballoDetalleVersion(Integer idTraballoDetalleVersion);
+    public List<TraballoDetalleVersion> obtenerTraballoDetalleVersion(Integer idTraballoDetalleVersion);
+    public void eliminarTraballoDetalleVersion(TraballoDetalleVersion traballoDetalleVersion);
 }

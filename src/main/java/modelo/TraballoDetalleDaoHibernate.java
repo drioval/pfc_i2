@@ -43,4 +43,10 @@ public class TraballoDetalleDaoHibernate extends GenericDaoHibernate implements 
             return (TraballoDetalle) genericDao.find(TraballoDetalle.class, idTraballoDetalleBBDD);
         }
     }
+    
+    @Override
+    @Transactional
+    public void eliminarTraballoDetalle(TraballoDetalle traballoDetalle) {
+        genericDao.remove(TraballoDetalle.class, traballoDetalle.getIdTraballoDetalle());
+    }
 }

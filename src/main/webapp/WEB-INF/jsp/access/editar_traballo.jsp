@@ -45,40 +45,41 @@
             </ul>
         </nav>
         <fieldset class="center_form gris_oscuro">
-            <legend class="subtitulo"><fmt:message key="admin_traballo01"/></legend>
+            <legend class="subtitulo"><fmt:message key="eliminar_traballo01"/></legend>
             <br>
-            <form method="post" action="alta_traballo.htm" id="alta_traballo" enctype="multipart/form-data">
-
-                <a class="articulo"><fmt:message key="${textoAccion}"/></a>
+            <form method="post" action="modificacion_traballo.htm" id="alta_traballo" enctype="multipart/form-data">
+                <input name="idTraballoDetalle" type="hidden" value="${idTraballoDetalle}">
+                <a class="articulo"><fmt:message key="alta_traballo02"/></a>
                 <br><br>
-                <div style="overflow-x:auto;">
-                    <table>
-                        <tr>
-                            <th><fmt:message key="tabla_trabajo01"/></th>
-                            <th><fmt:message key="tabla_trabajo02"/></th>
-                            <th><fmt:message key="tabla_trabajo03"/></th>
-                            <th><fmt:message key="tabla_trabajo04"/></th>
-                            <th><fmt:message key="tabla_trabajo05"/></th>
-                            <th><fmt:message key="tabla_trabajo06"/></th>
-                            <th></th>
-                        </tr>
-                        <c:forEach items="${listaTraballos}" var="traballos">
-                            <tr>
-                                <td><c:out value="${traballos.nomeTraballo}"/></td>
-                                <td><c:out value="${traballos.categoria}"/></td>
-                                <td><fmt:formatDate  pattern="dd/MM/yyyy" value="${traballos.fInicioEnvio}"/></td>
-                                <td><fmt:formatDate  pattern="dd/MM/yyyy" value="${traballos.fFinEnvio}" /></td>
-                                <td><fmt:formatDate  pattern="dd/MM/yyyy" value="${traballos.fIncioRevision}"/></td>
-                                <td><fmt:formatDate  pattern="dd/MM/yyyy" value="${traballos.fFinRevision}"/></td>
-                                <td><a class="articulo" target="_blank" href="abrir_traballo.htm?id=${traballos.idTraballoDetalle}"><fmt:message key="accion_ver_traballo"/></a></td>
-                                <td><a class="articulo" href="editar_traballo.htm?id=${traballos.idTraballoDetalle}"><fmt:message key="accion_editar_traballo"/></a></td>
-                                <td><a class="articulo" href="eliminar_traballo.htm?id=${traballos.idTraballoDetalle}"><fmt:message key="accion_eliminar_traballo"/></a></td>
-                            </tr>
-                        </c:forEach>
-                            <td><a class="articulo" href="anadir_trabajo.htm"><fmt:message key="accion_anadir_traballo"/></a></td>
-                    </table>
-
-            </form>
+                <a class="articulo"><fmt:message key="nome_traballo"/></a>
+                <br>
+                <input name="nome_traballo" type="congreso" maxlength="250" style="width:600px;" required="true"  value="${nomeTraballo}">
+                <br>
+                <a class="articulo"><fmt:message key="categoria"/></a>
+                <br>
+                <select name="categoria" id="categoria" required="">
+                    <option value="${idCategoria}" selected>${categoria} - Actual</option>
+                    <option value="1">Publicación</option>
+                    <option value="2">Artículo</option>
+                    <option value="3">Tesis</option>
+                    <option value="4">Investigación</option>
+                    <option value="5">Disertación</option>
+                </select>
+                <br>
+                <a class="articulo"><fmt:message key="autores"/></a>
+                <br>
+                <textarea name="autores" maxlength="250" class="areaTexto">${autores}</textarea>
+                <br><br>
+                <a class="articulo"><fmt:message key="trabajo_actual"/></a>
+                <td><a class="articulo" target="_blank" href="abrir_traballo.htm?id=${idTraballoDetalle}">${nomeTraballo}</a></td>
+                <br><br>
+                <a class="articulo"><fmt:message key="modificar_trabajo_actual"/></a>
+                <input type="file" name="trabajoModificado" class="trabajo">
+                <br><br>
+                <button type="submit" class="button blue" value="Submit">Enviar</button>
+                <input type="submit" formaction="trabajos.htm" class="button blue" value="Regresar">
+            </form>            
+                
         </fieldset>
         <fieldset class="center_form gris_claro">
             <legend class="articulo"><fmt:message key="msg_footer_01"/></legend>

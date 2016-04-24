@@ -64,4 +64,10 @@ public class TraballoDaoHibernate extends GenericDaoHibernate implements Traball
         }
         return traballos;
     }
+    
+    @Override
+    @Transactional
+    public void eliminarTraballo(Traballo traballo) {
+        genericDao.remove(Traballo.class, traballo.getIdTraballo());
+    }
 }

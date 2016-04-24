@@ -4,13 +4,15 @@
 <!DOCTYPE html>
 
 <link href="css/default.css" rel="stylesheet" />
+<link href="css/jquery-ui.css" rel="stylesheet" type="text/css" />
 <link href='http://fonts.googleapis.com/css?family=Yellowtail' rel='stylesheet' type='text/css'>
 <link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,300' rel='stylesheet' type='text/css'>
 <link href='http://fonts.googleapis.com/css?family=Homemade+Apple' rel='stylesheet' type='text/css'>
 <link href="../images/favicon.png" rel="shorcut icon" type="image/x-icon">
 
 <c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
-<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setLocale value="${sessionScope.locale}" />
+<%//fmt:setLocale value="gl_ES" /%>
 <fmt:setBundle basename="properties.propiedades"/>
 
 <html>
@@ -21,7 +23,6 @@
     <body class="cuerpo">
         <header class="header">
             <img src="images/logo.png" class="logo">
-
             <form class="form" action="j_spring_security_logout" method="post">
                 <a class="articulo">Usuario</a><a class="articulo" href="prefil_usuario.htm">${usuario}</a>
                 <button class="button blue" title="Cerrar sesion"><fmt:message key="msg_header02"/></button>
@@ -43,17 +44,26 @@
                 <li><a href='prefil_usuario.htm'><fmt:message key="msg_menu08"/></a></li>
             </ul>
         </nav>
-        <section>
-            <p class="titulo">Trajos cientríficos del usuario ${usuario}</p>
-            <p class="subtitulo">LISTA DE TRABAJOS</p>
-            <article class="articulo">
-
-                <p>Aqui figurará la lista de trabajos presentados por le usuario.</p>
-
-            </article>
-        </section>
+        <fieldset class="center_form gris_oscuro">
+            <legend class="subtitulo"><fmt:message key="traballo_eliminado01"/></legend>
+            <br>
+            <form method="post" action="trabajos.htm" id="borra_traballo">
+                <a class="articulo"><fmt:message key="traballo_eliminado02"/></a>
+                <br><br>
+                <a class="articulo"><fmt:message key="nome_traballo"/></a>
+                <br>
+                <input name="nome_traballo" type="congreso" maxlength="250" style="width:600px;" required="true" value="${nomeTraballo}" readonly>
+                <br>                
+                <input type="submit" class="button blue" value="Regresar" formaction="trabajos.htm"/>
+            </form>
+            
+        </fieldset>
+        <fieldset class="center_form gris_claro">
+            <legend class="articulo"><fmt:message key="msg_footer_01"/></legend>
+            <a class="articulo" href="contacto.htm"><fmt:message key="msg_footer_02"/></a>
+        </fieldset>
+        <footer>
+            <a class="articulo"><fmt:message key="msg_footer_03"/></a>
+        </footer>
     </body>
-    <footer>
-        <a class="articulo"><fmt:message key="msg_footer_03"/></a>
-    </footer>
 </html>

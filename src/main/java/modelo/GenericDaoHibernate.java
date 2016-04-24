@@ -48,7 +48,7 @@ public class GenericDaoHibernate implements GenericDao {
     }
 
     @Override
-    public Object find(Class claseEntidad, Serializable PK) {
+    public Object find(Class claseEntidad, Integer PK) {
         Object entidad=null;
         try{
             entidad = sessionFactory.getCurrentSession().get(claseEntidad, PK);
@@ -61,7 +61,7 @@ public class GenericDaoHibernate implements GenericDao {
     }
 
     @Override
-    public void remove(Class claseEntidad,Serializable PK) {
+    public void remove(Class claseEntidad,Integer PK) {
         sessionFactory.getCurrentSession().delete(find(claseEntidad,PK));
     }
 }

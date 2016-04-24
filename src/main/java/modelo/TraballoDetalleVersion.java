@@ -31,7 +31,7 @@ public class TraballoDetalleVersion implements java.io.Serializable{
     private Integer idTraballo;
     @NotNull
     private String nomeTraballo;
-    private String categoria;
+    private Integer categoria;
     private String autores;
     @NotNull
     private Serializable traballo;
@@ -55,7 +55,7 @@ public class TraballoDetalleVersion implements java.io.Serializable{
     }
     
     public TraballoDetalleVersion(Integer idTraballoDetalle, Integer idTraballo,
-            String nomeTraballo, String categoria, String autores, Serializable traballo,
+            String nomeTraballo, Integer categoria, String autores, Serializable traballo,
             EstadoTraballo estadoTraballo,Timestamp fInicioEnvio, 
             Timestamp fFinEnvio, Timestamp fInicioRevision, Timestamp fFinRevision){
         this.idTraballoDetalle=idTraballoDetalle;
@@ -69,6 +69,20 @@ public class TraballoDetalleVersion implements java.io.Serializable{
         this.fFinEnvio=fFinEnvio;
         this.fIncioRevision=fInicioRevision;
         this.fFinRevision=fFinRevision;
+    }
+    
+        public TraballoDetalleVersion(TraballoDetalle traballoDetalle){
+        this.idTraballoDetalle=traballoDetalle.getIdTraballoDetalle();
+        this.idTraballo=traballoDetalle.getIdTraballo();
+        this.nomeTraballo=traballoDetalle.getNomeTraballo();
+        this.categoria=traballoDetalle.getCategoria();
+        this.autores=traballoDetalle.getAutores();
+        this.traballo=traballoDetalle.getTraballo();
+        this.estadoTraballo=traballoDetalle.getEstadoTraballo();
+        this.fInicioEnvio=traballoDetalle.getfInicioEnvio();
+        this.fFinEnvio=traballoDetalle.getfFinEnvio();
+        this.fIncioRevision=traballoDetalle.getfIncioRevision();
+        this.fFinRevision=traballoDetalle.getfFinRevision();
     }
 
     /**
@@ -123,14 +137,14 @@ public class TraballoDetalleVersion implements java.io.Serializable{
     /**
      * @return the categoria
      */
-    public String getCategoria() {
+    public Integer getCategoria() {
         return categoria;
     }
 
     /**
      * @param categoria the categoria to set
      */
-    public void setCategoria(String categoria) {
+    public void setCategoria(Integer categoria) {
         this.categoria = categoria;
     }
 

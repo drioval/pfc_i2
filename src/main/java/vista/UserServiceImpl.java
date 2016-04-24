@@ -6,17 +6,13 @@ package vista;
 
 import encrypt.EncriptarPassword;
 import encrypt.GenerarPassword;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import modelo.Congreso;
 import modelo.CongresoDaoHibernate;
 import modelo.CongresoDetalle;
@@ -29,6 +25,8 @@ import modelo.Traballo;
 import modelo.TraballoDaoHibernate;
 import modelo.TraballoDetalle;
 import modelo.TraballoDetalleDaoHibernate;
+import modelo.TraballoDetalleVersion;
+import modelo.TraballoDetalleVersionDaoHibernate;
 import modelo.UserProfile;
 import modelo.UserProfileDaoHibernate;
 import modelo.UserProfileDetails;
@@ -640,31 +638,17 @@ public class UserServiceImpl implements UserService {
                 if (traballos.isEmpty()) {
                     vista.setViewName("WEB-INF/jsp/access/alta_traballo.jsp");
                 } else {
-                    List<TraballoDetalle> listaTraballos = new ArrayList<TraballoDetalle>();
-                    List<OutputStream> ficherosTraballos = new ArrayList<OutputStream>();
+                    List<TraballoDetalle> listaDetalleTraballos = new ArrayList<TraballoDetalle>();
                     TraballoDetalleDaoHibernate traballoDetalleDao = new TraballoDetalleDaoHibernate();
                     traballoDetalleDao.setSessionFactory(sessionFactory);
                     for (int i = 0; i < traballos.size(); i++) {
-                        TraballoDetalle traballoDetalle=traballoDetalleDao.obtenerTraballoDetalle(traballos.get(i).getIdTraballo());
-                        listaTraballos.add(traballoDetalle);
-                        
-                        
-                        try {
-                            OutputStream ficheroTraballo = new FileOutputStream(traballoDetalleDao.obtenerTraballoDetalle(traballos.get(i).getIdTraballo()).getNomeTraballo() + ".pdf");
-                            ficheroTraballo.write(traballoDetalleDao.obtenerTraballoDetalle(traballos.get(i).getIdTraballo()).getTraballo());
-                            ficheroTraballo.close();
-                            ficherosTraballos.add(ficheroTraballo);
-
-                        } catch (FileNotFoundException ex) {
-                            Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-                        } catch (IOException ex) {
-                            Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-                        }
+                        TraballoDetalle traballoDetalle = traballoDetalleDao.obtenerTraballoDetalle(traballos.get(i).getIdTraballo());
+                        listaDetalleTraballos.add(traballoDetalle);
                     }
 
                     vista.setViewName("WEB-INF/jsp/access/admin_traballo.jsp");
-                    vista.addObject("listaTraballos", listaTraballos);
-                    vista.addObject("ficherosTraballos", ficherosTraballos);
+                    vista.addObject("listaTraballos", listaDetalleTraballos);
+                    vista.addObject("textoAccion", "admin_traballo02");
                 }
                 break;
         }
@@ -673,6 +657,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public ModelAndView anadirtrabajos() {
+        ModelAndView vista = new ModelAndView("WEB-INF/jsp/access/alta_traballo.jsp");
+        return vista;
+    }
+
+    @Override
+    @Transactional
     public ModelAndView altaTrabajo(String usuario, String nomeTraballo, Integer categoria, String autores, byte[] traballo) {
         ModelAndView vista = new ModelAndView("WEB-INF/jsp/access/admin_traballo.jsp");
 
@@ -695,8 +686,6 @@ public class UserServiceImpl implements UserService {
         EstadoTraballoDaoHibernate estadoTraballoDao = new EstadoTraballoDaoHibernate();
         estadoTraballoDao.setSessionFactory(sessionFactory);
 
-        EstadoTraballo estado = estadoTraballoDao.obtenerEstadoTraballo(1);
-
         EstadoTraballo estadoTraballo = new EstadoTraballo();
         estadoTraballo.setIdEstadoTraballo(1);
 
@@ -707,9 +696,215 @@ public class UserServiceImpl implements UserService {
 
         traballoDetalleDaoHibernate.guardarTraballoDetalle(traballoDetalle);
 
+        TraballoDaoHibernate traballoDao = new TraballoDaoHibernate();
+        traballoDao.setSessionFactory(sessionFactory);
+
+        List<Traballo> traballos;
+        traballos = traballoDao.obtenerTraballoUsuarioCongreso(user.getUserId(), congreso.getIdCongreso());
+
+        List<TraballoDetalle> listaDetalleTraballos = new ArrayList<TraballoDetalle>();
+        TraballoDetalleDaoHibernate traballoDetalleDao = new TraballoDetalleDaoHibernate();
+        traballoDetalleDao.setSessionFactory(sessionFactory);
+        for (int i = 0; i < traballos.size(); i++) {
+            traballoDetalle = traballoDetalleDao.obtenerTraballoDetalle(traballos.get(i).getIdTraballo());
+            listaDetalleTraballos.add(traballoDetalle);
+        }
+
+        vista.addObject("listaTraballos", listaDetalleTraballos);
+
         vista.addObject("nomeTraballo", nomeTraballo);
         vista.addObject("idCategoria", categoria);
         vista.addObject("traballo", traballo);
+        vista.addObject("textoAccion", "accion_alta_traballo01");
+
+        return vista;
+    }
+
+    @Override
+    public ModelAndView accioneditarTrabajo(String usuario, Integer idTraballoDetalle) {
+
+        ModelAndView vista = new ModelAndView("WEB-INF/jsp/access/editar_traballo.jsp");
+
+        TraballoDetalleDaoHibernate traballoDetalleDaoHibernate = new TraballoDetalleDaoHibernate();
+        traballoDetalleDaoHibernate.setSessionFactory(sessionFactory);
+
+        TraballoDetalle traballoDetalle = traballoDetalleDaoHibernate.obtenerTraballoDetalle(idTraballoDetalle);
+        
+        Integer idCategoria=traballoDetalle.getCategoria();
+        String categoria=null;
+        if (idCategoria==1)
+            categoria="Publicación";
+        else if (idCategoria==2)
+            categoria="Artículo";
+        else if (idCategoria==3)
+            categoria="Tesis";
+        else if (idCategoria==4)
+            categoria="Investigación";
+        else if (idCategoria==5)
+            categoria="Disertación";
+
+        vista.addObject("idTraballoDetalle", traballoDetalle.getIdTraballoDetalle());
+        vista.addObject("nomeTraballo", traballoDetalle.getNomeTraballo());
+        vista.addObject("idCategoria", traballoDetalle.getCategoria());
+        vista.addObject("categoria", categoria);
+        vista.addObject("autores", traballoDetalle.getAutores());
+        vista.addObject("traballo", traballoDetalle.getTraballo());
+
+        return vista;
+    }
+
+    @Override
+    @Transactional
+    public ModelAndView modificacionTraballo(String usuario, Integer idTraballoDetalle, String nomeTraballo, Integer categoria, String autores, byte[] ficheroTraballo) {
+        ModelAndView vista = new ModelAndView("WEB-INF/jsp/access/admin_traballo.jsp");
+
+        TraballoDetalleDaoHibernate traballoDetalleDaoHibernate = new TraballoDetalleDaoHibernate();
+        traballoDetalleDaoHibernate.setSessionFactory(sessionFactory);
+        TraballoDetalle traballoDetalle = traballoDetalleDaoHibernate.obtenerTraballoDetalle(idTraballoDetalle);
+
+        TraballoDaoHibernate traballoDaoHibernate = new TraballoDaoHibernate();
+        traballoDaoHibernate.setSessionFactory(sessionFactory);
+        Traballo traballo = traballoDaoHibernate.obtenerTraballo(traballoDetalle.getIdTraballo());
+        
+        if (ficheroTraballo.length == 0) {
+            ficheroTraballo = traballoDetalle.getTraballo();
+        }
+
+        if ((!traballoDetalle.getNomeTraballo().equals(nomeTraballo))
+                || (traballoDetalle.getCategoria().compareTo(categoria) != 0)
+                || (!traballoDetalle.getAutores().equals(autores))
+                || (!traballoDetalle.getTraballo().equals(ficheroTraballo))) {
+
+            TraballoDetalleVersionDaoHibernate traballoDetalleVersionDao = new TraballoDetalleVersionDaoHibernate();
+            traballoDetalleVersionDao.setSessionFactory(sessionFactory);
+            TraballoDetalleVersion traballoDetalleVersion = new TraballoDetalleVersion(traballoDetalle);
+            traballoDetalleVersionDao.guardarTraballoDetalleVersion(traballoDetalleVersion);
+
+            traballoDetalleDaoHibernate.eliminarTraballoDetalle(traballoDetalle);
+
+            CongresoDaoHibernate congresoDao = new CongresoDaoHibernate();
+            congresoDao.setSessionFactory(sessionFactory);
+            Congreso congreso = congresoDao.obtenerCongreso(traballo.getCongreso().getIdCongreso());
+
+            CongresoDetalleDaoHibernate congresoDetalleDao = new CongresoDetalleDaoHibernate();
+            congresoDetalleDao.setSessionFactory(sessionFactory);
+            CongresoDetalle congresoDetalle = congresoDetalleDao.obtenerCongresoDetalle(congreso.getIdCongreso());
+
+            traballoDetalle = new TraballoDetalle(traballo.getIdTraballo(), nomeTraballo, categoria, autores, ficheroTraballo, traballoDetalleVersion.getEstadoTraballo(),
+                    congresoDetalle.getfInicioEnvio(), congresoDetalle.getfFinEnvio(), congresoDetalle.getfInicioRevision(), congresoDetalle.getfFinRevision());
+            traballoDetalleDaoHibernate.guardarTraballoDetalle(traballoDetalle);
+        }
+
+        Integer idUsuario = traballo.getUserProfile().getUserId();
+        Integer idCongreso = traballo.getCongreso().getIdCongreso();
+
+        TraballoDaoHibernate traballoDao = new TraballoDaoHibernate();
+        traballoDao.setSessionFactory(sessionFactory);
+
+        List<Traballo> traballos;
+
+        traballos = traballoDao.obtenerTraballoUsuarioCongreso(idUsuario, idCongreso);
+        if (traballos.isEmpty()) {
+            vista.setViewName("WEB-INF/jsp/access/alta_traballo.jsp");
+        } else {
+            List<TraballoDetalle> listaDetalleTraballos = new ArrayList<TraballoDetalle>();
+            TraballoDetalleDaoHibernate traballoDetalleDao = new TraballoDetalleDaoHibernate();
+            traballoDetalleDao.setSessionFactory(sessionFactory);
+            for (int i = 0; i < traballos.size(); i++) {
+                traballoDetalle = traballoDetalleDao.obtenerTraballoDetalle(traballos.get(i).getIdTraballo());
+                listaDetalleTraballos.add(traballoDetalle);
+            }
+
+            vista.addObject("listaTraballos", listaDetalleTraballos);
+        }
+
+        vista.addObject("nomeTraballo", traballoDetalle.getNomeTraballo());
+        vista.addObject("textoAccion", "modif_traballo02");
+        return vista;
+    }
+
+    @Override
+    public ModelAndView accioneliminarTrabajo(String usuario, Integer idTraballoDetalle) {
+
+        ModelAndView vista = new ModelAndView("WEB-INF/jsp/access/eliminar_traballo.jsp");
+
+        TraballoDetalleDaoHibernate traballoDetalleDaoHibernate = new TraballoDetalleDaoHibernate();
+        traballoDetalleDaoHibernate.setSessionFactory(sessionFactory);
+
+        TraballoDetalle traballoDetalle = traballoDetalleDaoHibernate.obtenerTraballoDetalle(idTraballoDetalle);
+
+        TraballoDaoHibernate traballoDaoHibernate = new TraballoDaoHibernate();
+        traballoDaoHibernate.setSessionFactory(sessionFactory);
+
+        Traballo traballo = traballoDaoHibernate.obtenerTraballo(traballoDetalle.getIdTraballo());
+
+        vista.addObject("idTraballoDetalle", traballoDetalle.getIdTraballoDetalle());
+        vista.addObject("nomeTraballo", traballoDetalle.getNomeTraballo());
+        vista.addObject("categoria", traballoDetalle.getCategoria());
+        vista.addObject("autores", traballoDetalle.getAutores());
+        vista.addObject("traballo", traballoDetalle.getTraballo());
+
+        return vista;
+    }
+
+    @Override
+    @Transactional
+    public ModelAndView borrarTraballo(String usuario, Integer idTraballoDetalle) {
+
+        ModelAndView vista = new ModelAndView("WEB-INF/jsp/access/admin_traballo.jsp");
+
+        TraballoDetalleDaoHibernate traballoDetalleDaoHibernate = new TraballoDetalleDaoHibernate();
+        traballoDetalleDaoHibernate.setSessionFactory(sessionFactory);
+
+        TraballoDetalle traballoDetalle = traballoDetalleDaoHibernate.obtenerTraballoDetalle(idTraballoDetalle);
+
+        TraballoDaoHibernate traballoDaoHibernate = new TraballoDaoHibernate();
+        traballoDaoHibernate.setSessionFactory(sessionFactory);
+
+        Traballo traballo = traballoDaoHibernate.obtenerTraballo(traballoDetalle.getIdTraballo());
+
+        TraballoDetalleVersionDaoHibernate traballoDetalleVersionDaoHibernate = new TraballoDetalleVersionDaoHibernate();
+        traballoDetalleVersionDaoHibernate.setSessionFactory(sessionFactory);
+
+        List<TraballoDetalleVersion> listatraballoDetalleVersion = traballoDetalleVersionDaoHibernate.obtenerTraballoDetalleVersion(traballo.getIdTraballo());
+        if (!listatraballoDetalleVersion.isEmpty()) {
+            Iterator idTraballoDetalleVersion = listatraballoDetalleVersion.iterator();
+            while (idTraballoDetalleVersion.hasNext()) {
+                TraballoDetalleVersion traballoDetalleVersion = listatraballoDetalleVersion.get((Integer) idTraballoDetalleVersion.next());
+                traballoDetalleVersionDaoHibernate.eliminarTraballoDetalleVersion(traballoDetalleVersion);
+            }
+        };
+
+        traballoDetalleDaoHibernate.eliminarTraballoDetalle(traballoDetalle);
+        traballoDaoHibernate.eliminarTraballo(traballo);
+
+        Integer idUsuario = traballo.getUserProfile().getUserId();
+        Integer idCongreso = traballo.getCongreso().getIdCongreso();
+
+        TraballoDaoHibernate traballoDao = new TraballoDaoHibernate();
+        traballoDao.setSessionFactory(sessionFactory);
+
+        List<Traballo> traballos;
+
+        traballos = traballoDao.obtenerTraballoUsuarioCongreso(idUsuario, idCongreso);
+        if (traballos.isEmpty()) {
+            vista.setViewName("WEB-INF/jsp/access/alta_traballo.jsp");
+        } else {
+            List<TraballoDetalle> listaDetalleTraballos = new ArrayList<TraballoDetalle>();
+            TraballoDetalleDaoHibernate traballoDetalleDao = new TraballoDetalleDaoHibernate();
+            traballoDetalleDao.setSessionFactory(sessionFactory);
+            for (int i = 0; i < traballos.size(); i++) {
+                traballoDetalle = traballoDetalleDao.obtenerTraballoDetalle(traballos.get(i).getIdTraballo());
+                listaDetalleTraballos.add(traballoDetalle);
+            }
+
+            vista.setViewName("WEB-INF/jsp/access/admin_traballo.jsp");
+            vista.addObject("listaTraballos", listaDetalleTraballos);
+            vista.addObject("textoAccion", "admin_traballo02");
+        }
+
+        vista.addObject("nomeTraballo", traballoDetalle.getNomeTraballo());
+        vista.addObject("textoAccion", "accion_eliminar_traballo01");
 
         return vista;
     }

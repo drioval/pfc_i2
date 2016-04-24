@@ -29,4 +29,9 @@ public interface UserService {
              String fechaInicioEnvio, String fechaFinEnvio, String fechaInicioRevision, String fechaFinRevision);
      public ModelAndView trabajos(String usuario);
      public ModelAndView altaTrabajo(String usuario, String nomeTraballo, Integer categoria, String autores, byte[] traballo);
+     public ModelAndView accioneditarTrabajo(String usuario, Integer idTraballoDetalle);
+     public ModelAndView accioneliminarTrabajo(String usuario, Integer idTraballoDetalle);
+     public ModelAndView borrarTraballo(String usuario, Integer idTraballoDetalle);
+     public ModelAndView anadirtrabajos();
+     public ModelAndView modificacionTraballo(String usuario, Integer idTraballoDetalle, String nomeTraballo, Integer categoria, String autores, byte[] traballo);
 }

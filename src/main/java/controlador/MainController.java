@@ -176,34 +176,6 @@ public class MainController {
         return vista;
     }
 
-    @RequestMapping(value = "/trabajos.htm")
-    public ModelAndView trabajos(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-        servicio = new UserServiceImpl();
-        servicio.setSessionFactory(sessionFactory);
-
-        if (request.getUserPrincipal() == null) {
-            return servicio.congreso(null);
-        }
-        return servicio.trabajos(request.getUserPrincipal().getName());
-    }
-
-    @RequestMapping(value = "/alta_traballo.htm")
-    public ModelAndView alta_trabajos(DefaultMultipartHttpServletRequest req,
-            @RequestParam("nome_traballo") String nomeTraballo, HttpServletRequest request)
-            throws ServletException, IOException {
-
-        byte[] trabajo = req.getFile("trabajo").getBytes();
-
-        servicio = new UserServiceImpl();
-        servicio.setSessionFactory(sessionFactory);
-
-        return servicio.altaTrabajo(request.getUserPrincipal().getName(), request.getParameter("nome_traballo"),
-                Integer.parseInt(request.getParameter("categoria")), request.getParameter("autores"),
-                trabajo);
-    }
-
     @RequestMapping(value = "/prefil_usuario.htm")
     public ModelAndView prefil_usuario(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -253,6 +225,93 @@ public class MainController {
                 request.getParameter("fecha_fin_envio"), request.getParameter("fecha_inicio_revision"),
                 request.getParameter("fecha_fin_revision"));
     }
+    
+@RequestMapping(value = "/trabajos.htm")
+    public ModelAndView trabajos(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        servicio = new UserServiceImpl();
+        servicio.setSessionFactory(sessionFactory);
+
+        if (request.getUserPrincipal() == null) {
+            return servicio.congreso(null);
+        }
+        return servicio.trabajos(request.getUserPrincipal().getName());
+    }
+
+    @RequestMapping(value = "/alta_traballo.htm")
+    public ModelAndView alta_trabajos(DefaultMultipartHttpServletRequest req,
+            @RequestParam("nome_traballo") String nomeTraballo, HttpServletRequest request)
+            throws ServletException, IOException {
+
+        byte[] trabajo = req.getFile("trabajo").getBytes();
+
+        servicio = new UserServiceImpl();
+        servicio.setSessionFactory(sessionFactory);
+
+        return servicio.altaTrabajo(request.getUserPrincipal().getName(), request.getParameter("nome_traballo"),
+                Integer.parseInt(request.getParameter("categoria")), request.getParameter("autores"),
+                trabajo);
+    }
+    
+    @RequestMapping(value = "/editar_traballo.htm")
+    public ModelAndView editar_trabajo(@RequestParam("id") Integer idTraballoDetalle, HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException{
+        
+        servicio = new UserServiceImpl();
+        servicio.setSessionFactory(sessionFactory);
+
+        return servicio.accioneditarTrabajo(request.getUserPrincipal().getName(), idTraballoDetalle);
+    }
+    
+    @RequestMapping(value = "/modificacion_traballo.htm")
+    public ModelAndView modificacion_trabajo(DefaultMultipartHttpServletRequest req, HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+        
+        byte[] trabajo = req.getFile("trabajoModificado").getBytes();
+        
+        servicio = new UserServiceImpl();
+        servicio.setSessionFactory(sessionFactory);
+
+        return servicio.modificacionTraballo(request.getUserPrincipal().getName(), Integer.parseInt(request.getParameter("idTraballoDetalle")), request.getParameter("nome_traballo"),
+                Integer.parseInt(request.getParameter("categoria")), request.getParameter("autores"),
+                trabajo);
+    }
+    
+    @RequestMapping(value = "/eliminar_traballo.htm")
+    public ModelAndView eliminar_trabajo(@RequestParam("id") Integer idTraballoDetalle, HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException{
+        
+        servicio = new UserServiceImpl();
+        servicio.setSessionFactory(sessionFactory);
+
+        return servicio.accioneliminarTrabajo(request.getUserPrincipal().getName(), idTraballoDetalle);
+    }  
+    
+    @RequestMapping(value = "/borra_traballo.htm")
+    public ModelAndView borrar_traballo( HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException{
+        
+        servicio = new UserServiceImpl();
+        servicio.setSessionFactory(sessionFactory);
+
+        return servicio.borrarTraballo(request.getUserPrincipal().getName(), Integer.parseInt(request.getParameter("idTraballoDetalle")));
+        
+    }
+    
+    @RequestMapping(value = "/anadir_trabajo.htm")
+    public ModelAndView anadir_traballo( HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException{
+        
+        servicio = new UserServiceImpl();
+        servicio.setSessionFactory(sessionFactory);
+
+        if (request.getUserPrincipal() == null) {
+            return servicio.congreso(null);
+        }
+        return servicio.anadirtrabajos();    
+    }
+    
 
     @ResponseBody
     @RequestMapping(value = "/abrir_traballo.htm", produces = "application/pdf", method = RequestMethod.GET)

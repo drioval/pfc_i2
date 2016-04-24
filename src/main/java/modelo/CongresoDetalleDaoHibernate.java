@@ -35,7 +35,8 @@ public class CongresoDetalleDaoHibernate extends GenericDaoHibernate implements 
     public CongresoDetalle obtenerCongresoDetalle(Integer idCongreso){
         Integer idCongresoDetalle=null;
         try{
-            idCongresoDetalle=(Integer) genericDao.getCurrentSession().createQuery("SELECT a.idDetalleCongreso FROM ContresoDetalle a WHERE a.idCongreso = :idCongreso").setParameter("idCongreso", idCongreso).uniqueResult();
+            idCongresoDetalle=(Integer) genericDao.getCurrentSession().createQuery("SELECT cd.idDetalleCongreso FROM CongresoDetalle cd, Congreso c WHERE"
+                    + " cd.idCongreso=c.idCongreso AND c.idCongreso = :idCongreso").setParameter("idCongreso", idCongreso).uniqueResult();
         } catch (HibernateException e) {
             System.out.println(e);
             throw e;
