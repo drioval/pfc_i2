@@ -6,11 +6,9 @@ package vista;
 
 import encrypt.EncriptarPassword;
 import encrypt.GenerarPassword;
-import java.io.OutputStream;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import modelo.Congreso;
@@ -633,21 +631,25 @@ public class UserServiceImpl implements UserService {
             case 3://rollid: 3 - Autor
                 TraballoDaoHibernate traballoDao = new TraballoDaoHibernate();
                 traballoDao.setSessionFactory(sessionFactory);
-                List<Traballo> traballos;
-                traballos = traballoDao.obtenerTraballoUsuarioCongreso(user.getUserId(), congreso.getIdCongreso());
+                List<Traballo> traballos = traballoDao.obtenerTraballoUsuarioCongreso(user.getUserId(), congreso.getIdCongreso());
                 if (traballos.isEmpty()) {
                     vista.setViewName("WEB-INF/jsp/access/alta_traballo.jsp");
                 } else {
                     List<TraballoDetalle> listaDetalleTraballos = new ArrayList<TraballoDetalle>();
+                    List<EstadoTraballo> listaEstadoTraballos = new ArrayList<EstadoTraballo>();
                     TraballoDetalleDaoHibernate traballoDetalleDao = new TraballoDetalleDaoHibernate();
                     traballoDetalleDao.setSessionFactory(sessionFactory);
                     for (int i = 0; i < traballos.size(); i++) {
                         TraballoDetalle traballoDetalle = traballoDetalleDao.obtenerTraballoDetalle(traballos.get(i).getIdTraballo());
                         listaDetalleTraballos.add(traballoDetalle);
+                        listaEstadoTraballos.add(traballoDetalle.getEstadoTraballo());
+                        System.out.println(listaEstadoTraballos.get(i).getNomeEstado());
                     }
 
                     vista.setViewName("WEB-INF/jsp/access/admin_traballo.jsp");
                     vista.addObject("listaTraballos", listaDetalleTraballos);
+                    vista.addObject("listaEstadoTraballos", listaEstadoTraballos);
+                    vista.addObject("fFinEnvio", congreso.getCongresoDetalle().getfFinEnvio());
                     vista.addObject("textoAccion", "admin_traballo02");
                 }
                 break;
@@ -703,18 +705,21 @@ public class UserServiceImpl implements UserService {
         traballos = traballoDao.obtenerTraballoUsuarioCongreso(user.getUserId(), congreso.getIdCongreso());
 
         List<TraballoDetalle> listaDetalleTraballos = new ArrayList<TraballoDetalle>();
+        List<EstadoTraballo> listaEstadoTraballos = new ArrayList<EstadoTraballo>();
         TraballoDetalleDaoHibernate traballoDetalleDao = new TraballoDetalleDaoHibernate();
         traballoDetalleDao.setSessionFactory(sessionFactory);
         for (int i = 0; i < traballos.size(); i++) {
             traballoDetalle = traballoDetalleDao.obtenerTraballoDetalle(traballos.get(i).getIdTraballo());
             listaDetalleTraballos.add(traballoDetalle);
+            listaEstadoTraballos.add(traballoDetalle.getEstadoTraballo());
         }
 
         vista.addObject("listaTraballos", listaDetalleTraballos);
+        vista.addObject("listaEstadoTraballos", listaEstadoTraballos);
 
-        vista.addObject("nomeTraballo", nomeTraballo);
-        vista.addObject("idCategoria", categoria);
-        vista.addObject("traballo", traballo);
+        //vista.addObject("nomeTraballo", nomeTraballo);
+        //vista.addObject("idCategoria", categoria);
+        //vista.addObject("traballo", traballo);
         vista.addObject("textoAccion", "accion_alta_traballo01");
 
         return vista;
@@ -743,6 +748,7 @@ public class UserServiceImpl implements UserService {
         else if (idCategoria==5)
             categoria="Disertación";
 
+        vista.addObject("idTraballo", traballoDetalle.getIdTraballo());
         vista.addObject("idTraballoDetalle", traballoDetalle.getIdTraballoDetalle());
         vista.addObject("nomeTraballo", traballoDetalle.getNomeTraballo());
         vista.addObject("idCategoria", traballoDetalle.getCategoria());
@@ -788,8 +794,18 @@ public class UserServiceImpl implements UserService {
 
             CongresoDetalleDaoHibernate congresoDetalleDao = new CongresoDetalleDaoHibernate();
             congresoDetalleDao.setSessionFactory(sessionFactory);
+            System.out.println("idcongreso:"+traballo.getCongreso().getIdCongreso());
             CongresoDetalle congresoDetalle = congresoDetalleDao.obtenerCongresoDetalle(congreso.getIdCongreso());
-
+            System.out.println("idtraballo:"+congresoDetalle.getIdDetalleCongreso());
+            
+            System.out.println("idtraballo:"+traballo.getIdTraballo());
+            System.out.println("nometraballo:"+nomeTraballo);
+            System.out.println("categoria:"+categoria);
+            System.out.println("autores:"+autores);
+            System.out.println("ficherotraballo.length:"+ficheroTraballo.length);
+            System.out.println("getEstadoTraballo:"+traballoDetalleVersion.getEstadoTraballo());
+            System.out.println("fechas:"+congresoDetalle.getfInicioEnvio()+'-'+congresoDetalle.getfFinEnvio()+'-'+congresoDetalle.getfInicioRevision()+'-'+congresoDetalle.getfFinRevision());
+ 
             traballoDetalle = new TraballoDetalle(traballo.getIdTraballo(), nomeTraballo, categoria, autores, ficheroTraballo, traballoDetalleVersion.getEstadoTraballo(),
                     congresoDetalle.getfInicioEnvio(), congresoDetalle.getfFinEnvio(), congresoDetalle.getfInicioRevision(), congresoDetalle.getfFinRevision());
             traballoDetalleDaoHibernate.guardarTraballoDetalle(traballoDetalle);
@@ -838,6 +854,7 @@ public class UserServiceImpl implements UserService {
 
         Traballo traballo = traballoDaoHibernate.obtenerTraballo(traballoDetalle.getIdTraballo());
 
+        vista.addObject("idTraballo", traballoDetalle.getIdTraballo());
         vista.addObject("idTraballoDetalle", traballoDetalle.getIdTraballoDetalle());
         vista.addObject("nomeTraballo", traballoDetalle.getNomeTraballo());
         vista.addObject("categoria", traballoDetalle.getCategoria());
@@ -868,9 +885,8 @@ public class UserServiceImpl implements UserService {
 
         List<TraballoDetalleVersion> listatraballoDetalleVersion = traballoDetalleVersionDaoHibernate.obtenerTraballoDetalleVersion(traballo.getIdTraballo());
         if (!listatraballoDetalleVersion.isEmpty()) {
-            Iterator idTraballoDetalleVersion = listatraballoDetalleVersion.iterator();
-            while (idTraballoDetalleVersion.hasNext()) {
-                TraballoDetalleVersion traballoDetalleVersion = listatraballoDetalleVersion.get((Integer) idTraballoDetalleVersion.next());
+            for (int i = 0;i<listatraballoDetalleVersion.size();i++){
+                TraballoDetalleVersion traballoDetalleVersion = listatraballoDetalleVersion.get(i);
                 traballoDetalleVersionDaoHibernate.eliminarTraballoDetalleVersion(traballoDetalleVersion);
             }
         };

@@ -52,7 +52,7 @@
                 <br><br>
                 <a class="articulo"><fmt:message key="nome_traballo"/></a>
                 <br>
-                <input name="idTraballoDetalle" type="hidden" value="${idTraballoDetalle}">
+                <input name="idTraballo" type="hidden" value="${idTraballo}">
                 <input name="nome_traballo" type="congreso" maxlength="250" style="width:600px;" required="true" value="${nomeTraballo}" readonly>
                 <br>
                 <a class="articulo"><fmt:message key="categoria"/></a>
@@ -70,7 +70,7 @@
                 <textarea name="autores" maxlength="250" class="areaTexto" readonly>${autores}</textarea>
                 <br><br>
                 <a class="articulo"><fmt:message key="eliminar_traballo02"/></a>
-                <td><a class="articulo" target="_blank" href="abrir_traballo.htm?id=${idTraballoDetalle}">"${nomeTraballo}"</a></td>
+                <td><a class="articulo" target="_blank" href="abrir_traballo.htm?id=${idTraballo}">"${nomeTraballo}"</a></td>
                 <br><br>
                 <input type="submit" class="button blue" value="Eliminar" formaction="borra_traballo.htm"/>
                 <input type="submit" class="button blue" value="Regresar" formaction="trabajos.htm"/>

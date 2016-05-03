@@ -273,7 +273,7 @@ public class MainController {
         servicio = new UserServiceImpl();
         servicio.setSessionFactory(sessionFactory);
 
-        return servicio.modificacionTraballo(request.getUserPrincipal().getName(), Integer.parseInt(request.getParameter("idTraballoDetalle")), request.getParameter("nome_traballo"),
+        return servicio.modificacionTraballo(request.getUserPrincipal().getName(), Integer.parseInt(request.getParameter("idTraballo")), request.getParameter("nome_traballo"),
                 Integer.parseInt(request.getParameter("categoria")), request.getParameter("autores"),
                 trabajo);
     }
@@ -295,7 +295,7 @@ public class MainController {
         servicio = new UserServiceImpl();
         servicio.setSessionFactory(sessionFactory);
 
-        return servicio.borrarTraballo(request.getUserPrincipal().getName(), Integer.parseInt(request.getParameter("idTraballoDetalle")));
+        return servicio.borrarTraballo(request.getUserPrincipal().getName(), Integer.parseInt(request.getParameter("idTraballo")));
         
     }
     

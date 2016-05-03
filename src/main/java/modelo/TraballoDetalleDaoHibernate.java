@@ -32,10 +32,10 @@ public class TraballoDetalleDaoHibernate extends GenericDaoHibernate implements 
     
     @Override
     @Transactional
-    public TraballoDetalle obtenerTraballoDetalle(Integer idTraballoDetalle) {
+    public TraballoDetalle obtenerTraballoDetalle(Integer idTraballo) {
         Integer idTraballoDetalleBBDD = null;
         try {
-            idTraballoDetalleBBDD = (Integer) genericDao.getCurrentSession().createQuery("SELECT a.idTraballoDetalle FROM TraballoDetalle a WHERE a.idTraballoDetalle = :idTraballoDetalle ").setParameter("idTraballoDetalle", idTraballoDetalle).uniqueResult();
+            idTraballoDetalleBBDD = (Integer) genericDao.getCurrentSession().createQuery("SELECT td.idTraballoDetalle FROM TraballoDetalle td, Traballo t WHERE td.idTraballo=t.idTraballo AND t.idTraballo = :idTraballo ").setParameter("idTraballo", idTraballo).uniqueResult();
         } catch (HibernateException e) {
             System.out.println(e);
             throw e;

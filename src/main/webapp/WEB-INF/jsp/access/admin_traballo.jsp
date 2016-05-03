@@ -60,9 +60,10 @@
                             <th><fmt:message key="tabla_trabajo04"/></th>
                             <th><fmt:message key="tabla_trabajo05"/></th>
                             <th><fmt:message key="tabla_trabajo06"/></th>
+                            <th><fmt:message key="tabla_trabajo07"/></th>
                             <th></th>
                         </tr>
-                        <c:forEach items="${listaTraballos}" var="traballos">
+                        <c:forEach items="${listaTraballos}" var="traballos" varStatus="indice">
                             <tr>
                                 <td><c:out value="${traballos.nomeTraballo}"/></td>
                                 <td><c:out value="${traballos.categoria}"/></td>
@@ -70,22 +71,34 @@
                                 <td><fmt:formatDate  pattern="dd/MM/yyyy" value="${traballos.fFinEnvio}" /></td>
                                 <td><fmt:formatDate  pattern="dd/MM/yyyy" value="${traballos.fIncioRevision}"/></td>
                                 <td><fmt:formatDate  pattern="dd/MM/yyyy" value="${traballos.fFinRevision}"/></td>
-                                <td><a class="articulo" target="_blank" href="abrir_traballo.htm?id=${traballos.idTraballoDetalle}"><fmt:message key="accion_ver_traballo"/></a></td>
-                                <td><a class="articulo" href="editar_traballo.htm?id=${traballos.idTraballoDetalle}"><fmt:message key="accion_editar_traballo"/></a></td>
-                                <td><a class="articulo" href="eliminar_traballo.htm?id=${traballos.idTraballoDetalle}"><fmt:message key="accion_eliminar_traballo"/></a></td>
+                                <td><c:out value="${listaEstadoTraballos[indice.index].nomeEstado}"/></td>
+                                <td><a class="articulo" target="_blank" href="abrir_traballo.htm?id=${traballos.idTraballo}"><fmt:message key="accion_ver_traballo"/></a></td>
+                                    <c:set var="idEstadoTraballo" scope="session" value="${listaEstadoTraballos[indice.index].idEstadoTraballo}"/>
+                                    <c:if test="${idEstadoTraballo == 1}">
+                                    <td><a class="articulo" href="confirmar_traballo.htm?id=${traballos.idTraballo}"><fmt:message key="accion_confirmar_traballo"/></a></td>
+                                    <td><a class="articulo" href="editar_traballo.htm?id=${traballos.idTraballo}"><fmt:message key="accion_editar_traballo"/></a></td>
+                                    <td><a class="articulo" href="eliminar_traballo.htm?id=${traballos.idTraballo}"><fmt:message key="accion_eliminar_traballo"/></a></td>
+                                    </c:if>
+                                    <c:if test="${idEstadoTraballo > 1}">
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </c:if>
                             </tr>
                         </c:forEach>
+                        <jsp:useBean id="now" class="java.util.Date" />
+                        <c:if test="${fFinEnvio gt now}">
                             <td><a class="articulo" href="anadir_trabajo.htm"><fmt:message key="accion_anadir_traballo"/></a></td>
+                        </c:if>
+                        
                     </table>
-
-            </form>
-        </fieldset>
-        <fieldset class="center_form gris_claro">
-            <legend class="articulo"><fmt:message key="msg_footer_01"/></legend>
-            <a class="articulo" href="contacto.htm"><fmt:message key="msg_footer_02"/></a>
-        </fieldset>
-        <footer>
-            <a class="articulo"><fmt:message key="msg_footer_03"/></a>
-        </footer>
-    </body>
-</html>
+                    </fieldset>
+                    <fieldset class="center_form gris_claro">
+                        <legend class="articulo"><fmt:message key="msg_footer_01"/></legend>
+                        <a class="articulo" href="contacto.htm"><fmt:message key="msg_footer_02"/></a>
+                    </fieldset>
+                    <footer>
+                        <a class="articulo"><fmt:message key="msg_footer_03"/></a>
+                    </footer>
+                    </body>
+                    </html>

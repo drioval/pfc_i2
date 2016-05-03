@@ -48,7 +48,7 @@
             <legend class="subtitulo"><fmt:message key="eliminar_traballo01"/></legend>
             <br>
             <form method="post" action="modificacion_traballo.htm" id="alta_traballo" enctype="multipart/form-data">
-                <input name="idTraballoDetalle" type="hidden" value="${idTraballoDetalle}">
+                <input name="idTraballo" type="hidden" value="${idTraballo}">
                 <a class="articulo"><fmt:message key="alta_traballo02"/></a>
                 <br><br>
                 <a class="articulo"><fmt:message key="nome_traballo"/></a>
@@ -71,7 +71,7 @@
                 <textarea name="autores" maxlength="250" class="areaTexto">${autores}</textarea>
                 <br><br>
                 <a class="articulo"><fmt:message key="trabajo_actual"/></a>
-                <td><a class="articulo" target="_blank" href="abrir_traballo.htm?id=${idTraballoDetalle}">${nomeTraballo}</a></td>
+                <td><a class="articulo" target="_blank" href="abrir_traballo.htm?id=${idTraballo}">${nomeTraballo}</a></td>
                 <br><br>
                 <a class="articulo"><fmt:message key="modificar_trabajo_actual"/></a>
                 <input type="file" name="trabajoModificado" class="trabajo">
