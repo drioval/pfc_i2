@@ -18,7 +18,6 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name = "EstadoTraballo")
-
 public class EstadoTraballo implements java.io.Serializable{
     
     @Id @NotNull @Column(name = "idEstadoTraballo")

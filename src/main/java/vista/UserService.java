@@ -32,6 +32,8 @@ public interface UserService {
      public ModelAndView accioneditarTrabajo(String usuario, Integer idTraballoDetalle);
      public ModelAndView accioneliminarTrabajo(String usuario, Integer idTraballoDetalle);
      public ModelAndView borrarTraballo(String usuario, Integer idTraballoDetalle);
-     public ModelAndView anadirtrabajos();
+     public ModelAndView confirmarTraballo(String usuario, Integer idTraballo);
+     public ModelAndView accionConfirmarTraballo(String usuario, Integer idTraballo);
+     public ModelAndView anadirtrabajos(String usuario);
      public ModelAndView modificacionTraballo(String usuario, Integer idTraballoDetalle, String nomeTraballo, Integer categoria, String autores, byte[] traballo);
 }

@@ -55,7 +55,6 @@
                     <table>
                         <tr>
                             <th><fmt:message key="tabla_trabajo01"/></th>
-                            <th><fmt:message key="tabla_trabajo02"/></th>
                             <th><fmt:message key="tabla_trabajo03"/></th>
                             <th><fmt:message key="tabla_trabajo04"/></th>
                             <th><fmt:message key="tabla_trabajo05"/></th>
@@ -66,7 +65,6 @@
                         <c:forEach items="${listaTraballos}" var="traballos" varStatus="indice">
                             <tr>
                                 <td><c:out value="${traballos.nomeTraballo}"/></td>
-                                <td><c:out value="${traballos.categoria}"/></td>
                                 <td><fmt:formatDate  pattern="dd/MM/yyyy" value="${traballos.fInicioEnvio}"/></td>
                                 <td><fmt:formatDate  pattern="dd/MM/yyyy" value="${traballos.fFinEnvio}" /></td>
                                 <td><fmt:formatDate  pattern="dd/MM/yyyy" value="${traballos.fIncioRevision}"/></td>
