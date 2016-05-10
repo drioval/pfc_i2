@@ -67,6 +67,26 @@ public class TraballoDaoHibernate extends GenericDaoHibernate implements Traball
     
     @Override
     @Transactional
+    public List<Traballo> obtenerTraballosCongreso(Integer idCongreso) {
+
+        List<Traballo> traballos = new ArrayList<Traballo>();
+        Iterator idTraballo = null;
+        try {
+            idTraballo = genericDao.getCurrentSession().createQuery("SELECT t.idTraballo FROM Traballo t, TraballoDetalle td, Congreso c, UserProfile u, EstadoTraballo e"
+                    + " WHERE c.idCongreso=t.congreso AND t.idTraballo=td.idTraballo AND t.userProfile=u.userId AND td.estadoTraballo=e.idEstadoTraballo AND e.idEstadoTraballo<>1 "
+                    + "AND c.idCongreso = :idCongreso ORDER BY u.userId").setParameter("idCongreso", idCongreso).iterate();
+        } catch (HibernateException e) {
+            throw e;
+        }
+        while (idTraballo.hasNext()) {
+            Traballo traballo=(Traballo)genericDao.find(Traballo.class, (Integer) idTraballo.next());
+            traballos.add(traballo);
+        }
+        return traballos;
+    }
+    
+    @Override
+    @Transactional
     public void eliminarTraballo(Traballo traballo) {
         genericDao.remove(Traballo.class, traballo.getIdTraballo());
     }

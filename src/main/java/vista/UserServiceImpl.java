@@ -612,17 +612,32 @@ public class UserServiceImpl implements UserService {
                     vista.setViewName("/WEB-INF/jsp/access/alta_congreso.jsp");
                     vista.addObject("usuario", usuario);
                 } else {
-                    vista.setViewName("/WEB-INF/jsp/access/admin_traballos.jsp");
-                    System.out.println(congreso.getIdCongreso());
-                    vista.addObject("idCongreso", congreso.getIdCongreso());
-                    vista.addObject("nombreCongreso", congreso.getNomeCongreso());
-                    vista.addObject("idEstadoCongreso", congreso.getEstadoCongreso().getIdEstadoCongreso());
-                    vista.addObject("estadoCongreso", congreso.getEstadoCongreso().getNomeEstadoCongreso());
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/YYY");
-                    vista.addObject("fechaInicioEnvio", dateFormat.format(congreso.getCongresoDetalle().getfInicioEnvio()));
-                    vista.addObject("fechaFinEnvio", dateFormat.format(congreso.getCongresoDetalle().getfFinEnvio()));
-                    vista.addObject("fechaInicioRevision", dateFormat.format(congreso.getCongresoDetalle().getfInicioRevision()));
-                    vista.addObject("fechaFinRevision", dateFormat.format(congreso.getCongresoDetalle().getfFinRevision()));
+                    vista.setViewName("/WEB-INF/jsp/access/admin_traballos_congreso.jsp");
+                    TraballoDaoHibernate traballoDao = new TraballoDaoHibernate();
+                    traballoDao.setSessionFactory(sessionFactory);
+                    List<Traballo> traballos = traballoDao.obtenerTraballosCongreso(congreso.getIdCongreso());
+                    if (traballos.isEmpty()) {
+                        vista.setViewName("WEB-INF/jsp/access/alta_traballo.jsp");
+                    } else {
+                        List<TraballoDetalle> listaDetalleTraballos = new ArrayList<TraballoDetalle>();
+                        List<EstadoTraballo> listaEstadoTraballos = new ArrayList<EstadoTraballo>();
+                        TraballoDetalleDaoHibernate traballoDetalleDao = new TraballoDetalleDaoHibernate();
+                        traballoDetalleDao.setSessionFactory(sessionFactory);
+                        for (int i = 0; i < traballos.size(); i++) {
+                            TraballoDetalle traballoDetalle = traballoDetalleDao.obtenerTraballoDetalle(traballos.get(i).getIdTraballo());
+                            listaDetalleTraballos.add(traballoDetalle);
+                            EstadoTraballo estadoTraballo = traballoDetalle.getEstadoTraballo();
+                            listaEstadoTraballos.add(traballoDetalle.getEstadoTraballo());
+                            System.out.println("nomeEstadoTraballo: " + estadoTraballo.getNomeEstado());
+                        }
+
+                        vista.setViewName("WEB-INF/jsp/access/admin_traballo.jsp");
+                        vista.addObject("listaTraballos", listaDetalleTraballos);
+                        vista.addObject("listaEstadoTraballos", listaEstadoTraballos);
+                        vista.addObject("fFinEnvio", congreso.getCongresoDetalle().getfFinEnvio());
+                        vista.addObject("textoAccion", "admin_traballo02");
+                    }
+                    break;
                 }
                 break;
             case 2://rollid: 2 - Revisor
@@ -642,9 +657,9 @@ public class UserServiceImpl implements UserService {
                     for (int i = 0; i < traballos.size(); i++) {
                         TraballoDetalle traballoDetalle = traballoDetalleDao.obtenerTraballoDetalle(traballos.get(i).getIdTraballo());
                         listaDetalleTraballos.add(traballoDetalle);
-                        EstadoTraballo estadoTraballo=traballoDetalle.getEstadoTraballo();
+                        EstadoTraballo estadoTraballo = traballoDetalle.getEstadoTraballo();
                         listaEstadoTraballos.add(traballoDetalle.getEstadoTraballo());
-                        System.out.println("nomeEstadoTraballo: "+estadoTraballo.getNomeEstado());
+                        System.out.println("nomeEstadoTraballo: " + estadoTraballo.getNomeEstado());
                     }
 
                     vista.setViewName("WEB-INF/jsp/access/admin_traballo.jsp");
@@ -658,29 +673,30 @@ public class UserServiceImpl implements UserService {
         vista.addObject("usuario", usuario);
         return vista;
     }
-    
+
     @Override
-    public ModelAndView confirmarTraballo(String usuario, Integer idTraballo){
+    public ModelAndView confirmarTraballo(String usuario, Integer idTraballo) {
         ModelAndView vista = new ModelAndView("WEB-INF/jsp/access/confirmar_traballo.jsp");
         vista.addObject("usuario", usuario);
-        
-                TraballoDetalleDaoHibernate traballoDetalleDaoHibernate = new TraballoDetalleDaoHibernate();
+
+        TraballoDetalleDaoHibernate traballoDetalleDaoHibernate = new TraballoDetalleDaoHibernate();
         traballoDetalleDaoHibernate.setSessionFactory(sessionFactory);
 
         TraballoDetalle traballoDetalle = traballoDetalleDaoHibernate.obtenerTraballoDetalle(idTraballo);
-        
-        Integer idCategoria=traballoDetalle.getCategoria();
-        String categoria=null;
-        if (idCategoria==1)
-            categoria="Publicación";
-        else if (idCategoria==2)
-            categoria="Artículo";
-        else if (idCategoria==3)
-            categoria="Tesis";
-        else if (idCategoria==4)
-            categoria="Investigación";
-        else if (idCategoria==5)
-            categoria="Disertación";
+
+        Integer idCategoria = traballoDetalle.getCategoria();
+        String categoria = null;
+        if (idCategoria == 1) {
+            categoria = "Publicación";
+        } else if (idCategoria == 2) {
+            categoria = "Artículo";
+        } else if (idCategoria == 3) {
+            categoria = "Tesis";
+        } else if (idCategoria == 4) {
+            categoria = "Investigación";
+        } else if (idCategoria == 5) {
+            categoria = "Disertación";
+        }
 
         vista.addObject("idTraballo", traballoDetalle.getIdTraballo());
         vista.addObject("idTraballoDetalle", traballoDetalle.getIdTraballoDetalle());
@@ -692,12 +708,12 @@ public class UserServiceImpl implements UserService {
 
         return vista;
     }
-    
+
     @Override
-    public ModelAndView accionConfirmarTraballo(String usuario, Integer idTraballo){
+    public ModelAndView accionConfirmarTraballo(String usuario, Integer idTraballo) {
         ModelAndView vista = new ModelAndView("WEB-INF/jsp/access/admin_traballo.jsp");
         vista.addObject("usuario", usuario);
-        
+
         TraballoDetalleDaoHibernate traballoDetalleDaoHibernate = new TraballoDetalleDaoHibernate();
         traballoDetalleDaoHibernate.setSessionFactory(sessionFactory);
         TraballoDetalle traballoDetalle = traballoDetalleDaoHibernate.obtenerTraballoDetalle(idTraballo);
@@ -705,23 +721,22 @@ public class UserServiceImpl implements UserService {
         TraballoDaoHibernate traballoDaoHibernate = new TraballoDaoHibernate();
         traballoDaoHibernate.setSessionFactory(sessionFactory);
         Traballo traballo = traballoDaoHibernate.obtenerTraballo(traballoDetalle.getIdTraballo());
-        
+
         TraballoDetalleVersionDaoHibernate traballoDetalleVersionDao = new TraballoDetalleVersionDaoHibernate();
         traballoDetalleVersionDao.setSessionFactory(sessionFactory);
         TraballoDetalleVersion traballoDetalleVersion = new TraballoDetalleVersion(traballoDetalle);
         traballoDetalleVersionDao.guardarTraballoDetalleVersion(traballoDetalleVersion);
 
         traballoDetalleDaoHibernate.eliminarTraballoDetalle(traballoDetalle);
-        
-        EstadoTraballoDaoHibernate estadoTraballoDao=new EstadoTraballoDaoHibernate();
+
+        EstadoTraballoDaoHibernate estadoTraballoDao = new EstadoTraballoDaoHibernate();
         estadoTraballoDao.setSessionFactory(sessionFactory);
-        
-        
+
         EstadoTraballo estadoTraballo = estadoTraballoDao.obtenerEstadoTraballo(2);
         traballoDetalle.setEstadoTraballo(estadoTraballo);
-        
+
         traballoDetalleDaoHibernate.guardarTraballoDetalle(traballoDetalle);
-        
+
         Integer idUsuario = traballo.getUserProfile().getUserId();
         Integer idCongreso = traballo.getCongreso().getIdCongreso();
 
@@ -740,8 +755,9 @@ public class UserServiceImpl implements UserService {
             for (int i = 0; i < traballos.size(); i++) {
                 traballoDetalle = traballoDetalleDao.obtenerTraballoDetalle(traballos.get(i).getIdTraballo());
                 listaDetalleTraballos.add(traballoDetalle);
-                estadoTraballo=traballoDetalle.getEstadoTraballo();
+                estadoTraballo = traballoDetalle.getEstadoTraballo();
                 listaEstadoTraballos.add(estadoTraballo);
+                System.out.println("nomeEstadoTraballo: " + estadoTraballo.getNomeEstado());
             }
 
             vista.addObject("listaTraballos", listaDetalleTraballos);
@@ -751,10 +767,11 @@ public class UserServiceImpl implements UserService {
         vista.addObject("nomeTraballo", traballoDetalle.getNomeTraballo());
         vista.addObject("fFinEnvio", traballo.getCongreso().getCongresoDetalle().getfFinEnvio());
         vista.addObject("textoAccion", "confirm_traballo02");
-        
-        
+
         return vista;
-    };
+    }
+
+    ;
 
     @Override
     public ModelAndView anadirtrabajos(String usuario) {
@@ -810,8 +827,9 @@ public class UserServiceImpl implements UserService {
         for (int i = 0; i < traballos.size(); i++) {
             traballoDetalle = traballoDetalleDao.obtenerTraballoDetalle(traballos.get(i).getIdTraballo());
             listaDetalleTraballos.add(traballoDetalle);
-            listaEstadoTraballos.add(traballoDetalle.getEstadoTraballo());
-            System.out.println("nomeEstadoTraballo: "+estadoTraballo.getNomeEstado());
+            estadoTraballo = traballoDetalle.getEstadoTraballo();
+            listaEstadoTraballos.add(estadoTraballo);
+            System.out.println("nomeEstadoTraballo: " + estadoTraballo.getNomeEstado());
         }
 
         vista.addObject("listaTraballos", listaDetalleTraballos);
@@ -833,19 +851,20 @@ public class UserServiceImpl implements UserService {
         traballoDetalleDaoHibernate.setSessionFactory(sessionFactory);
 
         TraballoDetalle traballoDetalle = traballoDetalleDaoHibernate.obtenerTraballoDetalle(idTraballoDetalle);
-        
-        Integer idCategoria=traballoDetalle.getCategoria();
-        String categoria=null;
-        if (idCategoria==1)
-            categoria="Publicación";
-        else if (idCategoria==2)
-            categoria="Artículo";
-        else if (idCategoria==3)
-            categoria="Tesis";
-        else if (idCategoria==4)
-            categoria="Investigación";
-        else if (idCategoria==5)
-            categoria="Disertación";
+
+        Integer idCategoria = traballoDetalle.getCategoria();
+        String categoria = null;
+        if (idCategoria == 1) {
+            categoria = "Publicación";
+        } else if (idCategoria == 2) {
+            categoria = "Artículo";
+        } else if (idCategoria == 3) {
+            categoria = "Tesis";
+        } else if (idCategoria == 4) {
+            categoria = "Investigación";
+        } else if (idCategoria == 5) {
+            categoria = "Disertación";
+        }
 
         vista.addObject("idTraballo", traballoDetalle.getIdTraballo());
         vista.addObject("idTraballoDetalle", traballoDetalle.getIdTraballoDetalle());
@@ -871,7 +890,7 @@ public class UserServiceImpl implements UserService {
         TraballoDaoHibernate traballoDaoHibernate = new TraballoDaoHibernate();
         traballoDaoHibernate.setSessionFactory(sessionFactory);
         Traballo traballo = traballoDaoHibernate.obtenerTraballo(traballoDetalle.getIdTraballo());
-        
+
         if (ficheroTraballo.length == 0) {
             ficheroTraballo = traballoDetalle.getTraballo();
         }
@@ -895,7 +914,7 @@ public class UserServiceImpl implements UserService {
             CongresoDetalleDaoHibernate congresoDetalleDao = new CongresoDetalleDaoHibernate();
             congresoDetalleDao.setSessionFactory(sessionFactory);
             CongresoDetalle congresoDetalle = congresoDetalleDao.obtenerCongresoDetalle(congreso.getIdCongreso());
- 
+
             traballoDetalle = new TraballoDetalle(traballo.getIdTraballo(), nomeTraballo, categoria, autores, ficheroTraballo, traballoDetalleVersion.getEstadoTraballo(),
                     congresoDetalle.getfInicioEnvio(), congresoDetalle.getfFinEnvio(), congresoDetalle.getfInicioRevision(), congresoDetalle.getfFinRevision());
             traballoDetalleDaoHibernate.guardarTraballoDetalle(traballoDetalle);
@@ -921,7 +940,7 @@ public class UserServiceImpl implements UserService {
                 traballoDetalle = traballoDetalleDao.obtenerTraballoDetalle(traballos.get(i).getIdTraballo());
                 listaDetalleTraballos.add(traballoDetalle);
                 listaEstadoTraballos.add(traballoDetalle.getEstadoTraballo());
-                System.out.println("nomeEstadoTraballo: "+traballoDetalle.getEstadoTraballo().getNomeEstado());
+                System.out.println("nomeEstadoTraballo: " + traballoDetalle.getEstadoTraballo().getNomeEstado());
             }
 
             vista.addObject("listaTraballos", listaDetalleTraballos);
@@ -982,7 +1001,7 @@ public class UserServiceImpl implements UserService {
 
         List<TraballoDetalleVersion> listatraballoDetalleVersion = traballoDetalleVersionDaoHibernate.obtenerTraballoDetalleVersion(traballo.getIdTraballo());
         if (!listatraballoDetalleVersion.isEmpty()) {
-            for (int i = 0;i<listatraballoDetalleVersion.size();i++){
+            for (int i = 0; i < listatraballoDetalleVersion.size(); i++) {
                 TraballoDetalleVersion traballoDetalleVersion = listatraballoDetalleVersion.get(i);
                 traballoDetalleVersionDaoHibernate.eliminarTraballoDetalleVersion(traballoDetalleVersion);
             }
@@ -1011,7 +1030,7 @@ public class UserServiceImpl implements UserService {
                 traballoDetalle = traballoDetalleDao.obtenerTraballoDetalle(traballos.get(i).getIdTraballo());
                 listaDetalleTraballos.add(traballoDetalle);
                 listaEstadoTraballos.add(traballoDetalle.getEstadoTraballo());
-                System.out.println("nomeEstadoTraballo: "+traballoDetalle.getEstadoTraballo().getNomeEstado());
+                System.out.println("nomeEstadoTraballo: " + traballoDetalle.getEstadoTraballo().getNomeEstado());
             }
             vista.addObject("listaTraballos", listaDetalleTraballos);
             vista.addObject("listaEstadoTraballos", listaEstadoTraballos);

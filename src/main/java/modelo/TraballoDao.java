@@ -16,5 +16,6 @@ public interface TraballoDao {
     public void guardarTraballo(Traballo traballo);
     public Traballo obtenerTraballo(Integer idTraballo);
     public List<Traballo> obtenerTraballoUsuarioCongreso(Integer idUsuario, Integer idCongreso);
+    public List<Traballo> obtenerTraballosCongreso(Integer idCongreso);
     public void eliminarTraballo(Traballo traballo);
 }
