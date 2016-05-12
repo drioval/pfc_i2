@@ -36,4 +36,6 @@ public interface UserService {
      public ModelAndView accionConfirmarTraballo(String usuario, Integer idTraballo);
      public ModelAndView anadirtrabajos(String usuario);
      public ModelAndView modificacionTraballo(String usuario, Integer idTraballoDetalle, String nomeTraballo, Integer categoria, String autores, byte[] traballo);
+     public ModelAndView accionVerDatosTrabajo(String usuario, Integer idTraballo);
+     public ModelAndView accionRevisarTraballo(String usuario, Integer idTraballo);
 }

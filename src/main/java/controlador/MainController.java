@@ -254,6 +254,16 @@ public class MainController {
                 trabajo);
     }
 
+    @RequestMapping(value = "/ver_datos_traballo.htm")
+    public ModelAndView ver_datos_traballo(@RequestParam("id") Integer idTraballoDetalle, HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        servicio = new UserServiceImpl();
+        servicio.setSessionFactory(sessionFactory);
+
+        return servicio.accionVerDatosTrabajo(request.getUserPrincipal().getName(), idTraballoDetalle);
+    }
+    
     @RequestMapping(value = "/editar_traballo.htm")
     public ModelAndView editar_trabajo(@RequestParam("id") Integer idTraballoDetalle, HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -359,5 +369,15 @@ public class MainController {
         }
 
         return traballoDetalle.getTraballo();
+    }
+    
+    @RequestMapping(value = "/revisar_traballo.htm")
+    public ModelAndView revisar_trabajo(@RequestParam("id") Integer idTraballo, HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        servicio = new UserServiceImpl();
+        servicio.setSessionFactory(sessionFactory);
+
+        return servicio.accionRevisarTraballo(request.getUserPrincipal().getName(), idTraballo);
     }
 }

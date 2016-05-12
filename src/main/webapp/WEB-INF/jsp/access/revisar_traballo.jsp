@@ -45,7 +45,7 @@
             </ul>
         </nav>
         <fieldset class="center_form gris_oscuro">
-            <legend class="subtitulo"><fmt:message key="admin_traballo01"/></legend>
+            <legend class="subtitulo"><fmt:message key="revision_traballo01"/></legend>
             <br>
             <form method="post" action="alta_traballo.htm" id="alta_traballo" enctype="multipart/form-data">
 
@@ -62,42 +62,49 @@
                             <th><fmt:message key="tabla_trabajo07"/></th>
                             <th></th>
                         </tr>
-                        <c:forEach items="${listaTraballos}" var="traballos" varStatus="indice">
-                            <tr>
-                                <td><c:out value="${traballos.nomeTraballo}"/></td>
-                                <td><fmt:formatDate  pattern="dd/MM/yyyy" value="${traballos.fInicioEnvio}"/></td>
-                                <td><fmt:formatDate  pattern="dd/MM/yyyy" value="${traballos.fFinEnvio}" /></td>
-                                <td><fmt:formatDate  pattern="dd/MM/yyyy" value="${traballos.fIncioRevision}"/></td>
-                                <td><fmt:formatDate  pattern="dd/MM/yyyy" value="${traballos.fFinRevision}"/></td>
-                                <td><c:out value="${listaEstadoTraballos[indice.index].nomeEstado}"/></td>
-                                <td><a class="articulo" target="_blank" href="abrir_traballo.htm?id=${traballos.idTraballo}"><fmt:message key="accion_ver_traballo"/></a></td>
+                        <tr>
+                            <td><c:out value="${nomeTraballo}"/></td>
+                            <td><fmt:formatDate  pattern="dd/MM/yyyy" value="${fInicioEnvio}"/></td>
+                            <td><fmt:formatDate  pattern="dd/MM/yyyy" value="${fFinEnvio}" /></td>
+                            <td><fmt:formatDate  pattern="dd/MM/yyyy" value="${fIncioRevision}"/></td>
+                            <td><fmt:formatDate  pattern="dd/MM/yyyy" value="${fFinRevision}"/></td>
+                            <td><c:out value="${nomeEstado}"/></td>
+                            <td><a class="articulo" target="_blank" href="abrir_traballo.htm?id=${idTraballo}"><fmt:message key="accion_ver_traballo"/></a></td>
                                 <jsp:useBean id="now" class="java.util.Date" />
-                                <c:set var="idEstadoTraballo" scope="session" value="${listaEstadoTraballos[indice.index].idEstadoTraballo}"/>
+                                <c:set var="idEstadoTraballo" scope="session" value="${idEstadoTraballo}"/>
                                 <c:if test="${idEstadoTraballo == 2}">
-                                    <td><a class="articulo" href="ver_datos_traballo.htm?id=${traballos.idTraballo}"><fmt:message key="accion_ver_datos_traballo"/></a></td>
-                                    <td><a class="articulo" href="asignar_revisor.htm?id=${traballos.idTraballo}"><fmt:message key="accion_asignar_revisor"/></a></td>
-                                    <td><a class="articulo" href="revisar_traballo.htm?id=${traballos.idTraballo}"><fmt:message key="accion_revisar_traballo"/></a></td>
-                                    <td><a class="articulo" href="rexeitar_traballo.htm?id=${traballos.idTraballo}"><fmt:message key="accion_rexeitar_traballo"/></a></td>  
+                                <td><a class="articulo" href="rexeitar_traballo.htm?id=${traballos.idTraballo}"><fmt:message key="accion_rexeitar_traballo"/></a></td>  
                                 </c:if>
                                 <c:if test="${idEstadoTraballo > 1}">
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </c:if>
-                            </tr>
-                        </c:forEach>
-                        <c:if test="${fFinEnvio gt now}">
-                            <td><a class="articulo" href="anadir_trabajo.htm"><fmt:message key="accion_anadir_traballo"/></a></td>
-                        </c:if>
-                        
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </c:if>
+                        </tr>
                     </table>
-                    </fieldset>
-                    <fieldset class="center_form gris_claro">
-                        <legend class="articulo"><fmt:message key="msg_footer_01"/></legend>
-                        <a class="articulo" href="contacto.htm"><fmt:message key="msg_footer_02"/></a>
-                    </fieldset>
-                    <footer>
-                        <a class="articulo"><fmt:message key="msg_footer_03"/></a>
-                    </footer>
-                    </body>
-                    </html>
+                </div>
+                <div class="plegable">
+                    <a class="articulo"><fmt:message key="nome_traballo"/></a>
+                    <br>
+                    <input name="nome_traballo" type="congreso" maxlength="250" style="width:600px;" readonly  value="${nomeTraballo}">
+                    <br>
+                    <a class="articulo"><fmt:message key="categoria"/></a>
+                    <br>
+                    <select name="categoria" id="categoria" required="">
+                        <option value="${idCategoria}" selected>${categoria}</option>
+                    </select>
+                    <br>
+                    <a class="articulo"><fmt:message key="autores"/></a>
+                    <br>
+                    <textarea name="autores" maxlength="250" class="areaTexto" readonly>${autores}</textarea>
+                </div>
+        </fieldset>
+        <fieldset class="center_form gris_claro">
+            <legend class="articulo"><fmt:message key="msg_footer_01"/></legend>
+            <a class="articulo" href="contacto.htm"><fmt:message key="msg_footer_02"/></a>
+        </fieldset>
+        <footer>
+            <a class="articulo"><fmt:message key="msg_footer_03"/></a>
+        </footer>
+    </body>
+</html>

@@ -45,38 +45,31 @@
             </ul>
         </nav>
         <fieldset class="center_form gris_oscuro">
-            <legend class="subtitulo"><fmt:message key="editar_traballo01"/></legend>
+            <legend class="subtitulo"><fmt:message key="datos_traballo01"/></legend>
             <br>
-            <form method="post" action="modificacion_traballo.htm" id="alta_traballo" enctype="multipart/form-data">
+            <form method="post" action="revisar_traballo.htm" id="alta_traballo">
                 <input name="idTraballo" type="hidden" value="${idTraballo}">
-                <a class="articulo"><fmt:message key="modificar_traballo02"/></a>
+                <a class="articulo"><fmt:message key="datos_traballo02"/></a>
                 <br><br>
                 <a class="articulo"><fmt:message key="nome_traballo"/></a>
                 <br>
-                <input name="nome_traballo" type="congreso" maxlength="250" style="width:600px;" required="true"  value="${nomeTraballo}">
+                <input name="nome_traballo" type="congreso" maxlength="250" style="width:600px;" readonly required="true"  value="${nomeTraballo}">
                 <br>
                 <a class="articulo"><fmt:message key="categoria"/></a>
                 <br>
                 <select name="categoria" id="categoria" required="">
-                    <option value="${idCategoria}" selected>${categoria} - Actual</option>
-                    <option value="1">Publicación</option>
-                    <option value="2">Artículo</option>
-                    <option value="3">Tesis</option>
-                    <option value="4">Investigación</option>
-                    <option value="5">Disertación</option>
+                    <option value="${idCategoria}" selected>${categoria}</option>
                 </select>
                 <br>
                 <a class="articulo"><fmt:message key="autores"/></a>
                 <br>
-                <textarea name="autores" maxlength="250" class="areaTexto">${autores}</textarea>
+                <textarea name="autores" maxlength="250" readonly class="areaTexto">${autores}</textarea>
                 <br><br>
                 <a class="articulo"><fmt:message key="trabajo_actual"/></a>
                 <td><a class="articulo" target="_blank" href="abrir_traballo.htm?id=${idTraballo}">${nomeTraballo}</a></td>
                 <br><br>
-                <a class="articulo"><fmt:message key="modificar_trabajo_actual"/></a>
-                <input type="file" name="trabajoModificado" class="trabajo">
-                <br><br>
-                <button type="submit" class="button blue" value="Submit">Enviar</button>
+                <button type="submit" class="button blue" value="Submit">Revisar</button>
+                <input type="submit" formaction="asignar_revisores.htm" class="button blue" value="Asignar revisor/es">
                 <input type="submit" formaction="trabajos.htm" class="button blue" value="Regresar">
             </form>            
                 

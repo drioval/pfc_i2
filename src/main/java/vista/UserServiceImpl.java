@@ -630,8 +630,6 @@ public class UserServiceImpl implements UserService {
                             listaEstadoTraballos.add(traballoDetalle.getEstadoTraballo());
                             System.out.println("nomeEstadoTraballo: " + estadoTraballo.getNomeEstado());
                         }
-
-                        vista.setViewName("WEB-INF/jsp/access/admin_traballo.jsp");
                         vista.addObject("listaTraballos", listaDetalleTraballos);
                         vista.addObject("listaEstadoTraballos", listaEstadoTraballos);
                         vista.addObject("fFinEnvio", congreso.getCongresoDetalle().getfFinEnvio());
@@ -1042,4 +1040,84 @@ public class UserServiceImpl implements UserService {
 
         return vista;
     }
+    
+    @Override
+    public ModelAndView accionVerDatosTrabajo(String usuario, Integer idTraballo){
+  
+        ModelAndView vista = new ModelAndView("WEB-INF/jsp/access/ver_traballo.jsp");
+        vista.addObject("usuario", usuario);
+
+        TraballoDetalleDaoHibernate traballoDetalleDaoHibernate = new TraballoDetalleDaoHibernate();
+        traballoDetalleDaoHibernate.setSessionFactory(sessionFactory);
+
+        TraballoDetalle traballoDetalle = traballoDetalleDaoHibernate.obtenerTraballoDetalle(idTraballo);
+
+        Integer idCategoria = traballoDetalle.getCategoria();
+        String categoria = null;
+        if (idCategoria == 1) {
+            categoria = "Publicación";
+        } else if (idCategoria == 2) {
+            categoria = "Artículo";
+        } else if (idCategoria == 3) {
+            categoria = "Tesis";
+        } else if (idCategoria == 4) {
+            categoria = "Investigación";
+        } else if (idCategoria == 5) {
+            categoria = "Disertación";
+        }
+
+        vista.addObject("idTraballo", traballoDetalle.getIdTraballo());
+        vista.addObject("idTraballoDetalle", traballoDetalle.getIdTraballoDetalle());
+        vista.addObject("nomeTraballo", traballoDetalle.getNomeTraballo());
+        vista.addObject("idCategoria", traballoDetalle.getCategoria());
+        vista.addObject("categoria", categoria);
+        vista.addObject("autores", traballoDetalle.getAutores());
+        vista.addObject("traballo", traballoDetalle.getTraballo());
+
+        return vista;
+    }
+    
+    public ModelAndView accionRevisarTraballo(String usuario, Integer idTraballo){
+        ModelAndView vista = new ModelAndView("WEB-INF/jsp/access/revisar_traballo.jsp");
+        vista.addObject("usuario", usuario);
+
+        TraballoDetalleDaoHibernate traballoDetalleDaoHibernate = new TraballoDetalleDaoHibernate();
+        traballoDetalleDaoHibernate.setSessionFactory(sessionFactory);
+
+        TraballoDetalle traballoDetalle = traballoDetalleDaoHibernate.obtenerTraballoDetalle(idTraballo);
+
+        Integer idCategoria = traballoDetalle.getCategoria();
+        String categoria = null;
+        if (idCategoria == 1) {
+            categoria = "Publicación";
+        } else if (idCategoria == 2) {
+            categoria = "Artículo";
+        } else if (idCategoria == 3) {
+            categoria = "Tesis";
+        } else if (idCategoria == 4) {
+            categoria = "Investigación";
+        } else if (idCategoria == 5) {
+            categoria = "Disertación";
+        }
+
+        vista.addObject("idTraballo", traballoDetalle.getIdTraballo());
+        vista.addObject("idTraballoDetalle", traballoDetalle.getIdTraballoDetalle());
+        vista.addObject("nomeTraballo", traballoDetalle.getNomeTraballo());
+        vista.addObject("idCategoria", traballoDetalle.getCategoria());
+        vista.addObject("categoria", categoria);
+        vista.addObject("autores", traballoDetalle.getAutores());
+        
+        vista.addObject("fInicioEnvio", traballoDetalle.getfInicioEnvio());
+        vista.addObject("fFinEnvio", traballoDetalle.getfFinEnvio());
+        vista.addObject("fIncioRevision", traballoDetalle.getfIncioRevision());
+        vista.addObject("fFinRevision", traballoDetalle.getfFinRevision());
+        
+        vista.addObject("nomeEstado", traballoDetalle.getEstadoTraballo().getNomeEstado());
+        
+        vista.addObject("traballo", traballoDetalle.getTraballo());
+        vista.addObject("textoAccion", "revision_traballo02");        
+
+        return vista;
+    }
+    
 }
