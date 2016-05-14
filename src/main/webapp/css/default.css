@@ -67,8 +67,8 @@ footer {
 .center_form {
     position: relative;
     top: 50%;
-    margin-left: 10%;
-    margin-right: 10%;
+    margin-left: 5%;
+    margin-right: 5%;
     border: 1px solid #c4c4c4;
     height: border-box;
     width: border-box;
@@ -345,74 +345,47 @@ button:hover {
 }
 
 .areaTexto{
-    width: 400px; 
+    width: 90%; 
     min-width:400px; 
-    max-width:400px; 
+    max-width:90%; 
 
     height:200px; 
     min-height:200px;  
     max-height:200px;
 }
 
+/*estilos visuales de la tabla*/
 table {
+    font-family: Georgia,serif;
+    font-size: 14px;
     border-collapse: collapse;
-    font-family:Georgia,serif;
-    border: 1px;
-    position: relative;
-    margin:0;
-    padding: 10px 0;
+    width: 100%;
 }
 
-th {
-    color: #000000; /* Color del texto */
-    font-size: 14px; /* Tamaño del texto */
+ td, th {
+    border: 1px solid #ddd;
     text-align: left;
     padding: 8px;
-    border-style: solid;
-    border-color: transparent;
-    bottom: -10px;
 }
 
-tr:nth-child(even){
-    font-family:Georgia,serif;
-    color: #000000; /* Color del texto */
-    font-size: 14px; /* Tamaño del texto */
-    background-color: #f2f2f2;
-    border-style: solid;
-    border-color: transparent;
-    bottom: -10px;
+ tr:nth-child(even){background-color: #f2f2f2}
+
+ tr:hover {background-color: lightblue;}
+
+ th {
+    padding-top: 2px;
+    padding-bottom: 2px;
+    background-color: #3A819D;
+    color: white;
 }
 
-tr{
-    font-family:Georgia,serif;
-    color: #000000;
-    font-size:14px; /* Tamaño del texto al pasar el cursor */
-    color: #000000;
+.star-rating a {
+  display: inline-block;
+  color: #95a5a6; /* gris (normal) */
 }
-
-tr:hover{
-    font-family:Georgia,serif;
-    font-size:16px; /* Tamaño del texto al pasar el cursor */
-    font-weight: bold;
-    color: #000000;  
-    transition:all .1s linear;
-    -o-transition:all .1s linear;
-    -moz-transition:all .1s linear;
-    -webkit-transition:all .1s linear;
+.star-rating:hover a {
+  color: #f39c12; /* amarillo (seleccionado) */
 }
-
-.plegable{
-   max-height:0;
-   overflow:hidden;
-   -webkit-transition: max-height 500ms ease-out;
-   -moz-transition: max-height 500ms ease-out;
-   -o-transition: max-height 500ms ease-out;
-   transition: max-height 500ms ease-out;
-}
-.plegable.desplegado{
-   max-height:500;
-   -webkit-transition: max-height 500ms ease-out;
-   -moz-transition: max-height 500ms ease-out;
-   -o-transition: max-height 500ms ease-out;
-   transition: max-height 500ms ease-out;
-}
+  .star-rating:hover a:hover ~ a {
+    color: #95a5a6; /* gris (normal) */
+  }

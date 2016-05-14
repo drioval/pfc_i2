@@ -60,7 +60,7 @@
                             <th><fmt:message key="tabla_trabajo05"/></th>
                             <th><fmt:message key="tabla_trabajo06"/></th>
                             <th><fmt:message key="tabla_trabajo07"/></th>
-                            <th></th>
+                            <th colspan="4"></th>
                         </tr>
                         <c:forEach items="${listaTraballos}" var="traballos" varStatus="indice">
                             <tr>

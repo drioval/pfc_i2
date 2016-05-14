@@ -55,18 +55,14 @@
                     <table>
                         <tr>
                             <th><fmt:message key="tabla_trabajo01"/></th>
-                            <th><fmt:message key="tabla_trabajo03"/></th>
-                            <th><fmt:message key="tabla_trabajo04"/></th>
                             <th><fmt:message key="tabla_trabajo05"/></th>
                             <th><fmt:message key="tabla_trabajo06"/></th>
                             <th><fmt:message key="tabla_trabajo07"/></th>
-                            <th></th>
+                            <th colspan="5"></th>
                         </tr>
                         <c:forEach items="${listaTraballos}" var="traballos" varStatus="indice">
                             <tr>
                                 <td><c:out value="${traballos.nomeTraballo}"/></td>
-                                <td><fmt:formatDate  pattern="dd/MM/yyyy" value="${traballos.fInicioEnvio}"/></td>
-                                <td><fmt:formatDate  pattern="dd/MM/yyyy" value="${traballos.fFinEnvio}" /></td>
                                 <td><fmt:formatDate  pattern="dd/MM/yyyy" value="${traballos.fIncioRevision}"/></td>
                                 <td><fmt:formatDate  pattern="dd/MM/yyyy" value="${traballos.fFinRevision}"/></td>
                                 <td><c:out value="${listaEstadoTraballos[indice.index].nomeEstado}"/></td>
@@ -78,11 +74,6 @@
                                     <td><a class="articulo" href="asignar_revisor.htm?id=${traballos.idTraballo}"><fmt:message key="accion_asignar_revisor"/></a></td>
                                     <td><a class="articulo" href="revisar_traballo.htm?id=${traballos.idTraballo}"><fmt:message key="accion_revisar_traballo"/></a></td>
                                     <td><a class="articulo" href="rexeitar_traballo.htm?id=${traballos.idTraballo}"><fmt:message key="accion_rexeitar_traballo"/></a></td>  
-                                </c:if>
-                                <c:if test="${idEstadoTraballo > 1}">
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
                                 </c:if>
                             </tr>
                         </c:forEach>

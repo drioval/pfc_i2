@@ -55,18 +55,16 @@
                     <table>
                         <tr>
                             <th><fmt:message key="tabla_trabajo01"/></th>
-                            <th><fmt:message key="tabla_trabajo03"/></th>
-                            <th><fmt:message key="tabla_trabajo04"/></th>
-                            <th><fmt:message key="tabla_trabajo05"/></th>
+                            <th><fmt:message key="tabla_trabajo08"/></th>
+                            <th><fmt:message key="tabla_trabajo09"/></th>
                             <th><fmt:message key="tabla_trabajo06"/></th>
                             <th><fmt:message key="tabla_trabajo07"/></th>
-                            <th></th>
+                            <th colspan="2"></th>
                         </tr>
                         <tr>
                             <td><c:out value="${nomeTraballo}"/></td>
-                            <td><fmt:formatDate  pattern="dd/MM/yyyy" value="${fInicioEnvio}"/></td>
-                            <td><fmt:formatDate  pattern="dd/MM/yyyy" value="${fFinEnvio}" /></td>
-                            <td><fmt:formatDate  pattern="dd/MM/yyyy" value="${fIncioRevision}"/></td>
+                            <td><c:out value="${categoria}"/></td>
+                            <td><c:out value="${autores}"/></td>
                             <td><fmt:formatDate  pattern="dd/MM/yyyy" value="${fFinRevision}"/></td>
                             <td><c:out value="${nomeEstado}"/></td>
                             <td><a class="articulo" target="_blank" href="abrir_traballo.htm?id=${idTraballo}"><fmt:message key="accion_ver_traballo"/></a></td>
@@ -75,28 +73,28 @@
                                 <c:if test="${idEstadoTraballo == 2}">
                                 <td><a class="articulo" href="rexeitar_traballo.htm?id=${traballos.idTraballo}"><fmt:message key="accion_rexeitar_traballo"/></a></td>  
                                 </c:if>
-                                <c:if test="${idEstadoTraballo > 1}">
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </c:if>
                         </tr>
                     </table>
                 </div>
-                <div class="plegable">
-                    <a class="articulo"><fmt:message key="nome_traballo"/></a>
-                    <br>
-                    <input name="nome_traballo" type="congreso" maxlength="250" style="width:600px;" readonly  value="${nomeTraballo}">
-                    <br>
-                    <a class="articulo"><fmt:message key="categoria"/></a>
-                    <br>
-                    <select name="categoria" id="categoria" required="">
-                        <option value="${idCategoria}" selected>${categoria}</option>
-                    </select>
-                    <br>
-                    <a class="articulo"><fmt:message key="autores"/></a>
-                    <br>
-                    <textarea name="autores" maxlength="250" class="areaTexto" readonly>${autores}</textarea>
+                <div>
+                    <form method="post" action="envia_revision.htm" id="revision_traballo">
+                        <a class="articulo"><fmt:message key="informe_publico"/></a>
+                        <br>
+                        <textarea name="informe_publico" maxlength="500" class="areaTexto"></textarea>
+                        <br><br>
+                        <a class="articulo"><fmt:message key="informe_privado"/></a>
+                        <br>
+                        <textarea name="informe_privado" maxlength="500" class="areaTexto"></textarea>
+                        <br><br>
+                        <a class="articulo"><fmt:message key="puntuacion"/></a>                       
+                        <div class="star-rating">    
+                            <a href="#">&#9733;</a>
+                            <a href="#">&#9733;</a>
+                            <a href="#">&#9733;</a>
+                            <a href="#">&#9733;</a>
+                            <a href="#">&#9733;</a>
+                        </div>
+                    </form>
                 </div>
         </fieldset>
         <fieldset class="center_form gris_claro">
