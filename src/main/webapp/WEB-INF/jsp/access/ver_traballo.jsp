@@ -68,7 +68,7 @@
                 <a class="articulo"><fmt:message key="trabajo_actual"/></a>
                 <td><a class="articulo" target="_blank" href="abrir_traballo.htm?id=${idTraballo}">${nomeTraballo}</a></td>
                 <br><br>
-                <button type="submit" class="button blue" value="Submit">Revisar</button>
+                <input type="submit" formaction="revisar_traballo.htm?id=${idTraballo}" class="button blue" value="Revisar">
                 <input type="submit" formaction="asignar_revisores.htm" class="button blue" value="Asignar revisor/es">
                 <input type="submit" formaction="trabajos.htm" class="button blue" value="Regresar">
             </form>            

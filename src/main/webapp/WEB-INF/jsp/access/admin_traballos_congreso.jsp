@@ -75,11 +75,12 @@
                                     <td><a class="articulo" href="revisar_traballo.htm?id=${traballos.idTraballo}"><fmt:message key="accion_revisar_traballo"/></a></td>
                                     <td><a class="articulo" href="rexeitar_traballo.htm?id=${traballos.idTraballo}"><fmt:message key="accion_rexeitar_traballo"/></a></td>  
                                 </c:if>
+                                <c:if test="${idEstadoTraballo == 7}">
+                                <td><a class="articulo" href="ver_datos_traballo.htm?id=${traballos.idTraballo}"><fmt:message key="accion_ver_datos_traballo"/></a></td>
+                                    <td><a class="articulo" href="ver_revision_traballo.htm?id=${traballos.idTraballo}"><fmt:message key="accion_ver_revision_traballo"/></a></td>
+                                </c:if>
                             </tr>
                         </c:forEach>
-                        <c:if test="${fFinEnvio gt now}">
-                            <td><a class="articulo" href="anadir_trabajo.htm"><fmt:message key="accion_anadir_traballo"/></a></td>
-                        </c:if>
                         
                     </table>
                     </fieldset>

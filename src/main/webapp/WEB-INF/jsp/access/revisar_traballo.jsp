@@ -76,6 +76,7 @@
                         </tr>
                     </table>
                 </div>
+                <br>
                 <div>
                     <form method="post" action="envia_revision.htm" id="revision_traballo">
                         <a class="articulo"><fmt:message key="informe_publico"/></a>
@@ -87,13 +88,21 @@
                         <textarea name="informe_privado" maxlength="500" class="areaTexto"></textarea>
                         <br><br>
                         <a class="articulo"><fmt:message key="puntuacion"/></a>                       
-                        <div class="star-rating">    
-                            <a href="#">&#9733;</a>
-                            <a href="#">&#9733;</a>
-                            <a href="#">&#9733;</a>
-                            <a href="#">&#9733;</a>
-                            <a href="#">&#9733;</a>
-                        </div>
+                        <input type="radio" name="puntuacion" value="1"><a class="articulo">1</a>
+                        <input type="radio" name="puntuacion" value="2"><a class="articulo">2</a>
+                        <input type="radio" name="puntuacion" value="3" checked><a class="articulo">3</a>
+                        <input type="radio" name="puntuacion" value="4"><a class="articulo">4</a>
+                        <input type="radio" name="puntuacion" value="5"><a class="articulo">5</a>
+                        <br><br>
+                        <a class="articulo"><fmt:message key="sugerencia"/></a>                       
+                        <input type="radio" name="sugerencia" value="1"><a class="articulo"><fmt:message key="sugerencia_rechazar"/></a>
+                        <input type="radio" name="sugerencia" value="2"><a class="articulo"><fmt:message key="sugerencia_cmayores"/></a>
+                        <input type="radio" name="sugerencia" value="3"><a class="articulo"><fmt:message key="sugerencia_cmenores"/></a>
+                        <input type="radio" name="sugerencia" value="4" checked><a class="articulo"><fmt:message key="sugerencia_aceptar"/></a>
+                        <br><br>
+                        <button type="submit" class="button blue" value="Submit">Enviar</button>
+                        <button type="reset" class="button blue" value="Reset">Borrar</button>
+                        <input type="submit" formaction="trabajos.htm" class="button blue" value="Regresar">
                     </form>
                 </div>
         </fieldset>
