@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="modelo.Revision" table="Revision">
+        <id name="idRevision" type="integer">
+            <column name="idRevision"/>
+            <generator class="identity"/>
+        </id>
+        <many-to-one name="congreso" class="modelo.Congreso" fetch="select">
+            <column name="idCongreso" not-null="true"/>
+        </many-to-one>
+        <many-to-one name="traballo" class="modelo.Traballo" fetch="select">
+            <column name="idTraballo" not-null="true"/>
+        </many-to-one>
+        <many-to-one name="userProfileAutor" class="modelo.UserProfile" fetch="select">
+            <column name="idUsuarioAutor" not-null="true"/>
+        </many-to-one>
+        <many-to-one name="userProfileRevisor" class="modelo.UserProfile" fetch="select">
+            <column name="IdUsuarioRevisor" not-null="true"/>
+        </many-to-one>
+        <property name="revisionPublica" type="string">
+            <column name="revisionPublica" length="500" not-null="false"/>
+        </property>
+        <property name="revisionPrivada" type="string">
+            <column name="revisionPrivada" length="500" not-null="false"/>
+        </property>
+        <property name="puntuacion" type="integer">
+            <column name="puntuacion" not-null="false"/>
+        </property>
+        <property name="recomendacion" type="string">
+            <column name="recomendacion" length="45" not-null="false"/>
+        </property>
+    </class>
+</hibernate-mapping>

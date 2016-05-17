@@ -38,4 +38,7 @@ public interface UserService {
      public ModelAndView modificacionTraballo(String usuario, Integer idTraballoDetalle, String nomeTraballo, Integer categoria, String autores, byte[] traballo);
      public ModelAndView accionVerDatosTrabajo(String usuario, Integer idTraballo);
      public ModelAndView accionRevisarTraballo(String usuario, Integer idTraballo);
+     public ModelAndView enviaRevision(String usuario, Integer idTraballo,String informePublico, String informePrivado, Integer puntuacion, String sugerencia);
+     public ModelAndView ver_lista_revisiones(String usuario, Integer idTraballo);
+     public ModelAndView ver_revision_traballo(String usuario, Integer idTraballo);
 }

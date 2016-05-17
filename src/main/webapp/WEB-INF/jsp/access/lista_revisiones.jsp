@@ -47,49 +47,51 @@
         <fieldset class="center_form gris_oscuro">
             <legend class="subtitulo"><fmt:message key="admin_traballo01"/></legend>
             <br>
-            <form method="post" action="alta_traballo.htm" id="alta_traballo" enctype="multipart/form-data">
-
+            <form method="post" action="aceptar_traballo.htm" id="aceptar_traballo">
                 <a class="articulo"><fmt:message key="${textoAccion}"/></a>
                 <br><br>
                 <div style="overflow-x:auto;">
                     <table>
                         <tr>
-                            <th><fmt:message key="tabla_trabajo01"/></th>
-                            <th><fmt:message key="tabla_trabajo05"/></th>
-                            <th><fmt:message key="tabla_trabajo06"/></th>
-                            <th><fmt:message key="tabla_trabajo07"/></th>
+                            <th><fmt:message key="tabla_revision01"/></th>
+                            <th><fmt:message key="puntuacion"/></th>
+                            <th><fmt:message key="tabla_revision03"/></th>
                             <th colspan="5"></th>
                         </tr>
-                        <c:forEach items="${listaTraballos}" var="traballos" varStatus="indice">
+                        <c:forEach items="${listaRevisiones}" var="revision" varStatus="indice">
                             <tr>
-                                <td><c:out value="${traballos.nomeTraballo}"/></td>
-                                <td><fmt:formatDate  pattern="dd/MM/yyyy" value="${traballos.fIncioRevision}"/></td>
-                                <td><fmt:formatDate  pattern="dd/MM/yyyy" value="${traballos.fFinRevision}"/></td>
-                                <td><c:out value="${listaEstadoTraballos[indice.index].nomeEstado}"/></td>
-                                <td><a class="articulo" target="_blank" href="abrir_traballo.htm?id=${traballos.idTraballo}"><fmt:message key="accion_ver_traballo"/></a></td>
-                                <jsp:useBean id="now" class="java.util.Date" />
-                                <c:set var="idEstadoTraballo" scope="session" value="${listaEstadoTraballos[indice.index].idEstadoTraballo}"/>
-                                <c:if test="${idEstadoTraballo == 2}">
-                                    <td><a class="articulo" href="ver_datos_traballo.htm?id=${traballos.idTraballo}"><fmt:message key="accion_ver_datos_traballo"/></a></td>
-                                    <td><a class="articulo" href="asignar_revisor.htm?id=${traballos.idTraballo}"><fmt:message key="accion_asignar_revisor"/></a></td>
-                                    <td><a class="articulo" href="revisar_traballo.htm?id=${traballos.idTraballo}"><fmt:message key="accion_revisar_traballo"/></a></td>
-                                    <td><a class="articulo" href="accion_rexeitar_traballo.htm?id=${traballos.idTraballo}"><fmt:message key="accion_rexeitar_traballo"/></a></td>  
+                                <td><c:out value="${revision.userProfileRevisor.usuario}"/></td>
+                                <td><c:out value="${revision.puntuacion}"/></td>
+                                <c:if test="${revision.recomendacion == 1}">
+                                    <td><fmt:message key="sugerencia_rechazar"/></td>
                                 </c:if>
-                                <c:if test="${idEstadoTraballo == 7}">
-                                <td><a class="articulo" href="ver_datos_traballo.htm?id=${traballos.idTraballo}"><fmt:message key="accion_ver_datos_traballo"/></a></td>
-                                    <td><a class="articulo" href="ver_lista_revisiones.htm?id=${traballos.idTraballo}"><fmt:message key="accion_ver_lista_revisiones"/></a></td>
+                                <c:if test="${revision.recomendacion == 2}">
+                                    <td><fmt:message key="sugerencia_cmayores"/></td>
                                 </c:if>
+                                <c:if test="${revision.recomendacion == 3}">
+                                    <td><fmt:message key="sugerencia_cmenores"/></td>
+                                </c:if>
+                                <c:if test="${revision.recomendacion == 4}">
+                                    <td><fmt:message key="sugerencia_aceptar"/></td>
+                                </c:if>
+                                <td><a class="articulo" target="_blank" href="abrir_traballo.htm?id=${revision.traballo.idTraballo}"><fmt:message key="accion_ver_traballo"/></a></td>
+                                <td><a class="articulo" href="ver_revision_traballo.htm?id=${revision.idRevision}"><fmt:message key="accion_ver_revision_traballo"/></a></td>
                             </tr>
-                        </c:forEach>
-                        
+                        </c:forEach>    
                     </table>
-                    </fieldset>
-                    <fieldset class="center_form gris_claro">
-                        <legend class="articulo"><fmt:message key="msg_footer_01"/></legend>
-                        <a class="articulo" href="contacto.htm"><fmt:message key="msg_footer_02"/></a>
-                    </fieldset>
-                    <footer>
-                        <a class="articulo"><fmt:message key="msg_footer_03"/></a>
-                    </footer>
-                    </body>
-                    </html>
+                </div>
+                <input type="hidden" name="idTraballo" value="${idTraballo}">
+                <input type="submit" class="button blue" value="<fmt:message key="aceptar_trabajo"/>">
+                <input type="submit" formaction="accion_rexeitar_traballo.htm?id=${idTraballo}" class="button blue" value="<fmt:message key="accion_rexeitar_traballo"/>">
+                <input type="submit" formaction="trabajos.htm" class="button blue" value="Regresar">
+            </form>
+        </fieldset>
+        <fieldset class="center_form gris_claro">
+            <legend class="articulo"><fmt:message key="msg_footer_01"/></legend>
+            <a class="articulo" href="contacto.htm"><fmt:message key="msg_footer_02"/></a>
+        </fieldset>
+        <footer>
+            <a class="articulo"><fmt:message key="msg_footer_03"/></a>
+        </footer>
+    </body>
+</html>

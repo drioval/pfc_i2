@@ -47,64 +47,64 @@
         <fieldset class="center_form gris_oscuro">
             <legend class="subtitulo"><fmt:message key="revision_traballo01"/></legend>
             <br>
-            <form method="post" action="alta_traballo.htm" id="alta_traballo" enctype="multipart/form-data">
 
-                <a class="articulo"><fmt:message key="${textoAccion}"/></a>
-                <br><br>
-                <div style="overflow-x:auto;">
-                    <table>
-                        <tr>
-                            <th><fmt:message key="tabla_trabajo01"/></th>
-                            <th><fmt:message key="tabla_trabajo08"/></th>
-                            <th><fmt:message key="tabla_trabajo09"/></th>
-                            <th><fmt:message key="tabla_trabajo06"/></th>
-                            <th><fmt:message key="tabla_trabajo07"/></th>
-                            <th colspan="2"></th>
-                        </tr>
-                        <tr>
-                            <td><c:out value="${nomeTraballo}"/></td>
-                            <td><c:out value="${categoria}"/></td>
-                            <td><c:out value="${autores}"/></td>
-                            <td><fmt:formatDate  pattern="dd/MM/yyyy" value="${fFinRevision}"/></td>
-                            <td><c:out value="${nomeEstado}"/></td>
-                            <td><a class="articulo" target="_blank" href="abrir_traballo.htm?id=${idTraballo}"><fmt:message key="accion_ver_traballo"/></a></td>
-                                <jsp:useBean id="now" class="java.util.Date" />
-                                <c:set var="idEstadoTraballo" scope="session" value="${idEstadoTraballo}"/>
-                                <c:if test="${idEstadoTraballo == 2}">
-                                <td><a class="articulo" href="rexeitar_traballo.htm?id=${traballos.idTraballo}"><fmt:message key="accion_rexeitar_traballo"/></a></td>  
-                                </c:if>
-                        </tr>
-                    </table>
-                </div>
-                <br>
-                <div>
-                    <form method="post" action="envia_revision.htm" id="revision_traballo">
-                        <a class="articulo"><fmt:message key="informe_publico"/></a>
-                        <br>
-                        <textarea name="informe_publico" maxlength="500" class="areaTexto"></textarea>
-                        <br><br>
-                        <a class="articulo"><fmt:message key="informe_privado"/></a>
-                        <br>
-                        <textarea name="informe_privado" maxlength="500" class="areaTexto"></textarea>
-                        <br><br>
-                        <a class="articulo"><fmt:message key="puntuacion"/></a>                       
-                        <input type="radio" name="puntuacion" value="1"><a class="articulo">1</a>
-                        <input type="radio" name="puntuacion" value="2"><a class="articulo">2</a>
-                        <input type="radio" name="puntuacion" value="3" checked><a class="articulo">3</a>
-                        <input type="radio" name="puntuacion" value="4"><a class="articulo">4</a>
-                        <input type="radio" name="puntuacion" value="5"><a class="articulo">5</a>
-                        <br><br>
-                        <a class="articulo"><fmt:message key="sugerencia"/></a>                       
-                        <input type="radio" name="sugerencia" value="1"><a class="articulo"><fmt:message key="sugerencia_rechazar"/></a>
-                        <input type="radio" name="sugerencia" value="2"><a class="articulo"><fmt:message key="sugerencia_cmayores"/></a>
-                        <input type="radio" name="sugerencia" value="3"><a class="articulo"><fmt:message key="sugerencia_cmenores"/></a>
-                        <input type="radio" name="sugerencia" value="4" checked><a class="articulo"><fmt:message key="sugerencia_aceptar"/></a>
-                        <br><br>
-                        <button type="submit" class="button blue" value="Submit">Enviar</button>
-                        <button type="reset" class="button blue" value="Reset">Borrar</button>
-                        <input type="submit" formaction="trabajos.htm" class="button blue" value="Regresar">
-                    </form>
-                </div>
+            <a class="articulo"><fmt:message key="${textoAccion}"/></a>
+            <br><br>
+            <div style="overflow-x:auto;">
+                <table>
+                    <tr>
+                        <th><fmt:message key="tabla_trabajo01"/></th>
+                        <th><fmt:message key="tabla_trabajo08"/></th>
+                        <th><fmt:message key="tabla_trabajo09"/></th>
+                        <th><fmt:message key="tabla_trabajo06"/></th>
+                        <th><fmt:message key="tabla_trabajo07"/></th>
+                        <th colspan="2"></th>
+                    </tr>
+                    <tr>
+                        <td><c:out value="${nomeTraballo}"/></td>
+                        <td><c:out value="${categoria}"/></td>
+                        <td><c:out value="${autores}"/></td>
+                        <td><fmt:formatDate  pattern="dd/MM/yyyy" value="${fFinRevision}"/></td>
+                        <td><c:out value="${nomeEstado}"/></td>
+                        <td><a class="articulo" target="_blank" href="abrir_traballo.htm?id=${idTraballo}"><fmt:message key="accion_ver_traballo"/></a></td>
+                            <jsp:useBean id="now" class="java.util.Date" />
+                            <c:set var="idEstadoTraballo" scope="session" value="${idEstadoTraballo}"/>
+                            <c:if test="${idEstadoTraballo == 2}">
+                            <td><a class="articulo" href="rexeitar_traballo.htm?id=${idTraballo}"><fmt:message key="accion_rexeitar_traballo"/></a></td>  
+                            </c:if>
+                    </tr>
+                </table>
+            </div>
+            <br>
+            <div>
+                <form method="post" action="envia_revision.htm" id="revision_traballo">
+                    <a class="articulo"><fmt:message key="informe_publico"/></a>
+                    <br>
+                    <textarea name="informe_publico" maxlength="500" class="areaTexto"></textarea>
+                    <br><br>
+                    <a class="articulo"><fmt:message key="informe_privado"/></a>
+                    <br>
+                    <textarea name="informe_privado" maxlength="500" class="areaTexto"></textarea>
+                    <br><br>
+                    <a class="articulo"><fmt:message key="puntuacion"/></a>                       
+                    <input type="radio" name="puntuacion" value="1"><a class="articulo">1</a>
+                    <input type="radio" name="puntuacion" value="2"><a class="articulo">2</a>
+                    <input type="radio" name="puntuacion" value="3" checked><a class="articulo">3</a>
+                    <input type="radio" name="puntuacion" value="4"><a class="articulo">4</a>
+                    <input type="radio" name="puntuacion" value="5"><a class="articulo">5</a>
+                    <br><br>
+                    <a class="articulo"><fmt:message key="sugerencia"/></a>                       
+                    <input type="radio" name="sugerencia" value="1"><a class="articulo"><fmt:message key="sugerencia_rechazar"/></a>
+                    <input type="radio" name="sugerencia" value="2"><a class="articulo"><fmt:message key="sugerencia_cmayores"/></a>
+                    <input type="radio" name="sugerencia" value="3"><a class="articulo"><fmt:message key="sugerencia_cmenores"/></a>
+                    <input type="radio" name="sugerencia" value="4" checked><a class="articulo"><fmt:message key="sugerencia_aceptar"/></a>
+                    <br><br>
+                    <input type="hidden" name="idTraballo" value="${idTraballo}">
+                    <button type="submit" class="button blue" value="Submit">Enviar</button>
+                    <button type="reset" class="button blue" value="Reset">Borrar</button>
+                    <input type="submit" formaction="trabajos.htm" class="button blue" value="Regresar">
+                </form>
+            </div>
         </fieldset>
         <fieldset class="center_form gris_claro">
             <legend class="articulo"><fmt:message key="msg_footer_01"/></legend>

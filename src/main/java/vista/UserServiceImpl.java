@@ -19,6 +19,8 @@ import modelo.EstadoCongreso;
 import modelo.EstadoCongresoDaoHibernate;
 import modelo.EstadoTraballo;
 import modelo.EstadoTraballoDaoHibernate;
+import modelo.Revision;
+import modelo.RevisionDaoHibernate;
 import modelo.Traballo;
 import modelo.TraballoDaoHibernate;
 import modelo.TraballoDetalle;
@@ -1115,9 +1117,147 @@ public class UserServiceImpl implements UserService {
         vista.addObject("nomeEstado", traballoDetalle.getEstadoTraballo().getNomeEstado());
         
         vista.addObject("traballo", traballoDetalle.getTraballo());
-        vista.addObject("textoAccion", "revision_traballo02");        
+        vista.addObject("textoAccion", "revision_traballo02");
 
         return vista;
     }
     
+    @Override
+    @Transactional
+    public ModelAndView enviaRevision(String usuario, Integer idTraballo,String informePublico, String informePrivado, Integer puntuacion, String sugerencia){
+        ModelAndView vista = new ModelAndView("WEB-INF/jsp/access/revision_traballo.jsp");
+        vista.addObject("usuario", usuario);
+        vista.addObject("textoAccion", "revision_enviada01");
+        
+        TraballoDaoHibernate traballoDaoHibernate=new TraballoDaoHibernate();
+        traballoDaoHibernate.setSessionFactory(sessionFactory);
+        
+        Traballo traballo=traballoDaoHibernate.obtenerTraballo(idTraballo);
+                
+        TraballoDetalleDaoHibernate traballoDetalleDaoHibernate=new TraballoDetalleDaoHibernate();
+        traballoDetalleDaoHibernate.setSessionFactory(sessionFactory);
+        
+        TraballoDetalle traballoDetalle=traballoDetalleDaoHibernate.obtenerTraballoDetalle(traballo.getIdTraballo());
+        
+        CongresoDaoHibernate congresoDaoHibernate=new CongresoDaoHibernate();
+        congresoDaoHibernate.setSessionFactory(sessionFactory);
+        
+        Congreso congreso=congresoDaoHibernate.obtenerCongreso(traballo.getCongreso().getIdCongreso());
+        
+        UserProfileDaoHibernate userProfileDaoHibernate=new UserProfileDaoHibernate();
+        userProfileDaoHibernate.setSessionFactory(sessionFactory);
+        
+        UserProfile usuarioAutor=userProfileDaoHibernate.obtenerUserProfile(traballo.getUserProfile().getUserId());
+        UserProfile usuarioRevisor=userProfileDaoHibernate.obtenerUserProfile(usuario);
+        
+        RevisionDaoHibernate revisionDaoHibernate=new RevisionDaoHibernate();
+        revisionDaoHibernate.setSessionFactory(sessionFactory);
+        
+        Revision revision=new Revision(congreso, traballo, usuarioAutor, usuarioRevisor, informePublico, informePrivado, puntuacion, sugerencia);
+        revisionDaoHibernate.guardarRevision(revision);
+        
+        EstadoTraballoDaoHibernate estadoTraballoDao = new EstadoTraballoDaoHibernate();
+        estadoTraballoDao.setSessionFactory(sessionFactory);
+
+        EstadoTraballo estadoTraballo = estadoTraballoDao.obtenerEstadoTraballo(7);//Revisado
+        traballoDetalle.setEstadoTraballo(estadoTraballo);
+        traballoDetalleDaoHibernate.guardarTraballoDetalle(traballoDetalle);
+        
+        Integer idCategoria = traballoDetalle.getCategoria();
+        String categoria = null;
+        if (idCategoria == 1) {
+            categoria = "Publicación";
+        } else if (idCategoria == 2) {
+            categoria = "Artículo";
+        } else if (idCategoria == 3) {
+            categoria = "Tesis";
+        } else if (idCategoria == 4) {
+            categoria = "Investigación";
+        } else if (idCategoria == 5) {
+            categoria = "Disertación";
+        }
+        
+        vista.addObject("informePublico", revision.getRevisionPublica());
+        vista.addObject("informePrivado", revision.getRevisionPrivada());
+        vista.addObject("puntuacion", revision.getPuntuacion());
+        vista.addObject("sugerencia", revision.getRecomendacion());
+
+        vista.addObject("idTraballo", traballoDetalle.getIdTraballo());
+        vista.addObject("idTraballoDetalle", traballoDetalle.getIdTraballoDetalle());
+        vista.addObject("nomeTraballo", traballoDetalle.getNomeTraballo());
+        vista.addObject("idCategoria", traballoDetalle.getCategoria());
+        vista.addObject("categoria", categoria);
+        vista.addObject("autores", traballoDetalle.getAutores());
+        
+        vista.addObject("fInicioEnvio", traballoDetalle.getfInicioEnvio());
+        vista.addObject("fFinEnvio", traballoDetalle.getfFinEnvio());
+        vista.addObject("fIncioRevision", traballoDetalle.getfIncioRevision());
+        vista.addObject("fFinRevision", traballoDetalle.getfFinRevision());
+        
+        vista.addObject("nomeEstado", traballoDetalle.getEstadoTraballo().getNomeEstado());
+        
+        vista.addObject("traballo", traballoDetalle.getTraballo());
+
+        return vista;
+    }
+    
+    @Override
+    public ModelAndView ver_lista_revisiones(String usuario, Integer idTraballo){
+        ModelAndView vista = new ModelAndView("WEB-INF/jsp/access/lista_revisiones.jsp");
+        vista.addObject("usuario", usuario);
+        vista.addObject("textoAccion", "lista_revisiones01");
+        
+        TraballoDaoHibernate traballoDaoHibernate=new TraballoDaoHibernate();
+        traballoDaoHibernate.setSessionFactory(sessionFactory);
+        
+        Traballo traballo=traballoDaoHibernate.obtenerTraballo(idTraballo);
+                
+        TraballoDetalleDaoHibernate traballoDetalleDaoHibernate=new TraballoDetalleDaoHibernate();
+        traballoDetalleDaoHibernate.setSessionFactory(sessionFactory);
+        
+        TraballoDetalle traballoDetalle=traballoDetalleDaoHibernate.obtenerTraballoDetalle(traballo.getIdTraballo());
+        
+        CongresoDaoHibernate congresoDaoHibernate=new CongresoDaoHibernate();
+        congresoDaoHibernate.setSessionFactory(sessionFactory);
+        
+        Congreso congreso=congresoDaoHibernate.obtenerCongreso(traballo.getCongreso().getIdCongreso());
+        
+        UserProfileDaoHibernate userProfileDaoHibernate=new UserProfileDaoHibernate();
+        userProfileDaoHibernate.setSessionFactory(sessionFactory);
+        
+        UserProfile usuarioAutor=userProfileDaoHibernate.obtenerUserProfile(traballo.getUserProfile().getUserId());
+        UserProfile usuarioRevisor=userProfileDaoHibernate.obtenerUserProfile(usuario);
+        
+        RevisionDaoHibernate revisionDaoHibernate=new RevisionDaoHibernate();
+        revisionDaoHibernate.setSessionFactory(sessionFactory);
+        
+        List<Revision> revisiones = revisionDaoHibernate.obtenerRevisionesCongresoTraballo(congreso.getIdCongreso(), idTraballo);
+        
+        vista.addObject("listaRevisiones", revisiones);
+        vista.addObject("idTraballo", traballo.getIdTraballo());
+        
+        return vista;
+    }
+    
+    @Override
+    public ModelAndView ver_revision_traballo(String usuario, Integer idRevision){
+        ModelAndView vista = new ModelAndView("WEB-INF/jsp/access/revision_traballo.jsp");
+        vista.addObject("usuario", usuario);
+        vista.addObject("textoAccion", "ver_revision_enviada01");
+ 
+        RevisionDaoHibernate revisionDaoHibernate=new RevisionDaoHibernate();
+        revisionDaoHibernate.setSessionFactory(sessionFactory);
+        
+        Revision revision=revisionDaoHibernate.obtenerRevision(idRevision);
+        
+        TraballoDetalleDaoHibernate traballoDetalleDaoHibernate = new TraballoDetalleDaoHibernate();
+        traballoDetalleDaoHibernate.setSessionFactory(sessionFactory);
+        
+        TraballoDetalle traballoDetalle=traballoDetalleDaoHibernate.obtenerTraballoDetalle(revision.getTraballo().getIdTraballo());
+        
+        vista.addObject("revision", revision);
+        vista.addObject("traballoDetalle", traballoDetalle);
+
+        return vista;
+    }
 }

@@ -380,4 +380,37 @@ public class MainController {
 
         return servicio.accionRevisarTraballo(request.getUserPrincipal().getName(), idTraballo);
     }
+    
+    @RequestMapping(value = "/envia_revision.htm")
+    public ModelAndView envia_revision(HttpServletResponse response, HttpServletRequest request)
+            throws ServletException, IOException {
+
+        servicio = new UserServiceImpl();
+        servicio.setSessionFactory(sessionFactory);
+        
+        return servicio.enviaRevision(request.getUserPrincipal().getName(), Integer.parseInt(request.getParameter("idTraballo")),
+                request.getParameter("informe_publico"),request.getParameter("informe_privado"), Integer.parseInt(request.getParameter("puntuacion")),
+                request.getParameter("sugerencia"));
+    }
+    
+    @RequestMapping(value = "/ver_lista_revisiones.htm")
+    public ModelAndView ver_lista_revsiones(@RequestParam("id") Integer idTraballo,
+            HttpServletRequest request, HttpServletResponse response) {
+    
+        servicio = new UserServiceImpl();
+        servicio.setSessionFactory(sessionFactory);
+        
+        return servicio.ver_lista_revisiones(request.getUserPrincipal().getName(), idTraballo);
+    }
+    
+    @RequestMapping(value = "/ver_revision_traballo.htm")
+    public ModelAndView ver_revision_traballo(@RequestParam("id") Integer idRevision,
+            HttpServletRequest request, HttpServletResponse response) {
+    
+        servicio = new UserServiceImpl();
+        servicio.setSessionFactory(sessionFactory);
+        
+        return servicio.ver_revision_traballo(request.getUserPrincipal().getName(), idRevision);
+    }
+    
 }

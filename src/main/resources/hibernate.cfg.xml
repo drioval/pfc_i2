@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
-    <session-factory>
-        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
-        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/congreso?zeroDateTimeBehavior=convertToNull</property>
-        <property name="hibernate.connection.username">root</property>
-        <property name="hibernate.connection.password">toor</property>
-        <mapping resource="mapeo/UserProfile.hbm.xml"/>
-        <mapping resource="mapeo/UserProfileDetails.hbm.xml"/>
-        <mapping resource="mapeo/UserRol.hbm.xml"/>
-        <mapping resource="mapeo/EstadoCongreso.hbm.xml"/>
-        <mapping resource="mapeo/EstadoTraballo.hbm.xml"/>
-        <mapping resource="mapeo/Congreso.hbm.xml"/>
-        <mapping resource="mapeo/CongresoDetalle.hbm.xml"/>
-        <mapping resource="mapeo/Traballo.hbm.xml"/>
-        <mapping resource="mapeo/TraballoDetalle.hbm.xml"/>
-        <mapping resource="mapeo/TraballoDetalleVersion.hbm.xml"/>
-    </session-factory>
+  <session-factory>
+    <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+    <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/congreso?zeroDateTimeBehavior=convertToNull</property>
+    <property name="hibernate.connection.username">root</property>
+    <property name="hibernate.connection.password">toor</property>
+    <mapping resource="mapeo/UserProfile.hbm.xml"/>
+    <mapping resource="mapeo/UserProfileDetails.hbm.xml"/>
+    <mapping resource="mapeo/UserRol.hbm.xml"/>
+    <mapping resource="mapeo/EstadoCongreso.hbm.xml"/>
+    <mapping resource="mapeo/EstadoTraballo.hbm.xml"/>
+    <mapping resource="mapeo/Congreso.hbm.xml"/>
+    <mapping resource="mapeo/CongresoDetalle.hbm.xml"/>
+    <mapping resource="mapeo/Traballo.hbm.xml"/>
+    <mapping resource="mapeo/TraballoDetalle.hbm.xml"/>
+    <mapping resource="mapeo/TraballoDetalleVersion.hbm.xml"/>
+    <mapping resource="mapeo/Revision.hbm.xml"/>
+  </session-factory>
 </hibernate-configuration>
