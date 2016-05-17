@@ -1124,7 +1124,7 @@ public class UserServiceImpl implements UserService {
     
     @Override
     @Transactional
-    public ModelAndView enviaRevision(String usuario, Integer idTraballo,String informePublico, String informePrivado, Integer puntuacion, String sugerencia){
+    public ModelAndView enviaRevision(String usuario, Integer idTraballo,String informePublico, String informePrivado, Integer puntuacion, Integer recomendacion){
         ModelAndView vista = new ModelAndView("WEB-INF/jsp/access/revision_traballo.jsp");
         vista.addObject("usuario", usuario);
         vista.addObject("textoAccion", "revision_enviada01");
@@ -1153,7 +1153,7 @@ public class UserServiceImpl implements UserService {
         RevisionDaoHibernate revisionDaoHibernate=new RevisionDaoHibernate();
         revisionDaoHibernate.setSessionFactory(sessionFactory);
         
-        Revision revision=new Revision(congreso, traballo, usuarioAutor, usuarioRevisor, informePublico, informePrivado, puntuacion, sugerencia);
+        Revision revision=new Revision(congreso, traballo, usuarioAutor, usuarioRevisor, informePublico, informePrivado, puntuacion, recomendacion);
         revisionDaoHibernate.guardarRevision(revision);
         
         EstadoTraballoDaoHibernate estadoTraballoDao = new EstadoTraballoDaoHibernate();
@@ -1163,40 +1163,8 @@ public class UserServiceImpl implements UserService {
         traballoDetalle.setEstadoTraballo(estadoTraballo);
         traballoDetalleDaoHibernate.guardarTraballoDetalle(traballoDetalle);
         
-        Integer idCategoria = traballoDetalle.getCategoria();
-        String categoria = null;
-        if (idCategoria == 1) {
-            categoria = "Publicación";
-        } else if (idCategoria == 2) {
-            categoria = "Artículo";
-        } else if (idCategoria == 3) {
-            categoria = "Tesis";
-        } else if (idCategoria == 4) {
-            categoria = "Investigación";
-        } else if (idCategoria == 5) {
-            categoria = "Disertación";
-        }
-        
-        vista.addObject("informePublico", revision.getRevisionPublica());
-        vista.addObject("informePrivado", revision.getRevisionPrivada());
-        vista.addObject("puntuacion", revision.getPuntuacion());
-        vista.addObject("sugerencia", revision.getRecomendacion());
-
-        vista.addObject("idTraballo", traballoDetalle.getIdTraballo());
-        vista.addObject("idTraballoDetalle", traballoDetalle.getIdTraballoDetalle());
-        vista.addObject("nomeTraballo", traballoDetalle.getNomeTraballo());
-        vista.addObject("idCategoria", traballoDetalle.getCategoria());
-        vista.addObject("categoria", categoria);
-        vista.addObject("autores", traballoDetalle.getAutores());
-        
-        vista.addObject("fInicioEnvio", traballoDetalle.getfInicioEnvio());
-        vista.addObject("fFinEnvio", traballoDetalle.getfFinEnvio());
-        vista.addObject("fIncioRevision", traballoDetalle.getfIncioRevision());
-        vista.addObject("fFinRevision", traballoDetalle.getfFinRevision());
-        
-        vista.addObject("nomeEstado", traballoDetalle.getEstadoTraballo().getNomeEstado());
-        
-        vista.addObject("traballo", traballoDetalle.getTraballo());
+        vista.addObject("revision", revision);
+        vista.addObject("traballoDetalle", traballoDetalle);
 
         return vista;
     }

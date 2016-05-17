@@ -27,8 +27,8 @@
         <property name="puntuacion" type="integer">
             <column name="puntuacion" not-null="false"/>
         </property>
-        <property name="recomendacion" type="string">
-            <column name="recomendacion" length="45" not-null="false"/>
+        <property name="recomendacion" type="integer">
+            <column name="recomendacion" not-null="false"/>
         </property>
     </class>
 </hibernate-mapping>

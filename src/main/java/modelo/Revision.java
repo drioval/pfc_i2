@@ -41,7 +41,7 @@ public class Revision implements java.io.Serializable{
     @Column(name = "puntuacion")
     private Integer puntuacion;
     @Column(name = "recomendacion")
-    private String recomendacion;
+    private Integer recomendacion;
     
     public Revision(){
         
@@ -59,7 +59,7 @@ public class Revision implements java.io.Serializable{
     }
     
     public Revision(Congreso congreso, Traballo traballo, UserProfile userProfileAutor, UserProfile userProfileRevisor,
-            String revisionPublica, String revisionPrivada, Integer puntuacion, String recomendacion){
+            String revisionPublica, String revisionPrivada, Integer puntuacion, Integer recomendacion){
         this.congreso=congreso;
         this.traballo=traballo;
         this.userProfileAutor=userProfileAutor;
@@ -185,14 +185,14 @@ public class Revision implements java.io.Serializable{
     /**
      * @return the recomendacion
      */
-    public String getRecomendacion() {
+    public Integer getRecomendacion() {
         return recomendacion;
     }
 
     /**
      * @param recomendacion the recomendacion to set
      */
-    public void setRecomendacion(String recomendacion) {
+    public void setRecomendacion(Integer recomendacion) {
         this.recomendacion = recomendacion;
     }
     

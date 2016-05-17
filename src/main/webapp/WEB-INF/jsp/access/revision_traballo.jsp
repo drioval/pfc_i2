@@ -127,27 +127,27 @@
                     </c:choose>
                     <br><br>
                     <a class="articulo"><fmt:message key="sugerencia"/></a>
-                    <c:set var="puntuacion" scope="session" value="${revision.recomendacion}"/>
+                    <c:set var="recomendacion" scope="session" value="${revision.recomendacion}"/>
                     <c:choose>
-                        <c:when test="${recomendacion.equals('1')}">
+                        <c:when test="${recomendacion == 1}">
                             <input type="radio" name="sugerencia" value="1" readonly checked><a class="articulo"><fmt:message key="sugerencia_rechazar"/></a>
                             <input type="radio" name="sugerencia" value="2" readonly><a class="articulo"><fmt:message key="sugerencia_cmayores"/></a>
                             <input type="radio" name="sugerencia" value="3" readonly><a class="articulo"><fmt:message key="sugerencia_cmenores"/></a>
                             <input type="radio" name="sugerencia" value="4" readonly><a class="articulo"><fmt:message key="sugerencia_aceptar"/></a>
                         </c:when>
-                        <c:when test="${recomendacion.equals('2')}">
+                        <c:when test="${recomendacion == 2}">
                             <input type="radio" name="sugerencia" value="1" readonly class="articulo"><fmt:message key="sugerencia_rechazar"/></a>
                             <input type="radio" name="sugerencia" value="2" readonly checked><a class="articulo"><fmt:message key="sugerencia_cmayores"/></a>
                             <input type="radio" name="sugerencia" value="3" readonly><a class="articulo"><fmt:message key="sugerencia_cmenores"/></a>
                             <input type="radio" name="sugerencia" value="4" readonly><a class="articulo"><fmt:message key="sugerencia_aceptar"/></a>
                         </c:when>
-                        <c:when test="${recomendacion.equals('3')}">
+                        <c:when test="${recomendacion == 3}">
                             <input type="radio" name="sugerencia" value="1" readonly class="articulo"><fmt:message key="sugerencia_rechazar"/></a>
                             <input type="radio" name="sugerencia" value="2" readonly><a class="articulo"><fmt:message key="sugerencia_cmayores"/></a>
                             <input type="radio" name="sugerencia" value="3" readonly checked><a class="articulo"><fmt:message key="sugerencia_cmenores"/></a>
                             <input type="radio" name="sugerencia" value="4" readonly><a class="articulo"><fmt:message key="sugerencia_aceptar"/></a>
                         </c:when>
-                        <c:when test="${recomendacion.equals('4')}">
+                        <c:when test="${recomendacion == 4}">
                             <input type="radio" name="sugerencia" value="1" readonly class="articulo"><fmt:message key="sugerencia_rechazar"/></a>
                             <input type="radio" name="sugerencia" value="2" readonly><a class="articulo"><fmt:message key="sugerencia_cmayores"/></a>
                             <input type="radio" name="sugerencia" value="3" readonly><a class="articulo"><fmt:message key="sugerencia_cmenores"/></a>

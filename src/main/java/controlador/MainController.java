@@ -390,7 +390,7 @@ public class MainController {
         
         return servicio.enviaRevision(request.getUserPrincipal().getName(), Integer.parseInt(request.getParameter("idTraballo")),
                 request.getParameter("informe_publico"),request.getParameter("informe_privado"), Integer.parseInt(request.getParameter("puntuacion")),
-                request.getParameter("sugerencia"));
+                Integer.parseInt(request.getParameter("sugerencia")));
     }
     
     @RequestMapping(value = "/ver_lista_revisiones.htm")
