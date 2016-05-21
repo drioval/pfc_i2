@@ -82,10 +82,14 @@
                     <br>
                     <textarea name="informe_publico" maxlength="500" class="areaTexto" readonly>${revision.revisionPublica}</textarea>
                     <br><br>
-                    <a class="articulo"><fmt:message key="informe_privado"/></a>
-                    <br>
-                    <textarea name="informe_privado" maxlength="500" class="areaTexto" readonly>${revision.revisionPrivada}</textarea>
-                    <br><br>
+                    
+                    <c:set var="rolUsuario" scope="session" value="${rolUsuario}"/>
+                    <c:if test="${rolUsuario == 1 || rolUsuario == 2}">
+                        <a class="articulo"><fmt:message key="informe_privado"/></a>
+                        <br>
+                        <textarea name="informe_privado" maxlength="500" class="areaTexto" readonly>${revision.revisionPrivada}</textarea>
+                        <br><br>
+                    </c:if>
                     <a class="articulo"><fmt:message key="puntuacion"/></a>
                     <c:set var="puntuacion" scope="session" value="${revision.puntuacion}"/>
                     <c:choose>

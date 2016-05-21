@@ -413,4 +413,55 @@ public class MainController {
         return servicio.ver_revision_traballo(request.getUserPrincipal().getName(), idRevision);
     }
     
+    @RequestMapping(value = "/accion_aceptar_traballo.htm")
+    public ModelAndView accion_aceptar_traballo(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        servicio = new UserServiceImpl();
+        servicio.setSessionFactory(sessionFactory);
+
+        return servicio.accionAceptarTraballo(request.getUserPrincipal().getName(), Integer.parseInt(request.getParameter("idTraballo")));
+    }
+    
+    @RequestMapping(value = "/accion_rexeitar_traballo.htm")
+    public ModelAndView accion_rexeitar_traballo(@RequestParam("id") Integer idTraballo, HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        servicio = new UserServiceImpl();
+        servicio.setSessionFactory(sessionFactory);
+        
+        if (idTraballo==null){
+            idTraballo=Integer.parseInt(request.getParameter("idTraballo"));
+        }
+
+        return servicio.accionRexeitarTraballo(request.getUserPrincipal().getName(), idTraballo);
+    }
+    
+    @RequestMapping(value = "/aceptar_traballo.htm")
+    public ModelAndView aceptar_traballo(@RequestParam("id") Integer idTraballo, HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        servicio = new UserServiceImpl();
+        servicio.setSessionFactory(sessionFactory);
+        
+        if (idTraballo==null){
+            idTraballo=Integer.parseInt(request.getParameter("idTraballo"));
+        }
+
+        return servicio.aceptarTraballo(request.getUserPrincipal().getName(), idTraballo);
+    }
+    
+    @RequestMapping(value = "/rexeitar_traballo.htm")
+    public ModelAndView rexeitar_traballo(@RequestParam("id") Integer idTraballo, HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        servicio = new UserServiceImpl();
+        servicio.setSessionFactory(sessionFactory);
+        
+        if (idTraballo==null){
+            idTraballo=Integer.parseInt(request.getParameter("idTraballo"));
+        }
+
+        return servicio.rexeitarTraballo(request.getUserPrincipal().getName(), idTraballo);
+    }
 }

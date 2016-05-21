@@ -41,4 +41,8 @@ public interface UserService {
      public ModelAndView enviaRevision(String usuario, Integer idTraballo,String informePublico, String informePrivado, Integer puntuacion, Integer recomendacion);
      public ModelAndView ver_lista_revisiones(String usuario, Integer idTraballo);
      public ModelAndView ver_revision_traballo(String usuario, Integer idTraballo);
+     public ModelAndView accionAceptarTraballo(String usuario,Integer idTraballo);
+     public ModelAndView accionRexeitarTraballo(String usuario,Integer idTraballo);
+     public ModelAndView aceptarTraballo(String usuario,Integer idTraballo);
+     public ModelAndView rexeitarTraballo(String usuario,Integer idTraballo);
 }

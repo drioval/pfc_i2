@@ -22,6 +22,7 @@ import modelo.EstadoTraballoDaoHibernate;
 import modelo.Revision;
 import modelo.RevisionDaoHibernate;
 import modelo.Traballo;
+import modelo.TraballoDao;
 import modelo.TraballoDaoHibernate;
 import modelo.TraballoDetalle;
 import modelo.TraballoDetalleDaoHibernate;
@@ -161,8 +162,12 @@ public class UserServiceImpl implements UserService {
                 UserProfile user = userProfileDao.obtenerUserProfile(detalleUsuario.getUserid());
                 user.setContrasinal(passEncripted.encriptarContrasinal(newPassword).toString());
                 userProfileDao.guardarUserProfile(user);
+                
+                CongresoDaoHibernate congresoDaoHibernate=new CongresoDaoHibernate();
+                congresoDaoHibernate.setSessionFactory(sessionFactory);
+                Congreso congreso=congresoDaoHibernate.obtenerCongresoActivo();
 
-                String asunto = "Congreso 2015: Solicitude de reenvio do contrasinal";
+                String asunto = congreso.getNomeCongreso()+": Solicitude de reenvio do contrasinal";
                 String cuerpo = "Solicitouse o reenvio de contrasinal para o seu usuario. "
                         + "A continuación indicamoslle os seus datos de acceso: ";
                 cuerpo = cuerpo + "<br><br> Usuario: " + user.getUsuario().toString() + "<br><br> Contrasinal: " + newPassword
@@ -233,7 +238,11 @@ public class UserServiceImpl implements UserService {
 
                     userProfileDetailsDao.guardarUserProfileDetails(usuarioDetalle);
 
-                    String asunto = "Congreso 2015: Alta de usuario " + usuario;
+                    CongresoDaoHibernate congresoDaoHibernate=new CongresoDaoHibernate();
+                    congresoDaoHibernate.setSessionFactory(sessionFactory);
+                    Congreso congreso=congresoDaoHibernate.obtenerCongresoActivo();
+
+                    String asunto = congreso.getNomeCongreso()+": Alta de usuario " + usuario;
                     String cuerpo = "Solicitouse voste a alta como autor/a para o Congreso Cientfífico 2015. "
                             + "<br><br> Usuario: " + usuario.toString() + "<br><br>"
                             + "Para confirmar a alta como usuario, por favor, prema no seguinte enlace e complete "
@@ -1042,10 +1051,10 @@ public class UserServiceImpl implements UserService {
 
         return vista;
     }
-    
+
     @Override
-    public ModelAndView accionVerDatosTrabajo(String usuario, Integer idTraballo){
-  
+    public ModelAndView accionVerDatosTrabajo(String usuario, Integer idTraballo) {
+
         ModelAndView vista = new ModelAndView("WEB-INF/jsp/access/ver_traballo.jsp");
         vista.addObject("usuario", usuario);
 
@@ -1078,8 +1087,8 @@ public class UserServiceImpl implements UserService {
 
         return vista;
     }
-    
-    public ModelAndView accionRevisarTraballo(String usuario, Integer idTraballo){
+
+    public ModelAndView accionRevisarTraballo(String usuario, Integer idTraballo) {
         ModelAndView vista = new ModelAndView("WEB-INF/jsp/access/revisar_traballo.jsp");
         vista.addObject("usuario", usuario);
 
@@ -1108,123 +1117,334 @@ public class UserServiceImpl implements UserService {
         vista.addObject("idCategoria", traballoDetalle.getCategoria());
         vista.addObject("categoria", categoria);
         vista.addObject("autores", traballoDetalle.getAutores());
-        
+
         vista.addObject("fInicioEnvio", traballoDetalle.getfInicioEnvio());
         vista.addObject("fFinEnvio", traballoDetalle.getfFinEnvio());
         vista.addObject("fIncioRevision", traballoDetalle.getfIncioRevision());
         vista.addObject("fFinRevision", traballoDetalle.getfFinRevision());
-        
+
         vista.addObject("nomeEstado", traballoDetalle.getEstadoTraballo().getNomeEstado());
-        
+
         vista.addObject("traballo", traballoDetalle.getTraballo());
         vista.addObject("textoAccion", "revision_traballo02");
 
         return vista;
     }
-    
+
     @Override
     @Transactional
-    public ModelAndView enviaRevision(String usuario, Integer idTraballo,String informePublico, String informePrivado, Integer puntuacion, Integer recomendacion){
+    public ModelAndView enviaRevision(String usuario, Integer idTraballo, String informePublico, String informePrivado, Integer puntuacion, Integer recomendacion) {
         ModelAndView vista = new ModelAndView("WEB-INF/jsp/access/revision_traballo.jsp");
         vista.addObject("usuario", usuario);
         vista.addObject("textoAccion", "revision_enviada01");
-        
-        TraballoDaoHibernate traballoDaoHibernate=new TraballoDaoHibernate();
+
+        TraballoDaoHibernate traballoDaoHibernate = new TraballoDaoHibernate();
         traballoDaoHibernate.setSessionFactory(sessionFactory);
-        
-        Traballo traballo=traballoDaoHibernate.obtenerTraballo(idTraballo);
-                
-        TraballoDetalleDaoHibernate traballoDetalleDaoHibernate=new TraballoDetalleDaoHibernate();
+
+        Traballo traballo = traballoDaoHibernate.obtenerTraballo(idTraballo);
+
+        TraballoDetalleDaoHibernate traballoDetalleDaoHibernate = new TraballoDetalleDaoHibernate();
         traballoDetalleDaoHibernate.setSessionFactory(sessionFactory);
-        
-        TraballoDetalle traballoDetalle=traballoDetalleDaoHibernate.obtenerTraballoDetalle(traballo.getIdTraballo());
-        
-        CongresoDaoHibernate congresoDaoHibernate=new CongresoDaoHibernate();
+
+        TraballoDetalle traballoDetalle = traballoDetalleDaoHibernate.obtenerTraballoDetalle(traballo.getIdTraballo());
+
+        CongresoDaoHibernate congresoDaoHibernate = new CongresoDaoHibernate();
         congresoDaoHibernate.setSessionFactory(sessionFactory);
-        
-        Congreso congreso=congresoDaoHibernate.obtenerCongreso(traballo.getCongreso().getIdCongreso());
-        
-        UserProfileDaoHibernate userProfileDaoHibernate=new UserProfileDaoHibernate();
+
+        Congreso congreso = congresoDaoHibernate.obtenerCongreso(traballo.getCongreso().getIdCongreso());
+
+        UserProfileDaoHibernate userProfileDaoHibernate = new UserProfileDaoHibernate();
         userProfileDaoHibernate.setSessionFactory(sessionFactory);
-        
-        UserProfile usuarioAutor=userProfileDaoHibernate.obtenerUserProfile(traballo.getUserProfile().getUserId());
-        UserProfile usuarioRevisor=userProfileDaoHibernate.obtenerUserProfile(usuario);
-        
-        RevisionDaoHibernate revisionDaoHibernate=new RevisionDaoHibernate();
+
+        UserProfile usuarioAutor = userProfileDaoHibernate.obtenerUserProfile(traballo.getUserProfile().getUserId());
+        UserProfile usuarioRevisor = userProfileDaoHibernate.obtenerUserProfile(usuario);
+
+        RevisionDaoHibernate revisionDaoHibernate = new RevisionDaoHibernate();
         revisionDaoHibernate.setSessionFactory(sessionFactory);
-        
-        Revision revision=new Revision(congreso, traballo, usuarioAutor, usuarioRevisor, informePublico, informePrivado, puntuacion, recomendacion);
+
+        Revision revision = new Revision(congreso, traballo, usuarioAutor, usuarioRevisor, informePublico, informePrivado, puntuacion, recomendacion);
         revisionDaoHibernate.guardarRevision(revision);
-        
+
         EstadoTraballoDaoHibernate estadoTraballoDao = new EstadoTraballoDaoHibernate();
         estadoTraballoDao.setSessionFactory(sessionFactory);
 
         EstadoTraballo estadoTraballo = estadoTraballoDao.obtenerEstadoTraballo(7);//Revisado
         traballoDetalle.setEstadoTraballo(estadoTraballo);
         traballoDetalleDaoHibernate.guardarTraballoDetalle(traballoDetalle);
-        
+
         vista.addObject("revision", revision);
         vista.addObject("traballoDetalle", traballoDetalle);
 
         return vista;
     }
-    
+
     @Override
-    public ModelAndView ver_lista_revisiones(String usuario, Integer idTraballo){
+    public ModelAndView ver_lista_revisiones(String usuario, Integer idTraballo) {
         ModelAndView vista = new ModelAndView("WEB-INF/jsp/access/lista_revisiones.jsp");
         vista.addObject("usuario", usuario);
         vista.addObject("textoAccion", "lista_revisiones01");
-        
-        TraballoDaoHibernate traballoDaoHibernate=new TraballoDaoHibernate();
+
+        TraballoDaoHibernate traballoDaoHibernate = new TraballoDaoHibernate();
         traballoDaoHibernate.setSessionFactory(sessionFactory);
-        
-        Traballo traballo=traballoDaoHibernate.obtenerTraballo(idTraballo);
-                
-        TraballoDetalleDaoHibernate traballoDetalleDaoHibernate=new TraballoDetalleDaoHibernate();
+
+        Traballo traballo = traballoDaoHibernate.obtenerTraballo(idTraballo);
+
+        TraballoDetalleDaoHibernate traballoDetalleDaoHibernate = new TraballoDetalleDaoHibernate();
         traballoDetalleDaoHibernate.setSessionFactory(sessionFactory);
-        
-        TraballoDetalle traballoDetalle=traballoDetalleDaoHibernate.obtenerTraballoDetalle(traballo.getIdTraballo());
-        
-        CongresoDaoHibernate congresoDaoHibernate=new CongresoDaoHibernate();
+
+        TraballoDetalle traballoDetalle = traballoDetalleDaoHibernate.obtenerTraballoDetalle(traballo.getIdTraballo());
+
+        CongresoDaoHibernate congresoDaoHibernate = new CongresoDaoHibernate();
         congresoDaoHibernate.setSessionFactory(sessionFactory);
+
+        Congreso congreso = congresoDaoHibernate.obtenerCongreso(traballo.getCongreso().getIdCongreso());
+
+        RevisionDaoHibernate revisionDaoHibernate = new RevisionDaoHibernate();
+        revisionDaoHibernate.setSessionFactory(sessionFactory);
+
+        List<Revision> revisiones = revisionDaoHibernate.obtenerRevisionesCongresoTraballo(congreso.getIdCongreso(), idTraballo);
+
+        String usuarioRevisor=revisiones.get(0).getUserProfileRevisor().getUsuario();
+        vista.addObject("usuarioRevisor", usuarioRevisor);
         
-        Congreso congreso=congresoDaoHibernate.obtenerCongreso(traballo.getCongreso().getIdCongreso());
+        vista.addObject("listaRevisiones", revisiones);
+        vista.addObject("idTraballo", traballo.getIdTraballo());
+        vista.addObject("idEstadoTraballo", traballoDetalle.getEstadoTraballo().getIdEstadoTraballo());
+
+        return vista;
+    }
+
+    @Override
+    public ModelAndView ver_revision_traballo(String usuario, Integer idRevision) {
+        ModelAndView vista = new ModelAndView("WEB-INF/jsp/access/revision_traballo.jsp");
+        vista.addObject("usuario", usuario);
+        vista.addObject("textoAccion", "ver_revision_enviada01");
+
+        RevisionDaoHibernate revisionDaoHibernate = new RevisionDaoHibernate();
+        revisionDaoHibernate.setSessionFactory(sessionFactory);
+
+        Revision revision = revisionDaoHibernate.obtenerRevision(idRevision);
+
+        TraballoDetalleDaoHibernate traballoDetalleDaoHibernate = new TraballoDetalleDaoHibernate();
+        traballoDetalleDaoHibernate.setSessionFactory(sessionFactory);
+
+        TraballoDetalle traballoDetalle = traballoDetalleDaoHibernate.obtenerTraballoDetalle(revision.getTraballo().getIdTraballo());
         
         UserProfileDaoHibernate userProfileDaoHibernate=new UserProfileDaoHibernate();
         userProfileDaoHibernate.setSessionFactory(sessionFactory);
         
-        UserProfile usuarioAutor=userProfileDaoHibernate.obtenerUserProfile(traballo.getUserProfile().getUserId());
-        UserProfile usuarioRevisor=userProfileDaoHibernate.obtenerUserProfile(usuario);
-        
-        RevisionDaoHibernate revisionDaoHibernate=new RevisionDaoHibernate();
-        revisionDaoHibernate.setSessionFactory(sessionFactory);
-        
-        List<Revision> revisiones = revisionDaoHibernate.obtenerRevisionesCongresoTraballo(congreso.getIdCongreso(), idTraballo);
-        
-        vista.addObject("listaRevisiones", revisiones);
-        vista.addObject("idTraballo", traballo.getIdTraballo());
+        UserProfile usuarioRol=userProfileDaoHibernate.obtenerUserProfile(usuario);
+        UserRol rol=usuarioRol.getUserRol();
+
+        vista.addObject("revision", revision);
+        vista.addObject("traballoDetalle", traballoDetalle);
+        vista.addObject("rolUsuario", rol.getRolId());
+
+        return vista;
+    }
+
+    @Override
+    public ModelAndView accionAceptarTraballo(String usuario, Integer idTraballo) {
+        ModelAndView vista = new ModelAndView("WEB-INF/jsp/access/aceptar_traballo.jsp");
+        vista.addObject("usuario", usuario);
+
+        TraballoDetalleDaoHibernate traballoDetalleDaoHibernate = new TraballoDetalleDaoHibernate();
+        traballoDetalleDaoHibernate.setSessionFactory(sessionFactory);
+
+        TraballoDetalle traballoDetalle = traballoDetalleDaoHibernate.obtenerTraballoDetalle(idTraballo);
+
+        Integer idCategoria = traballoDetalle.getCategoria();
+        String categoria = null;
+        if (idCategoria == 1) {
+            categoria = "Publicación";
+        } else if (idCategoria == 2) {
+            categoria = "Artículo";
+        } else if (idCategoria == 3) {
+            categoria = "Tesis";
+        } else if (idCategoria == 4) {
+            categoria = "Investigación";
+        } else if (idCategoria == 5) {
+            categoria = "Disertación";
+        }
+
+        vista.addObject("traballo", traballoDetalle);
+        vista.addObject("idTraballo", traballoDetalle.getIdTraballo());
+        vista.addObject("idTraballoDetalle", traballoDetalle.getIdTraballoDetalle());
+        vista.addObject("idEstadoTraballo", traballoDetalle.getEstadoTraballo().getIdEstadoTraballo());
+        vista.addObject("nomeTraballo", traballoDetalle.getNomeTraballo());
+        vista.addObject("idCategoria", traballoDetalle.getCategoria());
+        vista.addObject("categoria", categoria);
+        vista.addObject("autores", traballoDetalle.getAutores());
+        vista.addObject("traballo", traballoDetalle.getTraballo());
+        vista.addObject("textoAccion", "datos_traballo02");
+
+        return vista;
+    }
+
+    @Override
+    public ModelAndView accionRexeitarTraballo(String usuario, Integer idTraballo) {
+        ModelAndView vista = new ModelAndView("WEB-INF/jsp/access/rexeitar_traballo.jsp");
+        vista.addObject("usuario", usuario);
+
+        TraballoDetalleDaoHibernate traballoDetalleDaoHibernate = new TraballoDetalleDaoHibernate();
+        traballoDetalleDaoHibernate.setSessionFactory(sessionFactory);
+
+        TraballoDetalle traballoDetalle = traballoDetalleDaoHibernate.obtenerTraballoDetalle(idTraballo);
+
+        Integer idCategoria = traballoDetalle.getCategoria();
+        String categoria = null;
+        if (idCategoria == 1) {
+            categoria = "Publicación";
+        } else if (idCategoria == 2) {
+            categoria = "Artículo";
+        } else if (idCategoria == 3) {
+            categoria = "Tesis";
+        } else if (idCategoria == 4) {
+            categoria = "Investigación";
+        } else if (idCategoria == 5) {
+            categoria = "Disertación";
+        }
+
+        vista.addObject("idTraballo", traballoDetalle.getIdTraballo());
+        vista.addObject("idTraballoDetalle", traballoDetalle.getIdTraballoDetalle());
+        vista.addObject("nomeTraballo", traballoDetalle.getNomeTraballo());
+        vista.addObject("idCategoria", traballoDetalle.getCategoria());
+        vista.addObject("categoria", categoria);
+        vista.addObject("autores", traballoDetalle.getAutores());
+        vista.addObject("traballo", traballoDetalle.getTraballo());
+        vista.addObject("textoAccion", "datos_traballo02");
         
         return vista;
     }
     
     @Override
-    public ModelAndView ver_revision_traballo(String usuario, Integer idRevision){
-        ModelAndView vista = new ModelAndView("WEB-INF/jsp/access/revision_traballo.jsp");
+    public ModelAndView aceptarTraballo(String usuario, Integer idTraballo) {
+        ModelAndView vista = new ModelAndView("WEB-INF/jsp/access/aceptar_traballo.jsp");
         vista.addObject("usuario", usuario);
-        vista.addObject("textoAccion", "ver_revision_enviada01");
- 
-        RevisionDaoHibernate revisionDaoHibernate=new RevisionDaoHibernate();
-        revisionDaoHibernate.setSessionFactory(sessionFactory);
-        
-        Revision revision=revisionDaoHibernate.obtenerRevision(idRevision);
-        
+
         TraballoDetalleDaoHibernate traballoDetalleDaoHibernate = new TraballoDetalleDaoHibernate();
         traballoDetalleDaoHibernate.setSessionFactory(sessionFactory);
+
+        TraballoDetalle traballoDetalle = traballoDetalleDaoHibernate.obtenerTraballoDetalle(idTraballo);
         
-        TraballoDetalle traballoDetalle=traballoDetalleDaoHibernate.obtenerTraballoDetalle(revision.getTraballo().getIdTraballo());
+        EstadoTraballoDaoHibernate estadoTraballoDaoHibernate=new EstadoTraballoDaoHibernate();
+        estadoTraballoDaoHibernate.setSessionFactory(sessionFactory);
         
-        vista.addObject("revision", revision);
-        vista.addObject("traballoDetalle", traballoDetalle);
+        EstadoTraballo estadoTraballo=estadoTraballoDaoHibernate.obtenerEstadoTraballo(3);
+        
+        traballoDetalle.setEstadoTraballo(estadoTraballo);
+        traballoDetalleDaoHibernate.guardarTraballoDetalle(traballoDetalle);
+        
+        TraballoDaoHibernate traballoDaoHibernate=new TraballoDaoHibernate();
+        traballoDaoHibernate.setSessionFactory(sessionFactory);
+        Traballo traballo=traballoDaoHibernate.obtenerTraballo(traballoDetalle.getIdTraballo());
+        
+        Congreso congreso=traballo.getCongreso();
+        
+        EnviarEmail enviarEmail = new EnviarEmail();
+        String asunto = "Congreso 2016: Resultadio evaluación traballo";
+        String cuerpo = "Una vez finalizada la revisión del trabajo "+traballoDetalle.getNomeTraballo()+" presentado al "+congreso.getNomeCongreso()
+                            + " le comunicamos que su trabajo ha sido ACEPTADO para ser presentado durante el congreso. "
+                            + "Puede consultar el resultado de las evaluaciones de su trabajo accediendo al área de trabajos de la Web del Congreso: <br>"
+                            + "<href>http://localhost:8084/congreso_1.4</href><br>"
+                            + "Muchas gracias por participar.";
+                    
+        UserProfile usuarioAutor=traballo.getUserProfile();
+        UserProfileDetailsDaoHibernate userProfileDetailsDaoHibernate=new UserProfileDetailsDaoHibernate();
+        userProfileDetailsDaoHibernate.setSessionFactory(sessionFactory);
+        UserProfileDetails usuarioAutorDetalle=userProfileDetailsDaoHibernate.obtenerUserProfileDetails(usuarioAutor.getUserId());
+                    
+        enviarEmail.enviarEmail(usuarioAutorDetalle.getEmail(), asunto, cuerpo);
+        
+        Integer idCategoria = traballoDetalle.getCategoria();
+        String categoria = null;
+        if (idCategoria == 1) {
+            categoria = "Publicación";
+        } else if (idCategoria == 2) {
+            categoria = "Artículo";
+        } else if (idCategoria == 3) {
+            categoria = "Tesis";
+        } else if (idCategoria == 4) {
+            categoria = "Investigación";
+        } else if (idCategoria == 5) {
+            categoria = "Disertación";
+        }
+
+        vista.addObject("idTraballo", traballoDetalle.getIdTraballo());
+        vista.addObject("idTraballoDetalle", traballoDetalle.getIdTraballoDetalle());
+        vista.addObject("idEstadoTraballo", traballoDetalle.getEstadoTraballo().getIdEstadoTraballo());
+        vista.addObject("nomeTraballo", traballoDetalle.getNomeTraballo());
+        vista.addObject("idCategoria", traballoDetalle.getCategoria());
+        vista.addObject("categoria", categoria);
+        vista.addObject("autores", traballoDetalle.getAutores());
+        vista.addObject("traballo", traballoDetalle.getTraballo());
+        vista.addObject("textoAccion", "traballo_aceptado01");
+
+        return vista;
+    }
+    
+    @Override
+    public ModelAndView rexeitarTraballo(String usuario, Integer idTraballo) {
+        ModelAndView vista = new ModelAndView("WEB-INF/jsp/access/rexeitar_traballo.jsp");
+        vista.addObject("usuario", usuario);
+
+        TraballoDetalleDaoHibernate traballoDetalleDaoHibernate = new TraballoDetalleDaoHibernate();
+        traballoDetalleDaoHibernate.setSessionFactory(sessionFactory);
+
+        TraballoDetalle traballoDetalle = traballoDetalleDaoHibernate.obtenerTraballoDetalle(idTraballo);
+        
+        EstadoTraballoDaoHibernate estadoTraballoDaoHibernate=new EstadoTraballoDaoHibernate();
+        estadoTraballoDaoHibernate.setSessionFactory(sessionFactory);
+        
+        EstadoTraballo estadoTraballo=estadoTraballoDaoHibernate.obtenerEstadoTraballo(4);
+        
+        traballoDetalle.setEstadoTraballo(estadoTraballo);
+        traballoDetalleDaoHibernate.guardarTraballoDetalle(traballoDetalle);
+        
+        TraballoDaoHibernate traballoDaoHibernate=new TraballoDaoHibernate();
+        traballoDaoHibernate.setSessionFactory(sessionFactory);
+        Traballo traballo=traballoDaoHibernate.obtenerTraballo(traballoDetalle.getIdTraballo());
+        
+        Congreso congreso=traballo.getCongreso();
+        
+        EnviarEmail enviarEmail = new EnviarEmail();
+        String asunto = "Congreso 2016: Resultadio evaluación traballo";
+        String cuerpo = "Una vez finalizada la revisión del trabajo "+traballoDetalle.getNomeTraballo()+" presentado al "+congreso.getNomeCongreso()
+                            + " le comunicamos que su trabajo ha sido RECHAZADO para ser presentado durante el congreso. "
+                            + "Puede consultar el resultado de las evaluaciones de su trabajo accediendo al área de trabajos de la Web del Congreso: <br>"
+                            + "<href>http://localhost:8084/congreso_1.4</href><br>"
+                            + "Muchas gracias por participar.";
+                    
+        UserProfile usuarioAutor=traballo.getUserProfile();
+        UserProfileDetailsDaoHibernate userProfileDetailsDaoHibernate=new UserProfileDetailsDaoHibernate();
+        userProfileDetailsDaoHibernate.setSessionFactory(sessionFactory);
+        UserProfileDetails usuarioAutorDetalle=userProfileDetailsDaoHibernate.obtenerUserProfileDetails(usuarioAutor.getUserId());
+                    
+        enviarEmail.enviarEmail(usuarioAutorDetalle.getEmail(), asunto, cuerpo);
+
+        Integer idCategoria = traballoDetalle.getCategoria();
+        String categoria = null;
+        if (idCategoria == 1) {
+            categoria = "Publicación";
+        } else if (idCategoria == 2) {
+            categoria = "Artículo";
+        } else if (idCategoria == 3) {
+            categoria = "Tesis";
+        } else if (idCategoria == 4) {
+            categoria = "Investigación";
+        } else if (idCategoria == 5) {
+            categoria = "Disertación";
+        }
+
+        vista.addObject("idTraballo", traballoDetalle.getIdTraballo());
+        vista.addObject("idTraballoDetalle", traballoDetalle.getIdTraballoDetalle());
+        vista.addObject("idEstadoTraballo", traballoDetalle.getEstadoTraballo().getIdEstadoTraballo());
+        vista.addObject("nomeTraballo", traballoDetalle.getNomeTraballo());
+        vista.addObject("idCategoria", traballoDetalle.getCategoria());
+        vista.addObject("categoria", categoria);
+        vista.addObject("autores", traballoDetalle.getAutores());
+        vista.addObject("traballo", traballoDetalle.getTraballo());
+        vista.addObject("textoAccion", "traballo_rexeitado01");
 
         return vista;
     }

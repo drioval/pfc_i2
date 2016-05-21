@@ -79,6 +79,9 @@
                                         <td><a class="articulo" href="editar_traballo.htm?id=${traballos.idTraballo}"><fmt:message key="accion_editar_traballo"/></a></td>
                                         <td><a class="articulo" href="eliminar_traballo.htm?id=${traballos.idTraballo}"><fmt:message key="accion_eliminar_traballo"/></a></td>
                                     </c:if>
+                                    <c:if test="${idEstadoTraballo == 3 || idEstadoTraballo == 4}">
+                                        <td><a class="articulo" href="ver_lista_revisiones.htm?id=${traballos.idTraballo}"><fmt:message key="accion_ver_lista_revisiones"/></a></td>
+                                    </c:if>
                                     <c:if test="${idEstadoTraballo > 1}">
                                         <td></td>
                                         <td></td>
