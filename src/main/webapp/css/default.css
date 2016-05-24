@@ -354,6 +354,19 @@ button:hover {
     max-height:200px;
 }
 
+.areaListaRevisores{
+    margin-left: 20px;
+    margin-top: 5px;
+    
+    width: 35%; 
+    min-width:400px; 
+    max-width:35%; 
+
+    height:250px; 
+    min-height:250px;  
+    max-height:250px;
+}
+
 /*estilos visuales de la tabla*/
 table {
     font-family: Georgia,serif;

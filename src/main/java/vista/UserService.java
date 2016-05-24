@@ -45,4 +45,5 @@ public interface UserService {
      public ModelAndView accionRexeitarTraballo(String usuario,Integer idTraballo);
      public ModelAndView aceptarTraballo(String usuario,Integer idTraballo);
      public ModelAndView rexeitarTraballo(String usuario,Integer idTraballo);
+     public ModelAndView asignarRevisores(String usuario,Integer idTraballo);
 }

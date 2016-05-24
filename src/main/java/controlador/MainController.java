@@ -464,4 +464,18 @@ public class MainController {
 
         return servicio.rexeitarTraballo(request.getUserPrincipal().getName(), idTraballo);
     }
+    
+    @RequestMapping(value = "/asignar_revisor.htm")
+    public ModelAndView asignar_revisor(@RequestParam("id") Integer idTraballo, HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        servicio = new UserServiceImpl();
+        servicio.setSessionFactory(sessionFactory);
+        
+        if (idTraballo==null){
+            idTraballo=Integer.parseInt(request.getParameter("idTraballo"));
+        }
+
+        return servicio.asignarRevisores(request.getUserPrincipal().getName(), idTraballo);
+    }
 }

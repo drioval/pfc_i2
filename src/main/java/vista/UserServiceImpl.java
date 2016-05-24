@@ -22,7 +22,6 @@ import modelo.EstadoTraballoDaoHibernate;
 import modelo.Revision;
 import modelo.RevisionDaoHibernate;
 import modelo.Traballo;
-import modelo.TraballoDao;
 import modelo.TraballoDaoHibernate;
 import modelo.TraballoDetalle;
 import modelo.TraballoDetalleDaoHibernate;
@@ -33,6 +32,7 @@ import modelo.UserProfileDaoHibernate;
 import modelo.UserProfileDetails;
 import modelo.UserProfileDetailsDaoHibernate;
 import modelo.UserRol;
+import modelo.UserRolDaoHibernate;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -1446,6 +1446,53 @@ public class UserServiceImpl implements UserService {
         vista.addObject("traballo", traballoDetalle.getTraballo());
         vista.addObject("textoAccion", "traballo_rexeitado01");
 
+        return vista;
+    }
+    
+    @Override
+    public ModelAndView asignarRevisores(String usuario, Integer idTraballo) {
+        ModelAndView vista = new ModelAndView("WEB-INF/jsp/access/asignar_revisores.jsp");
+        vista.addObject("usuario", usuario);
+
+        TraballoDetalleDaoHibernate traballoDetalleDaoHibernate = new TraballoDetalleDaoHibernate();
+        traballoDetalleDaoHibernate.setSessionFactory(sessionFactory);
+
+        TraballoDetalle traballoDetalle = traballoDetalleDaoHibernate.obtenerTraballoDetalle(idTraballo);
+
+        Integer idCategoria = traballoDetalle.getCategoria();
+        String categoria = null;
+        if (idCategoria == 1) {
+            categoria = "Publicación";
+        } else if (idCategoria == 2) {
+            categoria = "Artículo";
+        } else if (idCategoria == 3) {
+            categoria = "Tesis";
+        } else if (idCategoria == 4) {
+            categoria = "Investigación";
+        } else if (idCategoria == 5) {
+            categoria = "Disertación";
+        }
+               
+        UserRolDaoHibernate userRolDaoHibernate=new UserRolDaoHibernate();
+        userRolDaoHibernate.setSessionFactory(sessionFactory);
+        
+        UserRol userRol=userRolDaoHibernate.obtenerUserRol(2);
+        
+        UserProfileDetailsDaoHibernate userProfileDetailsDaoHibernate=new UserProfileDetailsDaoHibernate();
+        userProfileDetailsDaoHibernate.setSessionFactory(sessionFactory);
+        
+        List<UserProfileDetails> usuariosDetalleRol=userProfileDetailsDaoHibernate.obtenerUserProfileDetailsRol(userRol);
+
+        vista.addObject("listaRevisores", usuariosDetalleRol);
+        vista.addObject("idTraballo", traballoDetalle.getIdTraballo());
+        vista.addObject("idTraballoDetalle", traballoDetalle.getIdTraballoDetalle());
+        vista.addObject("nomeTraballo", traballoDetalle.getNomeTraballo());
+        vista.addObject("idCategoria", traballoDetalle.getCategoria());
+        vista.addObject("categoria", categoria);
+        vista.addObject("autores", traballoDetalle.getAutores());
+        vista.addObject("traballo", traballoDetalle.getTraballo());
+        vista.addObject("textoAccion", "datos_traballo02");
+        
         return vista;
     }
 }

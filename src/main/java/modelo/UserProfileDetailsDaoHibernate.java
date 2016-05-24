@@ -4,6 +4,9 @@
  */
 package modelo;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
@@ -75,5 +78,23 @@ public class UserProfileDetailsDaoHibernate extends GenericDaoHibernate implemen
                 return (UserProfileDetails) genericDao.find(UserProfileDetails.class, userId);
             }
         }
+    }
+    
+    @Override
+    @Transactional
+    public List<UserProfileDetails> obtenerUserProfileDetailsRol(UserRol userRol) {
+        List<UserProfileDetails> usuarios = new ArrayList<UserProfileDetails>();
+        Iterator idUsuario = null;
+        try {
+            idUsuario = genericDao.getCurrentSession().createQuery("SELECT d.userprofileid FROM UserProfile a, UserProfileDetails d, UserRol r "
+                    + "WHERE a.userId=d.userid AND a.userRol=r.rolId AND r.rolId = :rolId ").setParameter("rolId", userRol.getRolId()).iterate();
+        } catch (HibernateException e) {
+            throw e;
+        }
+        while (idUsuario.hasNext()) {
+            UserProfileDetails usuarioDetalle=(UserProfileDetails)genericDao.find(UserProfileDetails.class, (Integer) idUsuario.next());
+            usuarios.add(usuarioDetalle);
+        }
+        return usuarios;
     }
 }
