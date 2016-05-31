@@ -87,7 +87,7 @@ public class UserProfileDetailsDaoHibernate extends GenericDaoHibernate implemen
         Iterator idUsuario = null;
         try {
             idUsuario = genericDao.getCurrentSession().createQuery("SELECT d.userprofileid FROM UserProfile a, UserProfileDetails d, UserRol r "
-                    + "WHERE a.userId=d.userid AND a.userRol=r.rolId AND r.rolId = :rolId ").setParameter("rolId", userRol.getRolId()).iterate();
+                    + "WHERE a.userId=d.userid AND a.userRol=r.rolId AND a.activo=1 AND r.rolId = :rolId ").setParameter("rolId", userRol.getRolId()).iterate();
         } catch (HibernateException e) {
             throw e;
         }

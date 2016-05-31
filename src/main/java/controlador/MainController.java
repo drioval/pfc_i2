@@ -478,4 +478,17 @@ public class MainController {
 
         return servicio.asignarRevisores(request.getUserPrincipal().getName(), idTraballo);
     }
+       
+    @RequestMapping(value = "/accion_asigna_revisores.htm")
+    public ModelAndView accion_asigna_revisores(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        servicio = new UserServiceImpl();
+        servicio.setSessionFactory(sessionFactory);
+
+        String [] revisores=request.getParameterValues("revisores");
+         
+        return servicio.accionasignarRevisores(request.getUserPrincipal().getName(), Integer.parseInt(request.getParameter("idTraballo")),
+                revisores, request.getParameter("email"), request.getParameter("textoRevisores"));
+    }
 }

@@ -100,6 +100,16 @@ input[type="text"]{
     background: whitesmoke;
 }
 
+input[type="email_revisores"]{
+    width: 800px;
+    border: 1px solid #c4c4c4;
+    height: 18px;
+    font-size: 14px;
+    padding: 2px 2px 2px 2px;
+    border-radius: 4px;
+    background: whitesmoke;
+}
+
 input[type="password"]{
     background: url(../images/password-icon.png) no-repeat right center buttonhighlight;
     border: 1px solid #c4c4c4;
@@ -358,13 +368,8 @@ button:hover {
     margin-left: 20px;
     margin-top: 5px;
     
-    width: 35%; 
-    min-width:400px; 
-    max-width:35%; 
-
-    height:250px; 
-    min-height:250px;  
-    max-height:250px;
+    height: border-box;
+    width: border-box;
 }
 
 /*estilos visuales de la tabla*/
@@ -392,13 +397,9 @@ table {
     color: white;
 }
 
-.star-rating a {
-  display: inline-block;
-  color: #95a5a6; /* gris (normal) */
+.dos_columnas{
+    column-count: 2;
+    -webkit-column-count: 2;
+    -moz-column-count: 2;
+    -o-column-count: 2;
 }
-.star-rating:hover a {
-  color: #f39c12; /* amarillo (seleccionado) */
-}
-  .star-rating:hover a:hover ~ a {
-    color: #95a5a6; /* gris (normal) */
-  }

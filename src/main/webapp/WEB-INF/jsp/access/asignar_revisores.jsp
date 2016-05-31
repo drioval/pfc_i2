@@ -76,24 +76,41 @@
                 </table>
             </div>
             <br>
-            <div>
-                <form method="post" action="accion_asigna_revisores.htm" id="asigna_revisores">
-                    <p>
+            <form method="post" action="accion_asigna_revisores.htm" id="asigna_revisores">
+                <input type="hidden" name="idTraballo" value="${idTraballo}">
+                <div class="dos_columnas">
+                    <fieldset class="center_form gris_oscuro">
+                        <legend class="subtitulo"><fmt:message key="asignar_revisores"/></legend>
+                        <br>
                         <a class="articulo"><fmt:message key="asigna_revisores01"/></a>
                         <br>
-                        <select multiple name="revisores[]" class="areaListaRevisores">
+                        <select multiple name="revisores" class="areaListaRevisores" style="width: 470px;height: 300px;">
                             <c:forEach items="${listaRevisores}" var="revisor" varStatus="indice">
                                 <option value="${revisor.userid}">${revisor.apelido1} ${revisor.apelido2}, ${revisor.nome}</option>
                             </c:forEach>
                         </select>
-                        <a class="articulo"><fmt:message key="accion_invitar_revisor"/></a>
-                        <textarea name="invitar_revisores" maxlength="500" class="areaListaRevisores"></textarea>
-                    </p>
-                    <p><input type="submit" value="<fmt:message key="asignar_revisores"/>" class="button blue"></p>
-                    <br><br>
-                    <td><a class="articulo" href="invitar_revisor.htm"><fmt:message key="accion_invitar_revisor"/></a></td>
-                </form>
-            </div>
+                        <br>
+                        <a class="articulo">*Ctrl+click para selección multiple.</a>
+                        <br>
+                    </fieldset>
+                    <fieldset class="center_form gris_oscuro">
+                        <legend class="subtitulo"><fmt:message key="accion_invitar_revisor"/></legend>
+                        <br>
+                        <a class="articulo"><fmt:message key="correo_electronico"/></a>
+                        <br>
+                        <input name="email" type="text" maxlength="200" class="recordar_usuario" placeholder="revisor1@direccion.com; revisor2@direccion.com" style="width: 500px;" >
+                        <br>
+                        <a class="articulo"><fmt:message key="texto_a_revisores"/></a>
+                        <br>
+                        <textarea name="textoRevisores" maxlength="1000" class="areaListaRevisores" style="width: 470px;height: 265px;">${textoRevisores}</textarea>
+                        <br>
+                    </fieldset>
+                </div>
+                <br><br>
+                <input type="submit" value="<fmt:message key="asignar_revisores"/>" class="button blue">
+                <input type="submit" formaction="trabajos.htm" class="button blue" value="Regresar">
+                <br><br>
+            </form>
         </fieldset>
         <fieldset class="center_form gris_claro">
             <legend class="articulo"><fmt:message key="msg_footer_01"/></legend>
