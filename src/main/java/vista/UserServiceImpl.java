@@ -1546,9 +1546,13 @@ public class UserServiceImpl implements UserService {
 
             UserProfileDaoHibernate userProfileDaoHibernate = new UserProfileDaoHibernate();
             userProfileDaoHibernate.setSessionFactory(sessionFactory);
-            
-            UserProfileDetailsDaoHibernate userProfileDetailsDaoHibernate=new UserProfileDetailsDaoHibernate();
+
+            UserProfileDetailsDaoHibernate userProfileDetailsDaoHibernate = new UserProfileDetailsDaoHibernate();
             userProfileDetailsDaoHibernate.setSessionFactory(sessionFactory);
+
+            EstadoTraballoDaoHibernate estadoTraballoDaoHibernate = new EstadoTraballoDaoHibernate();
+            estadoTraballoDaoHibernate.setSessionFactory(sessionFactory);
+            EstadoTraballo estadoTraballo = estadoTraballoDaoHibernate.obtenerEstadoTraballo(6);//En revision
 
             ArrayList<String> listaRevisores = new ArrayList<String>();
             ArrayList<UserProfileDetails> listaFinalRevisores = new ArrayList<UserProfileDetails>();
@@ -1575,13 +1579,13 @@ public class UserServiceImpl implements UserService {
 
                         EnviarEmail enviarEmail = new EnviarEmail();
                         String asunto = congreso.getNomeCongreso() + ": Invitacion a revision trabajo";
-                        String cuerpo = "Estimad@ colega,\n\n \tDesde la organización del " + congreso.getNomeCongreso() + " creemos que es usted la persona indicada para efectuar la revision del siguiente trabajo:\n"
+                        String cuerpo = "Estimad@ colega,<br> Desde la organización del " + congreso.getNomeCongreso() + " creemos que es usted la persona indicada para efectuar la revision del siguiente trabajo:\n"
                                 + traballoDetalle.getNomeTraballo() + ", presentado al congreso por los autores: " + traballoDetalle.getAutores() + ".\n\n"
                                 + "\tPor favor, si desea participar como revisor de este trabajo, haga click en el enlace que se muestra a continacion, evalúe el trabajo y realize la revision antes de"
-                                + " la fecha limite: " + traballoDetalle.getfFinRevision() + "\n\n"
-                                + "<href>http://localhost:8084/congreso_1.4/aceptoRevision.htm?idu=" + usuarioRevisor.getUserId() + "?idt=" + traballo.getIdTraballo() + "</href><br>"
-                                + "En caso contrario, haga click en el siguiente enlace para rechazar la revision.\n\n"
-                                + "<href>http://localhost:8084/congreso_1.4/rechazoRevision.htm?idu=" + usuarioRevisor.getUserId() + "?idt=" + traballo.getIdTraballo() + "</href><br>"
+                                + " la fecha limite: " + traballoDetalle.getfFinRevision() + "<br>"
+                                + "<href>http://localhost:8084/congreso_1.4/aceptoRevision.htm?idu=" + usuarioRevisor.getUserId() + "&idt=" + traballo.getIdTraballo() + "</href><br>"
+                                + "En caso contrario, haga click en el siguiente enlace para rechazar la revision.<br>"
+                                + "<href>http://localhost:8084/congreso_1.4/rechazoRevision.htm?idu=" + usuarioRevisor.getUserId() + "&idt=" + traballo.getIdTraballo() + "</href><br><br>"
                                 + "Un saludo, el comite organizador del " + congreso.getNomeCongreso();
                         enviarEmail.enviarEmail(usuarioDetalle.getEmail(), asunto, cuerpo);
                     } else {
@@ -1597,7 +1601,7 @@ public class UserServiceImpl implements UserService {
             }
             for (int i = 0; i < listaRevisores.size(); i++) {
                 UserProfile userProfileRevisor = userProfileDaoHibernate.obtenerUserProfile(Integer.parseInt(listaRevisores.get(i)));
-                UserProfileDetails usuarioRevisorDetalle=userProfileDetailsDaoHibernate.obtenerUserProfileDetails(userProfileRevisor.getUserId());
+                UserProfileDetails usuarioRevisorDetalle = userProfileDetailsDaoHibernate.obtenerUserProfileDetails(userProfileRevisor.getUserId());
                 Revision revision = new Revision(traballo.getCongreso(), traballo, traballo.getUserProfile(),
                         userProfileRevisor);
                 listaFinalRevisores.add(usuarioRevisorDetalle);
@@ -1606,22 +1610,175 @@ public class UserServiceImpl implements UserService {
 
                 EnviarEmail enviarEmail = new EnviarEmail();
                 String asunto = congreso.getNomeCongreso() + ": Invitacion a revision trabajo";
-                String cuerpo = "Estimad@ colega,\n\n \tDesde la organización del " + congreso.getNomeCongreso() + " creemos que es usted la persona indicada para efectuar la revision del siguiente trabajo:\n"
-                        + traballoDetalle.getNomeTraballo() + ", presentado al congreso por los autores: " + traballoDetalle.getAutores() + ".\n\n"
-                        + "\tPor favor, si desea participar como revisor de este trabajo, haga click en el enlace que se muestra a continacion, evalúe el trabajo y realize la revision antes de"
-                        + " la fecha limite: " + traballoDetalle.getfFinRevision() + "\n\n"
-                        + "<href>http://localhost:8084/congreso_1.4/aceptoRevision.htm?idu=" + userProfileRevisor.getUserId() + "?idt=" + traballo.getIdTraballo() + "</href><br>"
-                        + "En caso contrario, haga click en el siguiente enlace para rechazar la revision.\n\n"
-                        + "<href>http://localhost:8084/congreso_1.4/rechazoRevision.htm?idu=" + userProfileRevisor.getUserId() + "?idt=" + traballo.getIdTraballo() + "</href><br>"
+                String cuerpo = "Estimad@ colega,<br> Desde la organizacion del " + congreso.getNomeCongreso() + " creemos que es usted la persona indicada para efectuar la revision del siguiente trabajo:\n"
+                        + traballoDetalle.getNomeTraballo() + ", presentado al congreso por los autores: " + traballoDetalle.getAutores() + ".<br>"
+                        + "\tPor favor, si desea participar como revisor de este trabajo, acceda a la aplicacion y en la opcion de Trabajos Cientificos accedera a la revision del trabajo."
+                        + " La fecha limite para la revision del mismo es: " + traballoDetalle.getfFinRevision() + "<br>"
+                        + "En el caso de que desee rechazar la revision, pinche en el siguiente enlace:<br><br>"
+                        + "<href>http://localhost:8084/congreso_1.4/rechazoRevision.htm?idu=" + userProfileRevisor.getUserId() + "&idt=" + traballo.getIdTraballo() + "</href><br><br>"
                         + "Un saludo, el comite organizador del " + congreso.getNomeCongreso();
                 enviarEmail.enviarEmail(usuarioRevisorDetalle.getEmail(), asunto, cuerpo);
             }
-            
+
+            traballoDetalle.setEstadoTraballo(estadoTraballo);
+            traballoDetalleDaoHibernate.guardarTraballoDetalle(traballoDetalle);
+
             vista.addObject("listaRevisores", listaFinalRevisores);
             vista.addObject("idTraballo", idTraballo);
+            vista.addObject("idEstadoTraballo", traballoDetalle.getEstadoTraballo().getIdEstadoTraballo());
             vista.addObject("listaRevisiones", listaRevisiones);
+            vista.addObject("textoAccion", "asignacion_revisores01");
+        }
+
+        return this.accionVerRevisores(usuario, idTraballo);
+    }
+
+    @Override
+    public ModelAndView accionVerRevisores(String usuario, Integer idTraballo) {
+        ModelAndView vista = new ModelAndView("WEB-INF/jsp/access/lista_revisores.jsp");
+        vista.addObject("usuario", usuario);
+        
+        CongresoDaoHibernate congresoDaoHibernate=new CongresoDaoHibernate();
+        congresoDaoHibernate.setSessionFactory(sessionFactory);
+        Congreso congreso=congresoDaoHibernate.obtenerCongresoActivo();
+
+        TraballoDaoHibernate traballoDaoHibernate = new TraballoDaoHibernate();
+        traballoDaoHibernate.setSessionFactory(sessionFactory);
+
+        Traballo traballo = traballoDaoHibernate.obtenerTraballo(idTraballo);
+
+        TraballoDetalleDaoHibernate traballoDetalleDaoHibernate = new TraballoDetalleDaoHibernate();
+        traballoDetalleDaoHibernate.setSessionFactory(sessionFactory);
+        TraballoDetalle traballoDetalle = traballoDetalleDaoHibernate.obtenerTraballoDetalle(traballo.getIdTraballo());
+
+        UserProfileDetailsDaoHibernate userProfileDetailsDaoHibernate = new UserProfileDetailsDaoHibernate();
+        userProfileDetailsDaoHibernate.setSessionFactory(sessionFactory);
+
+        RevisionDaoHibernate revisionDaoHibernate = new RevisionDaoHibernate();
+        revisionDaoHibernate.setSessionFactory(sessionFactory);
+        List<Revision> listaRevisiones = revisionDaoHibernate.obtenerRevisionesCongresoTraballo(traballo.getCongreso().getIdCongreso(), traballo.getIdTraballo());
+
+        
+        UserRolDaoHibernate userRolDaoHibernate = new UserRolDaoHibernate();
+        userRolDaoHibernate.setSessionFactory(sessionFactory);
+
+        UserRol userRol = userRolDaoHibernate.obtenerUserRol(2);
+
+        List<UserProfileDetails> usuariosDetalleRol = userProfileDetailsDaoHibernate.obtenerUserProfileDetailsRol(userRol);
+        
+        Iterator iterador = listaRevisiones.iterator();
+        ArrayList<UserProfileDetails> listaFinalRevisores = new ArrayList<UserProfileDetails>();
+        while (iterador.hasNext()) {
+            Revision revision = (Revision) iterador.next();
+            listaFinalRevisores.add(userProfileDetailsDaoHibernate.obtenerUserProfileDetails(revision.getUserProfileRevisor().getUserId()));
+            if(usuariosDetalleRol.contains(userProfileDetailsDaoHibernate.obtenerUserProfileDetails(revision.getUserProfileRevisor().getUserId()))){
+                usuariosDetalleRol.remove(userProfileDetailsDaoHibernate.obtenerUserProfileDetails(revision.getUserProfileRevisor().getUserId()));
+            }
+        }
+        
+                String textoRevisores = "Estimad@ colega,\n\n \tDesde la organización del " + congreso.getNomeCongreso() + " creemos que es usted la persona indicada para efectuar la revision del siguiente trabajo:\n"
+                + traballoDetalle.getNomeTraballo() + ", presentado al congreso por los autores: " + traballoDetalle.getAutores() + ".\n\n"
+                + "\tPor favor, si desea participar como revisor de este trabajo, haga click en el enlace que se muestra a continacion, complete los datos de registro y realize la revision antes de"
+                + " la fecha limite: " + traballoDetalle.getfFinRevision() + "\n\n"
+                + "En caso contrario, haga click en el siguiente enlace para rechazar la revision.\n\n"
+                + "Un saludo, el comite organizador del " + congreso.getNomeCongreso();
+                
+        Integer idCategoria = traballoDetalle.getCategoria();
+        String categoria = null;
+        if (idCategoria == 1) {
+            categoria = "Publicación";
+        } else if (idCategoria == 2) {
+            categoria = "Artículo";
+        } else if (idCategoria == 3) {
+            categoria = "Tesis";
+        } else if (idCategoria == 4) {
+            categoria = "Investigación";
+        } else if (idCategoria == 5) {
+            categoria = "Disertación";
+        }
+
+        vista.addObject("textoRevisores", textoRevisores);
+
+        vista.addObject("listaRevisores", listaFinalRevisores);
+        vista.addObject("listaRevisoresDisponibles", usuariosDetalleRol);
+        vista.addObject("idTraballo", idTraballo);
+        vista.addObject("idEstadoTraballo", traballoDetalle.getEstadoTraballo().getIdEstadoTraballo());
+        vista.addObject("listaRevisiones", listaRevisiones);
+        vista.addObject("textoAccion", "asignacion_revisores01");
+        
+        vista.addObject("nomeTraballo", traballoDetalle.getNomeTraballo());
+        vista.addObject("idCategoria", traballoDetalle.getCategoria());
+        vista.addObject("categoria", categoria);
+        vista.addObject("autores", traballoDetalle.getAutores());
+        vista.addObject("traballo", traballoDetalle.getTraballo());
+        vista.addObject("fFinRevision", traballoDetalle.getfFinRevision());
+        vista.addObject("nomeEstado", traballoDetalle.getEstadoTraballo().getNomeEstado());
+
+        return vista;
+    }
+    
+    @Override
+    public ModelAndView aceptoRevision(Integer idUsuario, Integer idTraballo){
+        ModelAndView vista = new ModelAndView("WEB-INF/jsp/aceptoRevision.jsp");
+        
+        UserProfileDaoHibernate userProfileDaoHibernate=new UserProfileDaoHibernate();
+        userProfileDaoHibernate.setSessionFactory(sessionFactory);
+        
+        UserProfile usuario=userProfileDaoHibernate.obtenerUserProfile(idUsuario); 
+                
+        vista.addObject("idUsuario", usuario.getUserId());
+        vista.addObject("idTraballo", idTraballo);
+        return vista;
+    }
+    
+    @Override
+    @Transactional
+    public ModelAndView rechazoRevision(Integer idUsuario, Integer idTraballo){
+        ModelAndView vista = new ModelAndView("WEB-INF/jsp/rechazoRevision.jsp");
+        
+        UserProfileDaoHibernate userProfileDaoHibernate=new UserProfileDaoHibernate();
+        userProfileDaoHibernate.setSessionFactory(sessionFactory);
+        UserProfile usuario=userProfileDaoHibernate.obtenerUserProfile(idUsuario);
+        
+        UserProfileDetailsDaoHibernate userProfileDetailsDaoHibernate=new UserProfileDetailsDaoHibernate();
+        userProfileDetailsDaoHibernate.setSessionFactory(sessionFactory);
+        UserProfileDetails usuarioDetalle=userProfileDetailsDaoHibernate.obtenerUserProfileDetails(usuario.getUserId());
+        
+        TraballoDaoHibernate traballoDaoHibernate=new TraballoDaoHibernate();
+        traballoDaoHibernate.setSessionFactory(sessionFactory);
+        Traballo traballo=traballoDaoHibernate.obtenerTraballo(idTraballo);
+        
+        Congreso congreso=traballo.getCongreso();
+        
+        RevisionDaoHibernate revisionDaoHibernate=new RevisionDaoHibernate();
+        revisionDaoHibernate.setSessionFactory(sessionFactory);
+        List<Revision> listaRevision=revisionDaoHibernate.obtenerRevisionCongresoTraballoRevisor(congreso.getIdCongreso(), idTraballo, idUsuario);
+        
+        Iterator iterador=listaRevision.iterator();        
+        Revision revisionBorrar=listaRevision.get(0);
+
+        revisionDaoHibernate.eliminarRevision(revisionBorrar);
+        
+        EnviarEmail enviarEmail = new EnviarEmail();
+        String asunto=null;
+        String cuerpo=null;
+        if(usuario.getActivo()==0){
+            asunto = congreso.getNomeCongreso() + ": RECHAZADA invitacion revisor invitado"+ usuarioDetalle.getEmail();
+            cuerpo = "Estimad@ colega,<br>La invitación enviada a la dirección de correo ellectrónico "+usuarioDetalle.getEmail()+" ha sido RECHAZADA<br>";
+        
+        }else{
+            asunto = congreso.getNomeCongreso() + ": RECHAZADA invitacion revisor "+usuarioDetalle.getNome()+" "+usuarioDetalle.getApelido1()+" "+usuarioDetalle.getApelido2();
+            cuerpo = "Estimad@ colega,<br>La invitación enviada al usuario "+usuarioDetalle.getNome()+" "+usuarioDetalle.getApelido1()+" "+usuarioDetalle.getApelido2()+" ha sido RECHAZADA<br>";        
+        }
+        
+        enviarEmail.enviarEmail(usuarioDetalle.getEmail(), asunto, cuerpo);
+        
+        if(usuario.getActivo()==0){//Si es invitao eliminamos su cuenta
+            userProfileDetailsDaoHibernate.eliminarUserProfileDetails(usuarioDetalle);
+            userProfileDaoHibernate.eliminarUserProfile(usuario);
         }
         
         return vista;
     }
+    
 }

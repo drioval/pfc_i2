@@ -47,4 +47,7 @@ public interface UserService {
      public ModelAndView rexeitarTraballo(String usuario,Integer idTraballo);
      public ModelAndView asignarRevisores(String usuario,Integer idTraballo);
      public ModelAndView accionasignarRevisores(String usuario, Integer idTraballo, String[] revisores, String email, String textoRevisores);
+     public ModelAndView accionVerRevisores(String usuario, Integer idTraballo);
+     public ModelAndView aceptoRevision(Integer idUsuario, Integer idTraballo);
+     public ModelAndView rechazoRevision(Integer idUsuario, Integer idTraballo);
 }

@@ -491,4 +491,35 @@ public class MainController {
         return servicio.accionasignarRevisores(request.getUserPrincipal().getName(), Integer.parseInt(request.getParameter("idTraballo")),
                 revisores, request.getParameter("email"), request.getParameter("textoRevisores"));
     }
+    
+    @RequestMapping(value = "/ver_revisores.htm")
+    public ModelAndView accion_ver_revisores(@RequestParam("id") Integer idTraballo, HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        servicio = new UserServiceImpl();
+        servicio.setSessionFactory(sessionFactory);
+         
+        return servicio.accionVerRevisores(request.getUserPrincipal().getName(), idTraballo);
+    }
+    
+    @RequestMapping(value = "/aceptoRevision.htm")
+    public ModelAndView acepto_revision(@RequestParam("idu") Integer idUsuario, @RequestParam("idt") Integer idTraballo,HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        servicio = new UserServiceImpl();
+        servicio.setSessionFactory(sessionFactory);
+         
+        return servicio.aceptoRevision(idUsuario, idTraballo);
+    }
+    
+    @RequestMapping(value = "/rechazoRevision.htm")
+    public ModelAndView rechazo_revision(@RequestParam("idu") Integer idUsuario, @RequestParam("idt") Integer idTraballo,HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        servicio = new UserServiceImpl();
+        servicio.setSessionFactory(sessionFactory);
+         
+        return servicio.rechazoRevision(idUsuario, idTraballo);
+    }
+    
 }

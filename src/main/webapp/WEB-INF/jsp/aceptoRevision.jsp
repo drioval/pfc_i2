@@ -4,7 +4,6 @@
 <!DOCTYPE html>
 
 <link href="css/default.css" rel="stylesheet" />
-<link href="css/jquery-ui.css" rel="stylesheet" type="text/css" />
 <link href='http://fonts.googleapis.com/css?family=Yellowtail' rel='stylesheet' type='text/css'>
 <link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,300' rel='stylesheet' type='text/css'>
 <link href='http://fonts.googleapis.com/css?family=Homemade+Apple' rel='stylesheet' type='text/css'>
@@ -23,9 +22,11 @@
     <body class="cuerpo">
         <header class="header">
             <img src="images/logo.png" class="logo">
-            <form class="form" action="j_spring_security_logout" method="post">
-                <a class="articulo">Usuario</a><a class="articulo" href="prefil_usuario.htm">${usuario}</a>
-                <button class="button blue" title="Cerrar sesion"><fmt:message key="msg_header02"/></button>
+            <form class="form" action="j_spring_security_check" method="post">
+                <input name="j_username" type="text" placeholder="Nome de usuario" maxlength="45" required/>
+                <input name="j_password" type="password" placeholder="Contrasinal" maxlength="45" required/>
+                <button class="button blue" title="Preme para acceder ao teu perfil de usuario"><fmt:message key="msg_header01" /></button>
+                <a class="articulo" href="recordar.htm"><fmt:message key="msg_header03" /></a>
             </form>
 
             <h class="title"><fmt:message key="msg_header_title" /></h><br>
@@ -34,45 +35,31 @@
         </header>
         <nav class="menu">
             <ul>
-                <li><a href='aindex.htm'><fmt:message key="msg_menu01"/></a></li>
+                <li><a href='index.htm'><fmt:message key="msg_menu01"/></a></li>
                 <li><a href='congreso.htm'><fmt:message key="msg_menu02"/></a></li>
-                <li><a href='trabajos.htm'><fmt:message key="msg_menu03"/></a></li>
+                <li><a href='registrar.htm'><fmt:message key="msg_menu03"/></a></li>
                 <li><a href='#'><fmt:message key="msg_menu04"/></a></li>
                 <li><a href='#'><fmt:message key="msg_menu05"/></a></li>
                 <li><a href='contacto.htm'><fmt:message key="msg_menu06"/></a></li>
                 <li><a href='#'><fmt:message key="msg_menu07"/></a></li>
-                <li><a href='prefil_usuario.htm'><fmt:message key="msg_menu08"/></a></li>
             </ul>
         </nav>
         <fieldset class="center_form gris_oscuro">
-            <legend class="subtitulo"><fmt:message key="datos_traballo01"/></legend>
+            <form method="post" action="accionAceptarRevision.htm">
+            <legend class="subtitulo"><fmt:message key="aceptar_revision_01"/></legend>
             <br>
-            <form method="post" action="revisar_traballo.htm" id="alta_traballo">
-                <input name="idTraballo" type="hidden" value="${idTraballo}">
-                <a class="articulo"><fmt:message key="datos_traballo02"/></a>
+                <a class="articulo tab"><fmt:message key="aceptar_revision_02"/></a>
                 <br><br>
-                <a class="articulo"><fmt:message key="nome_traballo"/></a>
+                <a class="articulo tab"><fmt:message key="rec_msg_02"/></a>
                 <br>
-                <input name="nome_traballo" type="congreso" maxlength="250" style="width:600px;" readonly required="true"  value="${nomeTraballo}">
+                <input name="email" type="email" class="recordar_email">
                 <br>
-                <a class="articulo"><fmt:message key="categoria"/></a>
                 <br>
-                <select name="categoria" id="categoria" required="">
-                    <option value="${idCategoria}" selected>${categoria}</option>
-                </select>
-                <br>
-                <a class="articulo"><fmt:message key="autores"/></a>
-                <br>
-                <textarea name="autores" maxlength="250" readonly class="areaTexto">${autores}</textarea>
-                <br><br>
-                <a class="articulo"><fmt:message key="trabajo_actual"/></a>
-                <td><a class="articulo" target="_blank" href="abrir_traballo.htm?id=${idTraballo}">${nomeTraballo}</a></td>
-                <br><br>
-                <input type="submit" formaction="revisar_traballo.htm?id=${idTraballo}" class="button blue" value="Revisar">
-                <input type="submit" formaction="asignar_revisor.htm?id=${idTraballo}" class="button blue" value="Asignar revisor/es">
-                <input type="submit" formaction="trabajos.htm" class="button blue" value="Regresar">
-            </form>            
-                
+                <input type="hidden" name="idTraballo" value="${idTraballo}">
+                <input type="hidden" name="idUsuario" value="${idUsuario}">
+                <button type="submit" class="button blue" value="Submit">Enviar</button>
+                <button type="reset" class="button blue" value="Reset">Borrar</button>
+            </form>
         </fieldset>
         <fieldset class="center_form gris_claro">
             <legend class="articulo"><fmt:message key="msg_footer_01"/></legend>

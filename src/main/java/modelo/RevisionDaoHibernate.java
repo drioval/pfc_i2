@@ -108,6 +108,6 @@ public class RevisionDaoHibernate extends GenericDaoHibernate implements Revisio
     @Override
     @Transactional
     public void eliminarRevision(Revision revision) {
-        genericDao.remove(Traballo.class, revision.getIdRevision());
+        genericDao.remove(Revision.class, revision.getIdRevision());
     }
 }

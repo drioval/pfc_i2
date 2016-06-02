@@ -9,6 +9,9 @@
     <http pattern="/css/**" security="none"/>
     <http pattern="/images/**" security="none"/>
     <http pattern="/index.htm" security="none"/>
+    <http pattern="/aceptoRevision.htm*" security="none"/>
+    <http pattern="/rechazoRevision.htm*" security="none"/>
+    
 
     <http auto-config='true'>
         <intercept-url pattern='/acceder.htm' access='ROLE_AUTOR,ROLE_REVISOR,ROLE_ORGANIZADOR' />

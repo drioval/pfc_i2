@@ -160,7 +160,13 @@
                     </c:choose>
                     <br><br>
                     <input type="hidden" name="idTraballo" value="${traballoDetalle.idTraballo}">
-                    <input type="submit" formaction="ver_lista_revisiones.htm?id=${traballoDetalle.idTraballo}" class="button blue" value="Regresar">
+                    <c:if test="${idEstadoTraballo == 6}">
+                        <input type="submit" formaction="ver_revisores.htm?id=${traballoDetalle.idTraballo}" class="button blue" value="Regresar">  
+                    </c:if>
+                    <c:if test="${idEstadoTraballo == 7}">
+                        <input type="submit" formaction="ver_lista_revisiones.htm?id=${traballoDetalle.idTraballo}" class="button blue" value="Regresar">  
+                    </c:if>
+                    
                 </form>
             </div>
         </fieldset>
