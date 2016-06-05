@@ -18,5 +18,6 @@ public interface RevisionDao {
     public List<Revision> obtenerRevisionesCongreso(Integer idCongreso);
     public List<Revision> obtenerRevisionesCongresoTraballo(Integer idCongreso, Integer idTraballo);
     public List<Revision> obtenerRevisionCongresoTraballoRevisor(Integer idCongreso, Integer idTraballo, Integer idRevisor);
+    public List<Revision> obtenerRevisionCongresoRevisor(Integer idCongreso, Integer idRevisor);
     public void eliminarRevision(Revision revision);
 }

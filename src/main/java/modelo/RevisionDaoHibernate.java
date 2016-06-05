@@ -103,6 +103,26 @@ public class RevisionDaoHibernate extends GenericDaoHibernate implements Revisio
         return revisiones;
     }
     
+    @Override
+    @Transactional
+    public List<Revision> obtenerRevisionCongresoRevisor(Integer idCongreso, Integer idRevisor) {
+        List<Revision> revisiones = new ArrayList<Revision>();
+        Iterator idRevision = null;
+        try {
+            idRevision = genericDao.getCurrentSession().createQuery("SELECT r.idRevision FROM Revision r, Congreso c, UserProfile u"
+                    + " WHERE r.congreso=c.idCongreso AND r.userProfileRevisor=u.userId"
+                    + " AND c.idCongreso = :idCongreso"
+                    + " AND u.userId = :idRevisor").setParameter("idCongreso", idCongreso).setParameter("idRevisor", idRevisor).iterate();
+        } catch (HibernateException e) {
+            throw e;
+        }
+        while (idRevision.hasNext()) {
+            Revision revision = (Revision) genericDao.find(Revision.class, (Integer) idRevision.next());
+            revisiones.add(revision);
+        }
+        return revisiones;
+    }
+    
     
     
     @Override

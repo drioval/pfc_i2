@@ -69,7 +69,7 @@
                                 <td><a class="articulo" target="_blank" href="abrir_traballo.htm?id=${traballos.idTraballo}"><fmt:message key="accion_ver_traballo"/></a></td>
                                 <jsp:useBean id="now" class="java.util.Date" />
                                 <c:set var="idEstadoTraballo" scope="session" value="${listaEstadoTraballos[indice.index].idEstadoTraballo}"/>
-                                <c:if test="${idEstadoTraballo == 2}">
+                                <c:if test="${idEstadoTraballo == 2 || idEstadoTraballo == 5}">
                                     <td><a class="articulo" href="ver_datos_traballo.htm?id=${traballos.idTraballo}"><fmt:message key="accion_ver_datos_traballo"/></a></td>
                                     <td><a class="articulo" href="asignar_revisor.htm?id=${traballos.idTraballo}"><fmt:message key="accion_asignar_revisor"/></a></td>
                                     <td><a class="articulo" href="revisar_traballo.htm?id=${traballos.idTraballo}"><fmt:message key="accion_revisar_traballo"/></a></td>
@@ -81,7 +81,7 @@
                                     <td><a class="articulo" href="revisar_traballo.htm?id=${traballos.idTraballo}"><fmt:message key="accion_revisar_traballo"/></a></td>
                                     <td><a class="articulo" href="accion_rexeitar_traballo.htm?id=${traballos.idTraballo}"><fmt:message key="accion_rexeitar_traballo"/></a></td>  
                                 </c:if>
-                                <c:if test="${idEstadoTraballo == 7 ||  idEstadoTraballo == 3 || idEstadoTraballo == 4}">
+                                <c:if test="${idEstadoTraballo == 3 || idEstadoTraballo == 4 || idEstadoTraballo == 7}">
                                 <td><a class="articulo" href="ver_datos_traballo.htm?id=${traballos.idTraballo}"><fmt:message key="accion_ver_datos_traballo"/></a></td>
                                     <td><a class="articulo" href="ver_lista_revisiones.htm?id=${traballos.idTraballo}"><fmt:message key="accion_ver_lista_revisiones"/></a></td>
                                 </c:if>

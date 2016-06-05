@@ -56,17 +56,12 @@
                             <th><fmt:message key="tabla_revision01"/></th>
                             <th><fmt:message key="puntuacion"/></th>
                             <th><fmt:message key="tabla_revision03"/></th>
-                            <th colspan="4"></th>
+                            <th colspan="5"></th>
                         </tr>
                         <c:forEach items="${listaRevisiones}" var="revision" varStatus="indice">
                             <tr>
                                 <td><c:out value="${revision.userProfileRevisor.usuario}"/></td>
-                                <c:if test="${revision.puntuacion eq null}">
-                                    <td></td>
-                                </c:if>
-                                <c:if test="${revision.puntuacion ne null}">
-                                    <td><c:out value="${revision.puntuacion}"/></td>
-                                </c:if>
+                                <td><c:out value="${revision.puntuacion}"/></td>
                                 <c:if test="${revision.recomendacion == 1}">
                                     <td><fmt:message key="sugerencia_rechazar"/></td>
                                 </c:if>
@@ -78,9 +73,6 @@
                                 </c:if>
                                 <c:if test="${revision.recomendacion == 4}">
                                     <td><fmt:message key="sugerencia_aceptar"/></td>
-                                </c:if>
-                                <c:if test="${revision.recomendacion eq null}">
-                                    <td></td>
                                 </c:if>
                                 <td><a class="articulo" target="_blank" href="abrir_traballo.htm?id=${revision.traballo.idTraballo}"><fmt:message key="accion_ver_traballo"/></a></td>
                                 <td><a class="articulo" href="ver_revision_traballo.htm?id=${revision.idRevision}"><fmt:message key="accion_ver_revision_traballo"/></a></td>

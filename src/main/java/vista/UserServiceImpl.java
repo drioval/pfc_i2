@@ -652,6 +652,25 @@ public class UserServiceImpl implements UserService {
                 break;
             case 2://rollid: 2 - Revisor
                 vista.setViewName("WEB-INF/jsp/access/revisar_traballos.jsp");
+                
+                UserProfileDaoHibernate userProfileDaoHibernate=new UserProfileDaoHibernate();
+                userProfileDaoHibernate.setSessionFactory(sessionFactory);
+                
+                RevisionDaoHibernate revisionDaoHibernate=new RevisionDaoHibernate();
+                revisionDaoHibernate.setSessionFactory(sessionFactory);
+                
+                List<Revision> listaRevisiones=revisionDaoHibernate.obtenerRevisionCongresoRevisor(congreso.getIdCongreso(), user.getUserId());
+                
+                if(listaRevisiones==null){
+                    vista.addObject("textoAccion", "revisor_sin_revisiones");
+                }else{
+                    System.out.println("Congreso: "+congreso.getNomeCongreso());
+                    System.out.println("Usuario: "+user.getUsuario());
+                    System.out.println("Revision: "+listaRevisiones.get(0).getUserProfileRevisor().getUsuario());
+                    vista.addObject("listaRevisiones", listaRevisiones);
+                }
+                
+                
                 break;
             case 3://rollid: 3 - Autor
                 TraballoDaoHibernate traballoDao = new TraballoDaoHibernate();
@@ -1205,10 +1224,11 @@ public class UserServiceImpl implements UserService {
         revisionDaoHibernate.setSessionFactory(sessionFactory);
 
         List<Revision> revisiones = revisionDaoHibernate.obtenerRevisionesCongresoTraballo(congreso.getIdCongreso(), idTraballo);
-
-        String usuarioRevisor = revisiones.get(0).getUserProfileRevisor().getUsuario();
-        vista.addObject("usuarioRevisor", usuarioRevisor);
-
+        
+        for(int i=0;i<revisiones.size();i++){
+            String nomeRevisor=revisiones.get(i).getUserProfileRevisor().getUsuario();
+        }
+        
         vista.addObject("listaRevisiones", revisiones);
         vista.addObject("idTraballo", traballo.getIdTraballo());
         vista.addObject("idEstadoTraballo", traballoDetalle.getEstadoTraballo().getIdEstadoTraballo());
@@ -1558,7 +1578,7 @@ public class UserServiceImpl implements UserService {
             ArrayList<UserProfileDetails> listaFinalRevisores = new ArrayList<UserProfileDetails>();
             ArrayList<Revision> listaRevisiones = new ArrayList<Revision>();
 
-            if (email != "") {
+            if (!email.equals("")) {
                 String separador = "[;]";
                 String[] listaRevisoresInvitados = email.split(separador);
                 UserRolDaoHibernate userRolDaoHibernate = new UserRolDaoHibernate();
@@ -1763,7 +1783,7 @@ public class UserServiceImpl implements UserService {
         String asunto=null;
         String cuerpo=null;
         if(usuario.getActivo()==0){
-            asunto = congreso.getNomeCongreso() + ": RECHAZADA invitacion revisor invitado"+ usuarioDetalle.getEmail();
+            asunto = congreso.getNomeCongreso() + ": RECHAZADA invitacion revisor invitado "+ usuarioDetalle.getEmail();
             cuerpo = "Estimad@ colega,<br>La invitación enviada a la dirección de correo ellectrónico "+usuarioDetalle.getEmail()+" ha sido RECHAZADA<br>";
         
         }else{
@@ -1773,11 +1793,22 @@ public class UserServiceImpl implements UserService {
         
         enviarEmail.enviarEmail(usuarioDetalle.getEmail(), asunto, cuerpo);
         
-        if(usuario.getActivo()==0){//Si es invitao eliminamos su cuenta
+        if(usuario.getActivo()==0){//Si es invitado eliminamos su cuenta
             userProfileDetailsDaoHibernate.eliminarUserProfileDetails(usuarioDetalle);
             userProfileDaoHibernate.eliminarUserProfile(usuario);
         }
         
+        List<Revision> cuentaRevisiones=revisionDaoHibernate.obtenerRevisionesCongresoTraballo(idUsuario, idTraballo);
+        if(cuentaRevisiones.isEmpty()){//Si se rechazan todas la revisiones pasamos el trabajo a pendiente_revision
+            TraballoDetalleDaoHibernate traballoDetalleDaoHibernate=new TraballoDetalleDaoHibernate();
+            traballoDetalleDaoHibernate.setSessionFactory(sessionFactory);
+            TraballoDetalle traballoDetalle=traballoDetalleDaoHibernate.obtenerTraballoDetalle(idTraballo);
+            EstadoTraballoDaoHibernate estadoTraballoDaoHibernate=new EstadoTraballoDaoHibernate();
+            estadoTraballoDaoHibernate.setSessionFactory(sessionFactory);
+            EstadoTraballo estadoTraballo=estadoTraballoDaoHibernate.obtenerEstadoTraballo(5);
+            traballoDetalle.setEstadoTraballo(estadoTraballo);
+            traballoDetalleDaoHibernate.guardarTraballoDetalle(traballoDetalle);
+        }                 
         return vista;
     }
     
