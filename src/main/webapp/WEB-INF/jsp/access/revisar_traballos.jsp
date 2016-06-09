@@ -45,48 +45,52 @@
             </ul>
         </nav>
         <fieldset class="center_form gris_oscuro">
-            <legend class="subtitulo"><fmt:message key="admin_traballo01"/></legend>
+            <legend class="subtitulo"><fmt:message key="revisar_traballo01"/></legend>
             <br>
             <form method="post" action="accion_aceptar_traballo.htm" id="aceptar_traballo">
                 <a class="articulo"><fmt:message key="${textoAccion}"/></a>
                 <br><br>
                 <div style="overflow-x:auto;">
-                    <table>
-                        <tr>
-                            <th><fmt:message key="tabla_revision01"/></th>
-                            <th><fmt:message key="puntuacion"/></th>
-                            <th><fmt:message key="tabla_revision03"/></th>
-                            <th colspan="5"></th>
-                        </tr>
-                        <c:forEach items="${listaRevisiones}" var="revision" varStatus="indice">
+                    <c:if test="${existenRevisiones == 1}">
+                        <table>
                             <tr>
-                                <td><c:out value="${revision.userProfileRevisor.usuario}"/></td>
-                                <td><c:out value="${revision.puntuacion}"/></td>
-                                <c:if test="${revision.recomendacion == 1}">
-                                    <td><fmt:message key="sugerencia_rechazar"/></td>
-                                </c:if>
-                                <c:if test="${revision.recomendacion == 2}">
-                                    <td><fmt:message key="sugerencia_cmayores"/></td>
-                                </c:if>
-                                <c:if test="${revision.recomendacion == 3}">
-                                    <td><fmt:message key="sugerencia_cmenores"/></td>
-                                </c:if>
-                                <c:if test="${revision.recomendacion == 4}">
-                                    <td><fmt:message key="sugerencia_aceptar"/></td>
-                                </c:if>
-                                <td><a class="articulo" target="_blank" href="abrir_traballo.htm?id=${revision.traballo.idTraballo}"><fmt:message key="accion_ver_traballo"/></a></td>
-                                <td><a class="articulo" href="ver_revision_traballo.htm?id=${revision.idRevision}"><fmt:message key="accion_ver_revision_traballo"/></a></td>
+                                <th><fmt:message key="tabla_revision01"/></th>
+                                <th><fmt:message key="puntuacion"/></th>
+                                <th><fmt:message key="tabla_revision03"/></th>
+                                <th colspan="5"></th>
                             </tr>
-                        </c:forEach>    
-                    </table>
+                            <c:forEach items="${listaRevisiones}" var="revision" varStatus="indice">
+                                <tr>
+                                    <td><c:out value="${revision.userProfileRevisor.usuario}"/></td>
+                                    <td><c:out value="${revision.puntuacion}"/></td>
+                                    <c:if test="${revision.recomendacion == 1}">
+                                        <td><fmt:message key="sugerencia_rechazar"/></td>
+                                    </c:if>
+                                    <c:if test="${revision.recomendacion == 2}">
+                                        <td><fmt:message key="sugerencia_cmayores"/></td>
+                                    </c:if>
+                                    <c:if test="${revision.recomendacion == 3}">
+                                        <td><fmt:message key="sugerencia_cmenores"/></td>
+                                    </c:if>
+                                    <c:if test="${revision.recomendacion == 4}">
+                                        <td><fmt:message key="sugerencia_aceptar"/></td>
+                                    </c:if>
+                                    <td><a class="articulo" target="_blank" href="abrir_traballo.htm?id=${revision.traballo.idTraballo}"><fmt:message key="accion_ver_traballo"/></a></td>
+                                    <td><a class="articulo" href="ver_revision_traballo.htm?id=${revision.idRevision}"><fmt:message key="accion_ver_revision_traballo"/></a></td>
+                                    <td><a class="articulo" href="rexeitar_revision_revisor.htm?id=${revision.idRevision}"><fmt:message key="accion_rexeitar_revision"/></a></td>
+                                </tr>
+                            </c:forEach>    
+                        </table>
+                        <input type="hidden" name="idTraballo" value="${idTraballo}">
+                        <c:set var="idEstadoTraballo" scope="session" value="${idEstadoTraballo}"/>
+                        <c:if test="${idEstadoTraballo == 7}">
+                            <input type="submit" class="button blue" value="<fmt:message key="aceptar_trabajo"/>">
+                            <input type="submit" formaction="accion_rexeitar_traballo.htm?id=${idTraballo}" class="button blue" value="<fmt:message key="accion_rexeitar_traballo"/>">
+                        </c:if>
+                        <input type="submit" formaction="trabajos.htm" class="button blue" value="Regresar">
+                    </c:if>
                 </div>
-                <input type="hidden" name="idTraballo" value="${idTraballo}">
-                <c:set var="idEstadoTraballo" scope="session" value="${idEstadoTraballo}"/>
-                <c:if test="${idEstadoTraballo == 7}">
-                    <input type="submit" class="button blue" value="<fmt:message key="aceptar_trabajo"/>">
-                    <input type="submit" formaction="accion_rexeitar_traballo.htm?id=${idTraballo}" class="button blue" value="<fmt:message key="accion_rexeitar_traballo"/>">
-                </c:if>
-                <input type="submit" formaction="trabajos.htm" class="button blue" value="Regresar">
+
             </form>
         </fieldset>
         <fieldset class="center_form gris_claro">

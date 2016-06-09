@@ -22,11 +22,9 @@
     <body class="cuerpo">
         <header class="header">
             <img src="images/logo.png" class="logo">
-            <form class="form" action="j_spring_security_check" method="post">
-                <input name="j_username" type="text" placeholder="Nome de usuario" maxlength="45" required/>
-                <input name="j_password" type="password" placeholder="Contrasinal" maxlength="45" required/>
-                <button class="button blue" title="Preme para acceder ao teu perfil de usuario"><fmt:message key="msg_header01" /></button>
-                <a class="articulo" href="recordar.htm"><fmt:message key="msg_header03" /></a>
+            <form class="form" action="j_spring_security_logout" method="post">
+                <a class="articulo">Usuario</a><a class="articulo" href="prefil_usuario.htm">${usuario}</a>
+                <button class="button blue" title="Cerrar sesion"><fmt:message key="msg_header02"/></button>
             </form>
 
             <h class="title"><fmt:message key="msg_header_title" /></h><br>
@@ -51,7 +49,7 @@
                     <a class="articulo"><fmt:message key="${textoAccion}"/></a>
                     <br><br>
                     <c:if test="${existeRevision == 1}">
-                        <input type="submit" formaction="accion_rexeitar_revision.htm?idu=${idUsuario}&idt=${idTraballo}" class="button blue" value="<fmt:message key="rechazar"/>">
+                        <input type="submit" formaction="accion_rexeitar_revision_revisor.htm?idu=${idUsuario}&idt=${idTraballo}" class="button blue" value="<fmt:message key="rechazar"/>">
                     </c:if>
                 </form>
                 <br>

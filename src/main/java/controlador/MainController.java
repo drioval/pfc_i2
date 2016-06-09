@@ -522,4 +522,34 @@ public class MainController {
         return servicio.rechazoRevision(idUsuario, idTraballo);
     }
     
+    @RequestMapping(value = "/accion_rexeitar_revision.htm")
+    public ModelAndView accion_rechazo_revision(@RequestParam("idu") Integer idUsuario, @RequestParam("idt") Integer idTraballo,HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        servicio = new UserServiceImpl();
+        servicio.setSessionFactory(sessionFactory);
+         
+        return servicio.accionRechazoRevision(idUsuario, idTraballo);
+    }
+    
+    @RequestMapping(value = "/rexeitar_revision_revisor.htm")
+    public ModelAndView rechazo_revision_revisor(@RequestParam("id") Integer idRevision, HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        servicio = new UserServiceImpl();
+        servicio.setSessionFactory(sessionFactory);
+         
+        return servicio.rechazoRevisionRevisor(request.getUserPrincipal().getName(),idRevision);
+    }
+    
+
+    @RequestMapping(value = "/accion_rexeitar_revision_revisor.htm")
+    public ModelAndView accion_rechazo_revision_revisor(@RequestParam("idu") Integer idUsuario, @RequestParam("idt") Integer idTraballo,HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        servicio = new UserServiceImpl();
+        servicio.setSessionFactory(sessionFactory);
+         
+        return servicio.accionRechazoRevisionRevisor(idUsuario, idTraballo);
+    }
 }

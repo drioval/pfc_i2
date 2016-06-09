@@ -50,4 +50,7 @@ public interface UserService {
      public ModelAndView accionVerRevisores(String usuario, Integer idTraballo);
      public ModelAndView aceptoRevision(Integer idUsuario, Integer idTraballo);
      public ModelAndView rechazoRevision(Integer idUsuario, Integer idTraballo);
+     public ModelAndView accionRechazoRevision(Integer idUsuario, Integer idTraballo);
+     public ModelAndView rechazoRevisionRevisor(String usuario, Integer idRevision);
+     public ModelAndView accionRechazoRevisionRevisor(Integer idUsuario, Integer idTraballo);
 }

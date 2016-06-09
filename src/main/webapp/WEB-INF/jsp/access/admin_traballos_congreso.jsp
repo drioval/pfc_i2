@@ -47,49 +47,49 @@
         <fieldset class="center_form gris_oscuro">
             <legend class="subtitulo"><fmt:message key="admin_traballo01"/></legend>
             <br>
-            <form method="post" action="alta_traballo.htm" id="alta_traballo" enctype="multipart/form-data">
-
-                <a class="articulo"><fmt:message key="${textoAccion}"/></a>
-                <br><br>
-                <div style="overflow-x:auto;">
-                    <table>
-                        <tr>
-                            <th><fmt:message key="tabla_trabajo01"/></th>
-                            <th><fmt:message key="tabla_trabajo05"/></th>
-                            <th><fmt:message key="tabla_trabajo06"/></th>
-                            <th><fmt:message key="tabla_trabajo07"/></th>
-                            <th colspan="5"></th>
-                        </tr>
-                        <c:forEach items="${listaTraballos}" var="traballos" varStatus="indice">
+            <a class="articulo"><fmt:message key="${textoAccion}"/></a>
+            <br><br>
+            <c:if test="${existenTraballos==1}">
+                <form method="post" action="alta_traballo.htm" id="alta_traballo" enctype="multipart/form-data">
+                    <div style="overflow-x:auto;">
+                        <table>
                             <tr>
-                                <td><c:out value="${traballos.nomeTraballo}"/></td>
-                                <td><fmt:formatDate  pattern="dd/MM/yyyy" value="${traballos.fIncioRevision}"/></td>
-                                <td><fmt:formatDate  pattern="dd/MM/yyyy" value="${traballos.fFinRevision}"/></td>
-                                <td><c:out value="${listaEstadoTraballos[indice.index].nomeEstado}"/></td>
-                                <td><a class="articulo" target="_blank" href="abrir_traballo.htm?id=${traballos.idTraballo}"><fmt:message key="accion_ver_traballo"/></a></td>
-                                <jsp:useBean id="now" class="java.util.Date" />
-                                <c:set var="idEstadoTraballo" scope="session" value="${listaEstadoTraballos[indice.index].idEstadoTraballo}"/>
-                                <c:if test="${idEstadoTraballo == 2 || idEstadoTraballo == 5}">
-                                    <td><a class="articulo" href="ver_datos_traballo.htm?id=${traballos.idTraballo}"><fmt:message key="accion_ver_datos_traballo"/></a></td>
-                                    <td><a class="articulo" href="asignar_revisor.htm?id=${traballos.idTraballo}"><fmt:message key="accion_asignar_revisor"/></a></td>
-                                    <td><a class="articulo" href="revisar_traballo.htm?id=${traballos.idTraballo}"><fmt:message key="accion_revisar_traballo"/></a></td>
-                                    <td><a class="articulo" href="accion_rexeitar_traballo.htm?id=${traballos.idTraballo}"><fmt:message key="accion_rexeitar_traballo"/></a></td>  
-                                </c:if>
-                                <c:if test="${idEstadoTraballo == 6}">
-                                    <td><a class="articulo" href="ver_datos_traballo.htm?id=${traballos.idTraballo}"><fmt:message key="accion_ver_datos_traballo"/></a></td>
-                                    <td><a class="articulo" href="ver_revisores.htm?id=${traballos.idTraballo}"><fmt:message key="accion_ver_revisores"/></a></td>
-                                    <td><a class="articulo" href="revisar_traballo.htm?id=${traballos.idTraballo}"><fmt:message key="accion_revisar_traballo"/></a></td>
-                                    <td><a class="articulo" href="accion_rexeitar_traballo.htm?id=${traballos.idTraballo}"><fmt:message key="accion_rexeitar_traballo"/></a></td>  
-                                </c:if>
-                                <c:if test="${idEstadoTraballo == 3 || idEstadoTraballo == 4 || idEstadoTraballo == 7}">
-                                <td><a class="articulo" href="ver_datos_traballo.htm?id=${traballos.idTraballo}"><fmt:message key="accion_ver_datos_traballo"/></a></td>
-                                    <td><a class="articulo" href="ver_lista_revisiones.htm?id=${traballos.idTraballo}"><fmt:message key="accion_ver_lista_revisiones"/></a></td>
-                                </c:if>
+                                <th><fmt:message key="tabla_trabajo01"/></th>
+                                <th><fmt:message key="tabla_trabajo05"/></th>
+                                <th><fmt:message key="tabla_trabajo06"/></th>
+                                <th><fmt:message key="tabla_trabajo07"/></th>
+                                <th colspan="5"></th>
                             </tr>
-                        </c:forEach>
-                        
-                    </table>
-                    </fieldset>
+                            <c:forEach items="${listaTraballos}" var="traballos" varStatus="indice">
+                                <tr>
+                                    <td><c:out value="${traballos.nomeTraballo}"/></td>
+                                    <td><fmt:formatDate  pattern="dd/MM/yyyy" value="${traballos.fIncioRevision}"/></td>
+                                    <td><fmt:formatDate  pattern="dd/MM/yyyy" value="${traballos.fFinRevision}"/></td>
+                                    <td><c:out value="${listaEstadoTraballos[indice.index].nomeEstado}"/></td>
+                                    <td><a class="articulo" target="_blank" href="abrir_traballo.htm?id=${traballos.idTraballo}"><fmt:message key="accion_ver_traballo"/></a></td>
+                                        <jsp:useBean id="now" class="java.util.Date" />
+                                        <c:set var="idEstadoTraballo" scope="session" value="${listaEstadoTraballos[indice.index].idEstadoTraballo}"/>
+                                        <c:if test="${idEstadoTraballo == 2 || idEstadoTraballo == 5}">
+                                        <td><a class="articulo" href="ver_datos_traballo.htm?id=${traballos.idTraballo}"><fmt:message key="accion_ver_datos_traballo"/></a></td>
+                                        <td><a class="articulo" href="asignar_revisor.htm?id=${traballos.idTraballo}"><fmt:message key="accion_asignar_revisor"/></a></td>
+                                        <td><a class="articulo" href="revisar_traballo.htm?id=${traballos.idTraballo}"><fmt:message key="accion_revisar_traballo"/></a></td>
+                                        <td><a class="articulo" href="accion_rexeitar_traballo.htm?id=${traballos.idTraballo}"><fmt:message key="accion_rexeitar_traballo"/></a></td>  
+                                        </c:if>
+                                        <c:if test="${idEstadoTraballo == 6}">
+                                        <td><a class="articulo" href="ver_datos_traballo.htm?id=${traballos.idTraballo}"><fmt:message key="accion_ver_datos_traballo"/></a></td>
+                                        <td><a class="articulo" href="ver_revisores.htm?id=${traballos.idTraballo}"><fmt:message key="accion_ver_revisores"/></a></td>
+                                        <td><a class="articulo" href="revisar_traballo.htm?id=${traballos.idTraballo}"><fmt:message key="accion_revisar_traballo"/></a></td>
+                                        <td><a class="articulo" href="accion_rexeitar_traballo.htm?id=${traballos.idTraballo}"><fmt:message key="accion_rexeitar_traballo"/></a></td>  
+                                        </c:if>
+                                        <c:if test="${idEstadoTraballo == 3 || idEstadoTraballo == 4 || idEstadoTraballo == 7}">
+                                        <td><a class="articulo" href="ver_datos_traballo.htm?id=${traballos.idTraballo}"><fmt:message key="accion_ver_datos_traballo"/></a></td>
+                                        <td><a class="articulo" href="ver_lista_revisiones.htm?id=${traballos.idTraballo}"><fmt:message key="accion_ver_lista_revisiones"/></a></td>
+                                        </c:if>
+                                </tr>
+                            </c:forEach>                        
+                        </table>
+                    </c:if>
+                    </fieldset>                
                     <fieldset class="center_form gris_claro">
                         <legend class="articulo"><fmt:message key="msg_footer_01"/></legend>
                         <a class="articulo" href="contacto.htm"><fmt:message key="msg_footer_02"/></a>
