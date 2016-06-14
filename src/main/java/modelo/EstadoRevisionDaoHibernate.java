@@ -13,10 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
- * @author drioval
+ * @author danielrios
  */
-@Repository(value="EstadoTraballo")
-public class EstadoTraballoDaoHibernate extends GenericDaoHibernate implements EstadoTraballoDao{
+@Repository(value="EstadoRevision")
+public class EstadoRevisionDaoHibernate extends GenericDaoHibernate implements EstadoRevisionDao{
     
     private GenericDaoHibernate genericDao = new GenericDaoHibernate();
 
@@ -27,20 +27,20 @@ public class EstadoTraballoDaoHibernate extends GenericDaoHibernate implements E
     
     @Override
     @Transactional
-    public void guardarEstadoTraballo(EstadoTraballo estadoTraballo){
-        genericDao.save(estadoTraballo);
+    public void guardarEstadoRevision(EstadoRevision estadoRevision){
+        genericDao.save(estadoRevision);
     }
     
     @Override
-    public EstadoTraballo obtenerEstadoTraballo(Integer idEstadoTraballo){
-        Integer idEstadoTraballoBBDD=null;
+    public EstadoRevision obtenerEstadoRevision(Integer idEstadoRevision){
+        Integer idEstadoRevisionBBDD=null;
         try{
-            idEstadoTraballoBBDD=(Integer) genericDao.getCurrentSession().createQuery("SELECT a.idEstadoTraballo FROM EstadoTraballo a WHERE a.idEstadoTraballo = :idEstadoTraballo").setParameter("idEstadoTraballo", idEstadoTraballo).uniqueResult();
+            idEstadoRevisionBBDD=(Integer) genericDao.getCurrentSession().createQuery("SELECT a.idEstadoRevision FROM EstadoRevision a WHERE a.idEstadoRevision = :idEstadoRevision").setParameter("idEstadoRevision", idEstadoRevision).uniqueResult();
         } catch (HibernateException e) {
             System.out.println(e);
             throw e;
         } finally {
-            return (EstadoTraballo) genericDao.find(EstadoTraballo.class, idEstadoTraballoBBDD);
+            return (EstadoRevision) genericDao.find(EstadoRevision.class, idEstadoRevisionBBDD);
         }
-    }
+    }    
 }

@@ -80,53 +80,53 @@
                 <form method="post" action="ver_lista_revisiones.htm?id=${traballoDetalle.idTraballo}" id="revision_traballo">
                     <a class="articulo"><fmt:message key="informe_publico"/></a>
                     <br>
-                    <textarea name="informe_publico" maxlength="500" class="areaTexto" readonly>${revision.revisionPublica}</textarea>
+                    <textarea name="informe_publico" maxlength="500" class="areaTexto">${revision.revisionPublica}</textarea>
                     <br><br>
                     
                     <c:set var="rolUsuario" scope="session" value="${rolUsuario}"/>
                     <c:if test="${rolUsuario == 1 || rolUsuario == 2}">
                         <a class="articulo"><fmt:message key="informe_privado"/></a>
                         <br>
-                        <textarea name="informe_privado" maxlength="500" class="areaTexto" readonly>${revision.revisionPrivada}</textarea>
+                        <textarea name="informe_privado" maxlength="500" class="areaTexto">${revision.revisionPrivada}</textarea>
                         <br><br>
                     </c:if>
                     <a class="articulo"><fmt:message key="puntuacion"/></a>
                     <c:set var="puntuacion" scope="session" value="${revision.puntuacion}"/>
                     <c:choose>
                         <c:when test="${puntuacion == 1}">
-                            <input type="radio" name="puntuacion" value="1" checked readonly><a class="articulo">1</a>
-                            <input type="radio" name="puntuacion" value="2" readonly><a class="articulo">2</a>
-                            <input type="radio" name="puntuacion" value="3" readonly><a class="articulo">3</a>
-                            <input type="radio" name="puntuacion" value="4" readonly><a class="articulo">4</a>
-                            <input type="radio" name="puntuacion" value="5" readonly><a class="articulo">5</a>
+                            <input type="radio" name="puntuacion" value="1" checked ><a class="articulo">1</a>
+                            <input type="radio" name="puntuacion" value="2" ><a class="articulo">2</a>
+                            <input type="radio" name="puntuacion" value="3" ><a class="articulo">3</a>
+                            <input type="radio" name="puntuacion" value="4" ><a class="articulo">4</a>
+                            <input type="radio" name="puntuacion" value="5" ><a class="articulo">5</a>
                         </c:when>
                         <c:when test="${puntuacion == 2}">
-                            <input type="radio" name="puntuacion" value="1" readonly><a class="articulo">1</a>
-                            <input type="radio" name="puntuacion" value="2" checked readonly><a class="articulo">2</a>
-                            <input type="radio" name="puntuacion" value="3" readonly><a class="articulo">3</a>
-                            <input type="radio" name="puntuacion" value="4" readonly><a class="articulo">4</a>
-                            <input type="radio" name="puntuacion" value="5" readonly><a class="articulo">5</a>
+                            <input type="radio" name="puntuacion" value="1" ><a class="articulo">1</a>
+                            <input type="radio" name="puntuacion" value="2" checked ><a class="articulo">2</a>
+                            <input type="radio" name="puntuacion" value="3" ><a class="articulo">3</a>
+                            <input type="radio" name="puntuacion" value="4" ><a class="articulo">4</a>
+                            <input type="radio" name="puntuacion" value="5" ><a class="articulo">5</a>
                         </c:when>
                         <c:when test="${puntuacion == 3}">
-                            <input type="radio" name="puntuacion" value="1" readonly><a class="articulo">1</a>
-                            <input type="radio" name="puntuacion" value="2" readonly><a class="articulo">2</a>
-                            <input type="radio" name="puntuacion" value="3" checked readonly><a class="articulo">3</a>
-                            <input type="radio" name="puntuacion" value="4" readonly><a class="articulo">4</a>
-                            <input type="radio" name="puntuacion" value="5" readonly><a class="articulo">5</a>
+                            <input type="radio" name="puntuacion" value="1" ><a class="articulo">1</a>
+                            <input type="radio" name="puntuacion" value="2" ><a class="articulo">2</a>
+                            <input type="radio" name="puntuacion" value="3" checked ><a class="articulo">3</a>
+                            <input type="radio" name="puntuacion" value="4" ><a class="articulo">4</a>
+                            <input type="radio" name="puntuacion" value="5" ><a class="articulo">5</a>
                         </c:when>
                         <c:when test="${puntuacion == 4}">
-                            <input type="radio" name="puntuacion" value="1" readonly><a class="articulo">1</a>
-                            <input type="radio" name="puntuacion" value="2" readonly><a class="articulo">2</a>
-                            <input type="radio" name="puntuacion" value="3" readonly><a class="articulo">3</a>
-                            <input type="radio" name="puntuacion" value="4" checked readonly><a class="articulo">4</a>
-                            <input type="radio" name="puntuacion" value="5" readonly><a class="articulo">5</a>
+                            <input type="radio" name="puntuacion" value="1" ><a class="articulo">1</a>
+                            <input type="radio" name="puntuacion" value="2" ><a class="articulo">2</a>
+                            <input type="radio" name="puntuacion" value="3" ><a class="articulo">3</a>
+                            <input type="radio" name="puntuacion" value="4" checked ><a class="articulo">4</a>
+                            <input type="radio" name="puntuacion" value="5" ><a class="articulo">5</a>
                         </c:when>
                         <c:when test="${puntuacion == 5}">
-                            <input type="radio" name="puntuacion" value="1" readonly><a class="articulo">1</a>
-                            <input type="radio" name="puntuacion" value="2" readonly><a class="articulo">2</a>
-                            <input type="radio" name="puntuacion" value="3" readonly><a class="articulo">3</a>
-                            <input type="radio" name="puntuacion" value="4" readonly><a class="articulo">4</a>
-                            <input type="radio" name="puntuacion" value="5" checked readonly><a class="articulo">5</a>
+                            <input type="radio" name="puntuacion" value="1" ><a class="articulo">1</a>
+                            <input type="radio" name="puntuacion" value="2" ><a class="articulo">2</a>
+                            <input type="radio" name="puntuacion" value="3" ><a class="articulo">3</a>
+                            <input type="radio" name="puntuacion" value="4" ><a class="articulo">4</a>
+                            <input type="radio" name="puntuacion" value="5" checked ><a class="articulo">5</a>
                         </c:when>
                     </c:choose>
                     <br><br>
@@ -134,43 +134,36 @@
                     <c:set var="recomendacion" scope="session" value="${revision.recomendacion}"/>
                     <c:choose>
                         <c:when test="${recomendacion == 1}">
-                            <input type="radio" name="sugerencia" value="1" readonly checked><a class="articulo"><fmt:message key="sugerencia_rechazar"/></a>
-                            <input type="radio" name="sugerencia" value="2" readonly><a class="articulo"><fmt:message key="sugerencia_cmayores"/></a>
-                            <input type="radio" name="sugerencia" value="3" readonly><a class="articulo"><fmt:message key="sugerencia_cmenores"/></a>
-                            <input type="radio" name="sugerencia" value="4" readonly><a class="articulo"><fmt:message key="sugerencia_aceptar"/></a>
+                            <input type="radio" name="sugerencia" value="1"  checked><a class="articulo"><fmt:message key="sugerencia_rechazar"/></a>
+                            <input type="radio" name="sugerencia" value="2" ><a class="articulo"><fmt:message key="sugerencia_cmayores"/></a>
+                            <input type="radio" name="sugerencia" value="3" ><a class="articulo"><fmt:message key="sugerencia_cmenores"/></a>
+                            <input type="radio" name="sugerencia" value="4" ><a class="articulo"><fmt:message key="sugerencia_aceptar"/></a>
                         </c:when>
                         <c:when test="${recomendacion == 2}">
-                            <input type="radio" name="sugerencia" value="1" readonly class="articulo"><fmt:message key="sugerencia_rechazar"/></a>
-                            <input type="radio" name="sugerencia" value="2" readonly checked><a class="articulo"><fmt:message key="sugerencia_cmayores"/></a>
-                            <input type="radio" name="sugerencia" value="3" readonly><a class="articulo"><fmt:message key="sugerencia_cmenores"/></a>
-                            <input type="radio" name="sugerencia" value="4" readonly><a class="articulo"><fmt:message key="sugerencia_aceptar"/></a>
+                            <input type="radio" name="sugerencia" value="1"  class="articulo"><fmt:message key="sugerencia_rechazar"/></a>
+                            <input type="radio" name="sugerencia" value="2"  checked><a class="articulo"><fmt:message key="sugerencia_cmayores"/></a>
+                            <input type="radio" name="sugerencia" value="3" ><a class="articulo"><fmt:message key="sugerencia_cmenores"/></a>
+                            <input type="radio" name="sugerencia" value="4" ><a class="articulo"><fmt:message key="sugerencia_aceptar"/></a>
                         </c:when>
                         <c:when test="${recomendacion == 3}">
-                            <input type="radio" name="sugerencia" value="1" readonly class="articulo"><fmt:message key="sugerencia_rechazar"/></a>
-                            <input type="radio" name="sugerencia" value="2" readonly><a class="articulo"><fmt:message key="sugerencia_cmayores"/></a>
-                            <input type="radio" name="sugerencia" value="3" readonly checked><a class="articulo"><fmt:message key="sugerencia_cmenores"/></a>
-                            <input type="radio" name="sugerencia" value="4" readonly><a class="articulo"><fmt:message key="sugerencia_aceptar"/></a>
+                            <input type="radio" name="sugerencia" value="1"  class="articulo"><fmt:message key="sugerencia_rechazar"/></a>
+                            <input type="radio" name="sugerencia" value="2" ><a class="articulo"><fmt:message key="sugerencia_cmayores"/></a>
+                            <input type="radio" name="sugerencia" value="3"  checked><a class="articulo"><fmt:message key="sugerencia_cmenores"/></a>
+                            <input type="radio" name="sugerencia" value="4" ><a class="articulo"><fmt:message key="sugerencia_aceptar"/></a>
                         </c:when>
                         <c:when test="${recomendacion == 4}">
-                            <input type="radio" name="sugerencia" value="1" readonly class="articulo"><fmt:message key="sugerencia_rechazar"/></a>
-                            <input type="radio" name="sugerencia" value="2" readonly><a class="articulo"><fmt:message key="sugerencia_cmayores"/></a>
-                            <input type="radio" name="sugerencia" value="3" readonly><a class="articulo"><fmt:message key="sugerencia_cmenores"/></a>
-                            <input type="radio" name="sugerencia" value="4" readonly checked><a class="articulo"><fmt:message key="sugerencia_aceptar"/></a>
+                            <input type="radio" name="sugerencia" value="1"  class="articulo"><fmt:message key="sugerencia_rechazar"/></a>
+                            <input type="radio" name="sugerencia" value="2" ><a class="articulo"><fmt:message key="sugerencia_cmayores"/></a>
+                            <input type="radio" name="sugerencia" value="3" ><a class="articulo"><fmt:message key="sugerencia_cmenores"/></a>
+                            <input type="radio" name="sugerencia" value="4"  checked><a class="articulo"><fmt:message key="sugerencia_aceptar"/></a>
                         </c:when>
                     </c:choose>
                     <br><br>
-                    <input type="hidden" name="idTraballo" value="${traballoDetalle.idTraballo}">
-                    <c:if test="${rolUsuario == 1}">
-                        <c:if test="${idEstadoTraballo == 6}">
-                            <input type="submit" formaction="ver_revisores.htm?id=${traballoDetalle.idTraballo}" class="button blue" value="Regresar">  
-                        </c:if>
-                        <c:if test="${idEstadoTraballo == 7}">
-                            <input type="submit" formaction="ver_lista_revisiones.htm?id=${traballoDetalle.idTraballo}" class="button blue" value="Regresar">  
-                        </c:if>
-                    </c:if>
-                    <c:if test="${rolUsuario == 2}">
-                            <input type="submit" formaction="trabajos.htm" class="button blue" value="Regresar">  
-                    </c:if>
+                    <input type="hidden" name="idTraballo" value="${idTraballo}">
+                    <input type="submit" formaction="envia_revision.htm?op=1" class="button blue" value="Guardar">
+                    <input type="submit" formaction="envia_revision.htm?op=2" class="button blue" value="Enviar">
+                    <button type="reset" class="button blue" value="Reset">Borrar</button>
+                    <input type="submit" formaction="trabajos.htm" class="button blue" value="Regresar"> 
                 </form>
             </div>
         </fieldset>

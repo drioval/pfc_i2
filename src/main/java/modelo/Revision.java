@@ -42,12 +42,15 @@ public class Revision implements java.io.Serializable{
     private Integer puntuacion;
     @Column(name = "recomendacion")
     private Integer recomendacion;
+    @NotNull @ManyToOne @Column(name = "idEstadoRevision")
+    private EstadoRevision estadoRevision;
     
     public Revision(){
         
     }
     
-    public Revision(Congreso congreso, Traballo traballo, UserProfile userProfileAutor, UserProfile userProfileRevisor){
+    public Revision(Congreso congreso, Traballo traballo, UserProfile userProfileAutor, UserProfile userProfileRevisor,
+            EstadoRevision estadoRevision){
         this.congreso=congreso;
         this.traballo=traballo;
         this.userProfileAutor=userProfileAutor;
@@ -56,10 +59,11 @@ public class Revision implements java.io.Serializable{
         this.revisionPrivada=null;
         this.puntuacion=null;
         this.recomendacion=null;
+        this.estadoRevision=estadoRevision;
     }
     
     public Revision(Congreso congreso, Traballo traballo, UserProfile userProfileAutor, UserProfile userProfileRevisor,
-            String revisionPublica, String revisionPrivada, Integer puntuacion, Integer recomendacion){
+            String revisionPublica, String revisionPrivada, Integer puntuacion, Integer recomendacion, EstadoRevision estadoRevision){
         this.congreso=congreso;
         this.traballo=traballo;
         this.userProfileAutor=userProfileAutor;
@@ -68,6 +72,7 @@ public class Revision implements java.io.Serializable{
         this.revisionPrivada=revisionPrivada;
         this.puntuacion=puntuacion;
         this.recomendacion=recomendacion;
+        this.estadoRevision=estadoRevision;
     }
     
      /**
@@ -194,6 +199,20 @@ public class Revision implements java.io.Serializable{
      */
     public void setRecomendacion(Integer recomendacion) {
         this.recomendacion = recomendacion;
+    }
+
+    /**
+     * @return the estadoRevision
+     */
+    public EstadoRevision getEstadoRevision() {
+        return estadoRevision;
+    }
+
+    /**
+     * @param estadoRevision the estadoRevision to set
+     */
+    public void setEstadoRevision(EstadoRevision estadoRevision) {
+        this.estadoRevision = estadoRevision;
     }
     
 }

@@ -30,5 +30,8 @@
         <property name="recomendacion" type="integer">
             <column name="recomendacion" not-null="false"/>
         </property>
+        <many-to-one name="estadoRevision" class="modelo.EstadoRevision" fetch="select">
+            <column name="idEstadoRevision" not-null="true"/>
+        </many-to-one>
     </class>
 </hibernate-mapping>

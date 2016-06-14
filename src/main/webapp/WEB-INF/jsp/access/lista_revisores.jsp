@@ -85,9 +85,10 @@
                             <tr>
                                 <td><c:out value="${revisores.nome}"/></td>
                                 <td><c:out value="${revisores.email}"/></td>
-
-                                <c:set var="idRevision" scope="session" value="${listaRevisiones[indice.index].idRevision}"/>
-                                <td><a class="articulo" href="ver_revision_traballo.htm?id=${idRevision}"><fmt:message key="accion_ver_revision_traballo"/></a></td>
+                                <c:if test="${listaRevisiones[indice.index].estadoRevision.idEstadoRevision == 4}">
+                                    <c:set var="idRevision" scope="session" value="${listaRevisiones[indice.index].idRevision}"/>
+                                    <td><a class="articulo" href="ver_revision_traballo.htm?id=${idRevision}"><fmt:message key="accion_ver_revision_traballo"/></a></td>    
+                                </c:if>
                             </tr>
                         </c:forEach>    
                     </table>

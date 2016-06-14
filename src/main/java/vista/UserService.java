@@ -38,10 +38,12 @@ public interface UserService {
      public ModelAndView modificacionTraballo(String usuario, Integer idTraballoDetalle, String nomeTraballo, Integer categoria, String autores, byte[] traballo);
      public ModelAndView accionVerDatosTrabajo(String usuario, Integer idTraballo);
      public ModelAndView accionRevisarTraballo(String usuario, Integer idTraballo);
-     public ModelAndView enviaRevision(String usuario, Integer idTraballo,String informePublico, String informePrivado, Integer puntuacion, Integer recomendacion);
+     public ModelAndView enviaRevision(Integer idOperacion, String usuario, Integer idTraballo,String informePublico, 
+                String informePrivado, Integer puntuacion, Integer recomendacion);
      public ModelAndView ver_lista_revisiones(String usuario, Integer idTraballo);
      public ModelAndView ver_revision_traballo(String usuario, Integer idTraballo);
      public ModelAndView accionAceptarTraballo(String usuario,Integer idTraballo);
+     public ModelAndView accionCorrixirTraballo(String usuario,Integer idTraballo);
      public ModelAndView accionRexeitarTraballo(String usuario,Integer idTraballo);
      public ModelAndView aceptarTraballo(String usuario,Integer idTraballo);
      public ModelAndView rexeitarTraballo(String usuario,Integer idTraballo);
@@ -53,4 +55,5 @@ public interface UserService {
      public ModelAndView accionRechazoRevision(Integer idUsuario, Integer idTraballo);
      public ModelAndView rechazoRevisionRevisor(String usuario, Integer idRevision);
      public ModelAndView accionRechazoRevisionRevisor(Integer idUsuario, Integer idTraballo);
+     public ModelAndView editarRevision(String usuario, Integer idRevision);
 }

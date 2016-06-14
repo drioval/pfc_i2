@@ -18,5 +18,6 @@
     <mapping resource="mapeo/TraballoDetalle.hbm.xml"/>
     <mapping resource="mapeo/TraballoDetalleVersion.hbm.xml"/>
     <mapping resource="mapeo/Revision.hbm.xml"/>
+    <mapping resource="mapeo/EstadoRevision.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

@@ -26,6 +26,9 @@
                 <input name="j_username" type="text" placeholder="Nome de usuario" maxlength="45" required/>
                 <input name="j_password" type="password" placeholder="Contrasinal" maxlength="45" required/>
                 <button class="button blue" title="Preme para acceder ao teu perfil de usuario"><fmt:message key="msg_header01" /></button>
+                <c:if test="${hayError == 1}">
+                    <a class="articulo" style="color: red"><fmt:message key="error_acceso_01"/></a>
+                </c:if>
                 <a class="articulo" href="recordar.htm"><fmt:message key="msg_header03" /></a>
             </form>
 

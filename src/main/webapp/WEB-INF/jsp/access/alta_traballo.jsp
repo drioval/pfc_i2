@@ -47,34 +47,40 @@
         <fieldset class="center_form gris_oscuro">
             <legend class="subtitulo"><fmt:message key="alta_traballo01"/></legend>
             <br>
-            <form method="post" action="alta_traballo.htm" id="alta_traballo" enctype="multipart/form-data">
-
-                <a class="articulo"><fmt:message key="alta_traballo02"/></a>
+            <jsp:useBean id="now" class="java.util.Date" />
+            <c:if test="${fFinEnvio gt now || fFinEnvio eq now}">
+                <form method="post" action="alta_traballo.htm" id="alta_traballo" enctype="multipart/form-data">
+                    <a class="articulo"><fmt:message key="${textoAccion}"/></a>
+                    <br><br>
+                    <a class="articulo"><fmt:message key="nome_traballo"/></a>
+                    <br>
+                    <input name="nome_traballo" type="congreso" maxlength="250" style="width:600px;" required="true">
+                    <br>
+                    <a class="articulo"><fmt:message key="categoria"/></a>
+                    <br>
+                    <select name="categoria" id="categoria" required="">
+                        <option value="1" selected>Publicación</option>
+                        <option value="2">Artículo</option>
+                        <option value="3">Tesis</option>
+                        <option value="4">Investigación</option>
+                        <option value="5">Disertación</option>
+                    </select>
+                    <br>
+                    <a class="articulo"><fmt:message key="autores"/></a>
+                    <br>
+                    <textarea name="autores" maxlength="250" class="areaTexto"></textarea>
+                    <br><br>
+                    <a class="articulo"><fmt:message key="trabajo"/></a>
+                    <input type="file" name="trabajo" class="trabajo" required="true">
+                    <br><br>
+                    <button type="submit" class="button blue" value="Submit">Enviar</button>
+                    <button type="reset" class="button blue" value="Reset">Borrar</button>
+                </form>
+            </c:if>
+            <c:if test="${fFinEnvio lt now}">
+                <a class="articulo"><fmt:message key="alta_traballo_periodo_fin"/></a>
                 <br><br>
-                <a class="articulo"><fmt:message key="nome_traballo"/></a>
-                <br>
-                <input name="nome_traballo" type="congreso" maxlength="250" style="width:600px;" required="true">
-                <br>
-                <a class="articulo"><fmt:message key="categoria"/></a>
-                <br>
-                <select name="categoria" id="categoria" required="">
-                    <option value="1" selected>Publicación</option>
-                    <option value="2">Artículo</option>
-                    <option value="3">Tesis</option>
-                    <option value="4">Investigación</option>
-                    <option value="5">Disertación</option>
-                </select>
-                <br>
-                <a class="articulo"><fmt:message key="autores"/></a>
-                <br>
-                <textarea name="autores" maxlength="250" class="areaTexto"></textarea>
-                <br><br>
-                <a class="articulo"><fmt:message key="trabajo"/></a>
-                <input type="file" name="trabajo" class="trabajo" required="true">
-                <br><br>
-                <button type="submit" class="button blue" value="Submit">Enviar</button>
-                <button type="reset" class="button blue" value="Reset">Borrar</button>
-            </form>
+            </c:if>
         </fieldset>
         <fieldset class="center_form gris_claro">
             <legend class="articulo"><fmt:message key="msg_footer_01"/></legend>

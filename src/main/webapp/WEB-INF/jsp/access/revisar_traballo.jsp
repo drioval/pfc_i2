@@ -100,7 +100,10 @@
                     <input type="radio" name="sugerencia" value="4" checked><a class="articulo"><fmt:message key="sugerencia_aceptar"/></a>
                     <br><br>
                     <input type="hidden" name="idTraballo" value="${idTraballo}">
-                    <button type="submit" class="button blue" value="Submit">Enviar</button>
+                    <c:if test="${usuarioRol == 2}">
+                        <input type="submit" formaction="envia_revision.htm?op=1" class="button blue" value="Guardar">
+                    </c:if>
+                    <input type="submit" formaction="envia_revision.htm?op=2" class="button blue" value="Enviar">
                     <button type="reset" class="button blue" value="Reset">Borrar</button>
                     <input type="submit" formaction="trabajos.htm" class="button blue" value="Regresar">
                 </form>

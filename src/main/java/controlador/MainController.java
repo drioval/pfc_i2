@@ -42,10 +42,20 @@ public class MainController {
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         if (request.getUserPrincipal() == null) {
-            return new ModelAndView("WEB-INF/jsp/index.jsp");
+            ModelAndView vistaAnonimo=new ModelAndView("WEB-INF/jsp/index.jsp");
+            String error=request.getParameter("error");
+            if (error!=null){
+                System.out.println("error: "+error);
+                vistaAnonimo.addObject("hayError", "1");
+                vistaAnonimo.addObject("textoError", "error_acceso_01");
+                return vistaAnonimo;
+            }
+            vistaAnonimo.addObject("hayError", "0");
+            return vistaAnonimo;
         }
         ModelAndView vista = new ModelAndView("WEB-INF/jsp/access/index.jsp");
         vista.addObject("usuario", request.getUserPrincipal().getName());
+        vista.addObject("hayError", "0");
         return vista;
     }
 
@@ -382,13 +392,13 @@ public class MainController {
     }
     
     @RequestMapping(value = "/envia_revision.htm")
-    public ModelAndView envia_revision(HttpServletResponse response, HttpServletRequest request)
+    public ModelAndView envia_revision(@RequestParam("op") Integer idOperacion, HttpServletResponse response, HttpServletRequest request)
             throws ServletException, IOException {
 
         servicio = new UserServiceImpl();
         servicio.setSessionFactory(sessionFactory);
         
-        return servicio.enviaRevision(request.getUserPrincipal().getName(), Integer.parseInt(request.getParameter("idTraballo")),
+        return servicio.enviaRevision(idOperacion,request.getUserPrincipal().getName(), Integer.parseInt(request.getParameter("idTraballo")),
                 request.getParameter("informe_publico"),request.getParameter("informe_privado"), Integer.parseInt(request.getParameter("puntuacion")),
                 Integer.parseInt(request.getParameter("sugerencia")));
     }
@@ -413,6 +423,16 @@ public class MainController {
         return servicio.ver_revision_traballo(request.getUserPrincipal().getName(), idRevision);
     }
     
+    @RequestMapping(value = "/editar_revision.htm")
+    public ModelAndView editar_revision(@RequestParam("id") Integer idRevision,
+            HttpServletRequest request, HttpServletResponse response) {
+    
+        servicio = new UserServiceImpl();
+        servicio.setSessionFactory(sessionFactory);
+        
+        return servicio.editarRevision(request.getUserPrincipal().getName(), idRevision);
+    }
+    
     @RequestMapping(value = "/accion_aceptar_traballo.htm")
     public ModelAndView accion_aceptar_traballo(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -423,6 +443,22 @@ public class MainController {
         return servicio.accionAceptarTraballo(request.getUserPrincipal().getName(), Integer.parseInt(request.getParameter("idTraballo")));
     }
     
+    
+    @RequestMapping(value = "/accion_corregir_trabajo.htm")
+    public ModelAndView accion_corrixir_traballo(@RequestParam("id") Integer idTraballo, HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        servicio = new UserServiceImpl();
+        servicio.setSessionFactory(sessionFactory);
+        
+        if (idTraballo==null){
+            idTraballo=Integer.parseInt(request.getParameter("idTraballo"));
+        }
+
+        return servicio.accionCorrixirTraballo(request.getUserPrincipal().getName(), idTraballo);
+    }
+            
+            
     @RequestMapping(value = "/accion_rexeitar_traballo.htm")
     public ModelAndView accion_rexeitar_traballo(@RequestParam("id") Integer idTraballo, HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

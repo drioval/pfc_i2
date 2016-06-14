@@ -40,7 +40,7 @@
                 $.datepicker.setDefaults($.datepicker.regional['es']);
 
                 $("#fecha_inicio_envio").datepicker({
-                    dateFormat: "mm/dd/yy",
+                    dateFormat: "yy/mm/dd",
                     altFormat: "dd/mm/yy",
                     altField: "#fecha_inicio_envio",
                     minDate: new Date(),
@@ -56,7 +56,7 @@
                     }
                 });
                 $("#fecha_fin_envio").datepicker({
-                    dateFormat: "mm/dd/yy",
+                    dateFormat: "yy/mm/dd",
                     altFormat: "dd/mm/yy",
                     altField: "#fecha_fin_envio",
                     minDate: new Date(),
@@ -72,7 +72,7 @@
                     }
                 });
                 $("#fecha_inicio_revision").datepicker({
-                    dateFormat: "mm/dd/yy",
+                    dateFormat: "yy/mm/dd",
                     altFormat: "dd/mm/yy",
                     altField: "#fecha_inicio_revision",
                     minDate: new Date(),
@@ -88,7 +88,7 @@
                     }
                 });
                 $("#fecha_fin_revision").datepicker({
-                    dateFormat: "mm/dd/yy",
+                    dateFormat: "yy/mm/dd",
                     altFormat: "dd/mm/yy",
                     altField: "#fecha_fin_revision",
                     minDate: new Date(),
