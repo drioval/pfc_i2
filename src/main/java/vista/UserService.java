@@ -56,4 +56,5 @@ public interface UserService {
      public ModelAndView rechazoRevisionRevisor(String usuario, Integer idRevision);
      public ModelAndView accionRechazoRevisionRevisor(Integer idUsuario, Integer idTraballo);
      public ModelAndView editarRevision(String usuario, Integer idRevision);
+     public ModelAndView accionAceptarRevisionInvitado(Integer idUsuario, Integer idTraballo, String email);
 }

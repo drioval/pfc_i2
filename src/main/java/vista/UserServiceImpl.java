@@ -131,7 +131,7 @@ public class UserServiceImpl implements UserService {
                     user.setContrasinal(passEncripted.encriptarContrasinal(newPassword).toString());
 
                     EnviarEmail enviarEmail = new EnviarEmail();
-                    String asunto = "Congreso 2015: Solicitude de reenvio do contrasinal";
+                    String asunto = "Congreso 2016: Solicitude de reenvio do contrasinal";
                     String cuerpo = "Solicitouse o reenvio do contrasinal para o seu usuario. "
                             + "A continuación indicamoslle os seus datos de acceso: ";
                     cuerpo = cuerpo + "<br><br> Usuario: " + usuario + "<br><br> Contrasinal: " + newPassword
@@ -657,49 +657,48 @@ public class UserServiceImpl implements UserService {
                 break;
             case 2://rollid: 2 - Revisor
                 vista.setViewName("WEB-INF/jsp/access/revisar_traballos.jsp");
-                
-                UserProfileDaoHibernate userProfileDaoHibernate=new UserProfileDaoHibernate();
+
+                UserProfileDaoHibernate userProfileDaoHibernate = new UserProfileDaoHibernate();
                 userProfileDaoHibernate.setSessionFactory(sessionFactory);
-                
-                RevisionDaoHibernate revisionDaoHibernate=new RevisionDaoHibernate();
+
+                RevisionDaoHibernate revisionDaoHibernate = new RevisionDaoHibernate();
                 revisionDaoHibernate.setSessionFactory(sessionFactory);
-                
-                List<Revision> listaRevisiones=revisionDaoHibernate.obtenerRevisionCongresoRevisor(congreso.getIdCongreso(), user.getUserId());
-                
-                if(listaRevisiones.isEmpty()){
+
+                List<Revision> listaRevisiones = revisionDaoHibernate.obtenerRevisionCongresoRevisor(congreso.getIdCongreso(), user.getUserId());
+
+                if (listaRevisiones.isEmpty()) {
                     vista.addObject("textoAccion", "revisor_sin_revisiones");
                     vista.addObject("existenRevisiones", "0");
-                }else{
-                    TraballoDetalleDaoHibernate traballoDetalleDaoHibernate=new TraballoDetalleDaoHibernate();
+                } else {
+                    TraballoDetalleDaoHibernate traballoDetalleDaoHibernate = new TraballoDetalleDaoHibernate();
                     traballoDetalleDaoHibernate.setSessionFactory(sessionFactory);
-                    TraballoDetalle traballoDetalle=new TraballoDetalle();
-                    List<TraballoDetalle>listaTraballoDetalle=new ArrayList<>();
-                    Revision traballoRevision=new Revision();
-                    Iterator iterador=listaRevisiones.iterator();
-                    while(iterador.hasNext()){
-                        traballoRevision=(Revision)iterador.next();
-                        traballoDetalle= traballoDetalleDaoHibernate.obtenerTraballoDetalle(traballoRevision.getTraballo().getIdTraballo());
+                    TraballoDetalle traballoDetalle = new TraballoDetalle();
+                    List<TraballoDetalle> listaTraballoDetalle = new ArrayList<>();
+                    Revision traballoRevision = new Revision();
+                    Iterator iterador = listaRevisiones.iterator();
+                    while (iterador.hasNext()) {
+                        traballoRevision = (Revision) iterador.next();
+                        traballoDetalle = traballoDetalleDaoHibernate.obtenerTraballoDetalle(traballoRevision.getTraballo().getIdTraballo());
                         listaTraballoDetalle.add(traballoDetalle);
                     }
-                    System.out.println("Congreso: "+congreso.getNomeCongreso());
-                    System.out.println("Usuario: "+user.getUsuario());
-                    System.out.println("Revision: "+listaRevisiones.get(0).getUserProfileRevisor().getUsuario());
+                    System.out.println("Congreso: " + congreso.getNomeCongreso());
+                    System.out.println("Usuario: " + user.getUsuario());
+                    System.out.println("Revision: " + listaRevisiones.get(0).getUserProfileRevisor().getUsuario());
                     vista.addObject("existenRevisiones", "1");
                     vista.addObject("listaRevisiones", listaRevisiones);
-                    vista.addObject("listaTraballoDetalle",listaTraballoDetalle);
+                    vista.addObject("listaTraballoDetalle", listaTraballoDetalle);
                     vista.addObject("textoAccion", "revisor_con_revisiones");
                 }
-                
-                
+
                 break;
             case 3://rollid: 3 - Autor
                 TraballoDaoHibernate traballoDao = new TraballoDaoHibernate();
                 traballoDao.setSessionFactory(sessionFactory);
                 List<Traballo> traballos = traballoDao.obtenerTraballoUsuarioCongreso(user.getUserId(), congreso.getIdCongreso());
                 if (traballos.isEmpty()) {
-                    CongresoDetalleDaoHibernate congresoDetalleDaoHibernate=new CongresoDetalleDaoHibernate();
+                    CongresoDetalleDaoHibernate congresoDetalleDaoHibernate = new CongresoDetalleDaoHibernate();
                     congresoDetalleDaoHibernate.setSessionFactory(sessionFactory);
-                    CongresoDetalle congresoDetalle=congresoDetalleDaoHibernate.obtenerCongresoDetalle(congreso.getIdCongreso());
+                    CongresoDetalle congresoDetalle = congresoDetalleDaoHibernate.obtenerCongresoDetalle(congreso.getIdCongreso());
                     vista.setViewName("WEB-INF/jsp/access/alta_traballo.jsp");
                     vista.addObject("fFinEnvio", congresoDetalle.getfInicioRevision());
                     vista.addObject("textoAccion", "alta_traballo02");
@@ -831,10 +830,10 @@ public class UserServiceImpl implements UserService {
     public ModelAndView anadirtrabajos(String usuario) {
         ModelAndView vista = new ModelAndView("WEB-INF/jsp/access/alta_traballo.jsp");
         vista.addObject("usuario", usuario);
-        
-        CongresoDaoHibernate congresoDaoHibernate=new CongresoDaoHibernate();
+
+        CongresoDaoHibernate congresoDaoHibernate = new CongresoDaoHibernate();
         congresoDaoHibernate.setSessionFactory(sessionFactory);
-        Congreso congreso=congresoDaoHibernate.obtenerCongresoActivo();
+        Congreso congreso = congresoDaoHibernate.obtenerCongresoActivo();
         vista.addObject("fFinEnvio", congreso.getCongresoDetalle().getfFinEnvio());
         vista.addObject("textoAccion", "alta_traballo_nuevo");
         return vista;
@@ -1143,10 +1142,10 @@ public class UserServiceImpl implements UserService {
     public ModelAndView accionRevisarTraballo(String usuario, Integer idTraballo) {
         ModelAndView vista = new ModelAndView("WEB-INF/jsp/access/revisar_traballo.jsp");
         vista.addObject("usuario", usuario);
-        
-        UserProfileDaoHibernate userProfileDaoHibernate=new UserProfileDaoHibernate();
+
+        UserProfileDaoHibernate userProfileDaoHibernate = new UserProfileDaoHibernate();
         userProfileDaoHibernate.setSessionFactory(sessionFactory);
-        UserProfile usuarioRevisor=userProfileDaoHibernate.obtenerUserProfile(usuario);
+        UserProfile usuarioRevisor = userProfileDaoHibernate.obtenerUserProfile(usuario);
 
         TraballoDetalleDaoHibernate traballoDetalleDaoHibernate = new TraballoDetalleDaoHibernate();
         traballoDetalleDaoHibernate.setSessionFactory(sessionFactory);
@@ -1215,25 +1214,25 @@ public class UserServiceImpl implements UserService {
 
         UserProfile usuarioAutor = userProfileDaoHibernate.obtenerUserProfile(traballo.getUserProfile().getUserId());
         UserProfile usuarioRevisor = userProfileDaoHibernate.obtenerUserProfile(usuario);
-        
-        EstadoRevisionDaoHibernate estadoRevisionDaoHibernate=new EstadoRevisionDaoHibernate();
-        estadoRevisionDaoHibernate.setSessionFactory(sessionFactory);
-        EstadoRevision estadoRevision=estadoRevisionDaoHibernate.obtenerEstadoRevision(3);//Provisional
-        if(idOperacion==2)
-            estadoRevision=estadoRevisionDaoHibernate.obtenerEstadoRevision(4);//Confirmada
 
+        EstadoRevisionDaoHibernate estadoRevisionDaoHibernate = new EstadoRevisionDaoHibernate();
+        estadoRevisionDaoHibernate.setSessionFactory(sessionFactory);
+        EstadoRevision estadoRevision = estadoRevisionDaoHibernate.obtenerEstadoRevision(3);//Provisional
+        if (idOperacion == 2) {
+            estadoRevision = estadoRevisionDaoHibernate.obtenerEstadoRevision(4);//Confirmada
+        }
         RevisionDaoHibernate revisionDaoHibernate = new RevisionDaoHibernate();
         revisionDaoHibernate.setSessionFactory(sessionFactory);
-        
-        List<Revision> listaRevision=revisionDaoHibernate.obtenerRevisionCongresoTraballoRevisor(congreso.getIdCongreso(), idTraballo, 
+
+        List<Revision> listaRevision = revisionDaoHibernate.obtenerRevisionCongresoTraballoRevisor(congreso.getIdCongreso(), idTraballo,
                 usuarioRevisor.getUserId());
-        Revision revision=new Revision();
-        if (listaRevision.isEmpty()){
-            revision = new Revision(congreso, traballo, usuarioAutor, usuarioRevisor, informePublico, informePrivado, 
+        Revision revision = new Revision();
+        if (listaRevision.isEmpty()) {
+            revision = new Revision(congreso, traballo, usuarioAutor, usuarioRevisor, informePublico, informePrivado,
                     puntuacion, recomendacion, estadoRevision);
-            
-        }else{
-            revision=listaRevision.get(0);
+
+        } else {
+            revision = listaRevision.get(0);
             revision.setRevisionPrivada(informePrivado);
             revision.setRevisionPublica(informePublico);
             revision.setPuntuacion(puntuacion);
@@ -1242,7 +1241,7 @@ public class UserServiceImpl implements UserService {
         }
 
         revisionDaoHibernate.guardarRevision(revision);
-        if(idOperacion==2){//Enviar revision
+        if (idOperacion == 2) {//Enviar revision
             EstadoTraballoDaoHibernate estadoTraballoDao = new EstadoTraballoDaoHibernate();
             estadoTraballoDao.setSessionFactory(sessionFactory);
 
@@ -1250,7 +1249,7 @@ public class UserServiceImpl implements UserService {
             traballoDetalle.setEstadoTraballo(estadoTraballo);
             traballoDetalleDaoHibernate.guardarTraballoDetalle(traballoDetalle);
         }
-        
+
         vista.addObject("revision", revision);
         vista.addObject("rolUsuario", usuarioRevisor.getUserRol().getRolId());
         vista.addObject("traballoDetalle", traballoDetalle);
@@ -1283,11 +1282,11 @@ public class UserServiceImpl implements UserService {
         revisionDaoHibernate.setSessionFactory(sessionFactory);
 
         List<Revision> revisiones = revisionDaoHibernate.obtenerRevisionesCongresoTraballo(congreso.getIdCongreso(), idTraballo);
-        
-        for(int i=0;i<revisiones.size();i++){
-            String nomeRevisor=revisiones.get(i).getUserProfileRevisor().getUsuario();
+
+        for (int i = 0; i < revisiones.size(); i++) {
+            String nomeRevisor = revisiones.get(i).getUserProfileRevisor().getUsuario();
         }
-        
+
         vista.addObject("listaRevisiones", revisiones);
         vista.addObject("idTraballo", traballo.getIdTraballo());
         vista.addObject("idEstadoTraballo", traballoDetalle.getEstadoTraballo().getIdEstadoTraballo());
@@ -1323,7 +1322,7 @@ public class UserServiceImpl implements UserService {
 
         return vista;
     }
-    
+
     @Override
     public ModelAndView accionAceptarTraballo(String usuario, Integer idTraballo) {
         ModelAndView vista = new ModelAndView("WEB-INF/jsp/access/aceptar_traballo.jsp");
@@ -1367,21 +1366,21 @@ public class UserServiceImpl implements UserService {
         ModelAndView vista = new ModelAndView("WEB-INF/jsp/access/editar_revision.jsp");
         vista.addObject("usuario", usuario);
         vista.addObject("textoAccion", "revision_enviada01");
-        
-        UserProfileDaoHibernate userProfileDaoHibernate=new UserProfileDaoHibernate();
+
+        UserProfileDaoHibernate userProfileDaoHibernate = new UserProfileDaoHibernate();
         userProfileDaoHibernate.setSessionFactory(sessionFactory);
-        UserProfile usuarioRevisor=userProfileDaoHibernate.obtenerUserProfile(usuario);
-        
-        RevisionDaoHibernate revisionDaoHibernate=new RevisionDaoHibernate();
+        UserProfile usuarioRevisor = userProfileDaoHibernate.obtenerUserProfile(usuario);
+
+        RevisionDaoHibernate revisionDaoHibernate = new RevisionDaoHibernate();
         revisionDaoHibernate.setSessionFactory(sessionFactory);
-        Revision revision=revisionDaoHibernate.obtenerRevision(idRevision);
-                
-        Traballo traballo=revision.getTraballo();
-        
-        TraballoDetalleDaoHibernate traballoDetalleDaoHibernate=new TraballoDetalleDaoHibernate();
+        Revision revision = revisionDaoHibernate.obtenerRevision(idRevision);
+
+        Traballo traballo = revision.getTraballo();
+
+        TraballoDetalleDaoHibernate traballoDetalleDaoHibernate = new TraballoDetalleDaoHibernate();
         traballoDetalleDaoHibernate.setSessionFactory(sessionFactory);
-        TraballoDetalle traballoDetalle=traballoDetalleDaoHibernate.obtenerTraballoDetalle(traballo.getIdTraballo());
-        
+        TraballoDetalle traballoDetalle = traballoDetalleDaoHibernate.obtenerTraballoDetalle(traballo.getIdTraballo());
+
         vista.addObject("traballoDetalle", traballoDetalle);
         vista.addObject("revision", revision);
         vista.addObject("rolUsuario", usuarioRevisor.getUserRol().getRolId());
@@ -1389,12 +1388,12 @@ public class UserServiceImpl implements UserService {
 
         return vista;
     }
-    
+
     @Override
-    public ModelAndView accionCorrixirTraballo(String usuario,Integer idTraballo){
+    public ModelAndView accionCorrixirTraballo(String usuario, Integer idTraballo) {
         ModelAndView vista = new ModelAndView("WEB-INF/jsp/access/corrixir_traballo.jsp");
         vista.addObject("usuario", usuario);
-        
+
         TraballoDetalleDaoHibernate traballoDetalleDaoHibernate = new TraballoDetalleDaoHibernate();
         traballoDetalleDaoHibernate.setSessionFactory(sessionFactory);
 
@@ -1424,8 +1423,7 @@ public class UserServiceImpl implements UserService {
         vista.addObject("textoAccion", "datos_traballo02");
 
         return vista;
-        
-        
+
     }
 
     @Override
@@ -1709,13 +1707,15 @@ public class UserServiceImpl implements UserService {
                 UserRolDaoHibernate userRolDaoHibernate = new UserRolDaoHibernate();
                 userRolDaoHibernate.setSessionFactory(sessionFactory);
                 UserRol rolRevisor = userRolDaoHibernate.obtenerUserRol(2);//Revisor
-                EstadoRevisionDaoHibernate estadoRevisionDaoHibernate=new EstadoRevisionDaoHibernate();
+                EstadoRevisionDaoHibernate estadoRevisionDaoHibernate = new EstadoRevisionDaoHibernate();
                 estadoRevisionDaoHibernate.setSessionFactory(sessionFactory);
-                EstadoRevision estadoRevision=estadoRevisionDaoHibernate.obtenerEstadoRevision(2);//Aceptada
+                EstadoRevision estadoRevision = estadoRevisionDaoHibernate.obtenerEstadoRevision(2);//Aceptada
+                String separadorCorreo = "[@]";
                 for (int i = 0; i < listaRevisoresInvitados.length; i++) {
                     UserProfileDetails usuarioRevisorDetalle = userProfileDetailsDaoHibernate.obtenerUserProfileDetailsEmail(listaRevisoresInvitados[i].trim());
                     if (usuarioRevisorDetalle == null) {
-                        UserProfile usuarioRevisor = new UserProfile(rolRevisor, listaRevisoresInvitados[i].trim(), listaRevisoresInvitados[i].trim());
+                        String[] usuarioInvitado=listaRevisoresInvitados[i].trim().split(separadorCorreo);
+                        UserProfile usuarioRevisor = new UserProfile(rolRevisor, usuarioInvitado[0], listaRevisoresInvitados[i].trim());
                         userProfileDaoHibernate.guardarUserProfile(usuarioRevisor);
                         UserProfileDetails usuarioDetalle = new UserProfileDetails(null, null, null, listaRevisoresInvitados[i].trim(), null, usuarioRevisor.getUserId());
                         userProfileDetailsDaoHibernate.guardarUserProfileDetails(usuarioDetalle);
@@ -1747,11 +1747,11 @@ public class UserServiceImpl implements UserService {
                     listaRevisores.add(revisores[i]);
                 }
             }
-            
-            EstadoRevisionDaoHibernate estadoRevisionDaoHibernate=new EstadoRevisionDaoHibernate();
+
+            EstadoRevisionDaoHibernate estadoRevisionDaoHibernate = new EstadoRevisionDaoHibernate();
             estadoRevisionDaoHibernate.setSessionFactory(sessionFactory);
-            EstadoRevision estadoRevision=estadoRevisionDaoHibernate.obtenerEstadoRevision(2);//Aceptada
-            System.out.println("Estado revision: "+estadoRevision.getIdEstadoRevision()+" - "+estadoRevision.getEstadoRevision()); 
+            EstadoRevision estadoRevision = estadoRevisionDaoHibernate.obtenerEstadoRevision(2);//Aceptada
+            System.out.println("Estado revision: " + estadoRevision.getIdEstadoRevision() + " - " + estadoRevision.getEstadoRevision());
             for (int i = 0; i < listaRevisores.size(); i++) {
                 UserProfile userProfileRevisor = userProfileDaoHibernate.obtenerUserProfile(Integer.parseInt(listaRevisores.get(i)));
                 UserProfileDetails usuarioRevisorDetalle = userProfileDetailsDaoHibernate.obtenerUserProfileDetails(userProfileRevisor.getUserId());
@@ -1790,10 +1790,10 @@ public class UserServiceImpl implements UserService {
     public ModelAndView accionVerRevisores(String usuario, Integer idTraballo) {
         ModelAndView vista = new ModelAndView("WEB-INF/jsp/access/lista_revisores.jsp");
         vista.addObject("usuario", usuario);
-        
-        CongresoDaoHibernate congresoDaoHibernate=new CongresoDaoHibernate();
+
+        CongresoDaoHibernate congresoDaoHibernate = new CongresoDaoHibernate();
         congresoDaoHibernate.setSessionFactory(sessionFactory);
-        Congreso congreso=congresoDaoHibernate.obtenerCongresoActivo();
+        Congreso congreso = congresoDaoHibernate.obtenerCongresoActivo();
 
         TraballoDaoHibernate traballoDaoHibernate = new TraballoDaoHibernate();
         traballoDaoHibernate.setSessionFactory(sessionFactory);
@@ -1811,31 +1811,30 @@ public class UserServiceImpl implements UserService {
         revisionDaoHibernate.setSessionFactory(sessionFactory);
         List<Revision> listaRevisiones = revisionDaoHibernate.obtenerRevisionesCongresoTraballo(traballo.getCongreso().getIdCongreso(), traballo.getIdTraballo());
 
-        
         UserRolDaoHibernate userRolDaoHibernate = new UserRolDaoHibernate();
         userRolDaoHibernate.setSessionFactory(sessionFactory);
 
         UserRol userRol = userRolDaoHibernate.obtenerUserRol(2);
 
         List<UserProfileDetails> usuariosDetalleRol = userProfileDetailsDaoHibernate.obtenerUserProfileDetailsRol(userRol);
-        
+
         Iterator iterador = listaRevisiones.iterator();
         ArrayList<UserProfileDetails> listaFinalRevisores = new ArrayList<UserProfileDetails>();
         while (iterador.hasNext()) {
             Revision revision = (Revision) iterador.next();
             listaFinalRevisores.add(userProfileDetailsDaoHibernate.obtenerUserProfileDetails(revision.getUserProfileRevisor().getUserId()));
-            if(usuariosDetalleRol.contains(userProfileDetailsDaoHibernate.obtenerUserProfileDetails(revision.getUserProfileRevisor().getUserId()))){
+            if (usuariosDetalleRol.contains(userProfileDetailsDaoHibernate.obtenerUserProfileDetails(revision.getUserProfileRevisor().getUserId()))) {
                 usuariosDetalleRol.remove(userProfileDetailsDaoHibernate.obtenerUserProfileDetails(revision.getUserProfileRevisor().getUserId()));
             }
         }
-        
-                String textoRevisores = "Estimad@ colega,\n\n \tDesde la organización del " + congreso.getNomeCongreso() + " creemos que es usted la persona indicada para efectuar la revision del siguiente trabajo:\n"
+
+        String textoRevisores = "Estimad@ colega,\n\n \tDesde la organización del " + congreso.getNomeCongreso() + " creemos que es usted la persona indicada para efectuar la revision del siguiente trabajo:\n"
                 + traballoDetalle.getNomeTraballo() + ", presentado al congreso por los autores: " + traballoDetalle.getAutores() + ".\n\n"
                 + "\tPor favor, si desea participar como revisor de este trabajo, haga click en el enlace que se muestra a continacion, complete los datos de registro y realize la revision antes de"
                 + " la fecha limite: " + traballoDetalle.getfFinRevision() + "\n\n"
                 + "En caso contrario, haga click en el siguiente enlace para rechazar la revision.\n\n"
                 + "Un saludo, el comite organizador del " + congreso.getNomeCongreso();
-                
+
         Integer idCategoria = traballoDetalle.getCategoria();
         String categoria = null;
         if (idCategoria == 1) {
@@ -1858,7 +1857,7 @@ public class UserServiceImpl implements UserService {
         vista.addObject("idEstadoTraballo", traballoDetalle.getEstadoTraballo().getIdEstadoTraballo());
         vista.addObject("listaRevisiones", listaRevisiones);
         vista.addObject("textoAccion", "asignacion_revisores01");
-        
+
         vista.addObject("nomeTraballo", traballoDetalle.getNomeTraballo());
         vista.addObject("idCategoria", traballoDetalle.getCategoria());
         vista.addObject("categoria", categoria);
@@ -1869,136 +1868,135 @@ public class UserServiceImpl implements UserService {
 
         return vista;
     }
-    
+
     @Override
-    public ModelAndView aceptoRevision(Integer idUsuario, Integer idTraballo){
+    public ModelAndView aceptoRevision(Integer idUsuario, Integer idTraballo) {
         ModelAndView vista = new ModelAndView("WEB-INF/jsp/aceptoRevision.jsp");
-        
-        UserProfileDaoHibernate userProfileDaoHibernate=new UserProfileDaoHibernate();
+
+        UserProfileDaoHibernate userProfileDaoHibernate = new UserProfileDaoHibernate();
         userProfileDaoHibernate.setSessionFactory(sessionFactory);
-        
-        UserProfile usuario=userProfileDaoHibernate.obtenerUserProfile(idUsuario); 
-                
+
+        UserProfile usuario = userProfileDaoHibernate.obtenerUserProfile(idUsuario);
+
         vista.addObject("idUsuario", usuario.getUserId());
         vista.addObject("idTraballo", idTraballo);
         return vista;
     }
-    
+
     @Override
-    public ModelAndView rechazoRevision(Integer idUsuario, Integer idTraballo){
+    public ModelAndView rechazoRevision(Integer idUsuario, Integer idTraballo) {
         ModelAndView vista = new ModelAndView("WEB-INF/jsp/rechazoRevision.jsp");
-        
-        UserProfileDaoHibernate userProfileDaoHibernate=new UserProfileDaoHibernate();
+
+        UserProfileDaoHibernate userProfileDaoHibernate = new UserProfileDaoHibernate();
         userProfileDaoHibernate.setSessionFactory(sessionFactory);
-        UserProfile usuario=userProfileDaoHibernate.obtenerUserProfile(idUsuario);
-        
-        UserProfileDetailsDaoHibernate userProfileDetailsDaoHibernate=new UserProfileDetailsDaoHibernate();
+        UserProfile usuario = userProfileDaoHibernate.obtenerUserProfile(idUsuario);
+
+        UserProfileDetailsDaoHibernate userProfileDetailsDaoHibernate = new UserProfileDetailsDaoHibernate();
         userProfileDetailsDaoHibernate.setSessionFactory(sessionFactory);
-        UserProfileDetails usuarioDetalle=userProfileDetailsDaoHibernate.obtenerUserProfileDetails(usuario.getUserId());
-        
-        TraballoDaoHibernate traballoDaoHibernate=new TraballoDaoHibernate();
+        UserProfileDetails usuarioDetalle = userProfileDetailsDaoHibernate.obtenerUserProfileDetails(usuario.getUserId());
+
+        TraballoDaoHibernate traballoDaoHibernate = new TraballoDaoHibernate();
         traballoDaoHibernate.setSessionFactory(sessionFactory);
-        Traballo traballo=traballoDaoHibernate.obtenerTraballo(idTraballo);
-        
-        Congreso congreso=traballo.getCongreso();
-        
-        RevisionDaoHibernate revisionDaoHibernate=new RevisionDaoHibernate();
+        Traballo traballo = traballoDaoHibernate.obtenerTraballo(idTraballo);
+
+        Congreso congreso = traballo.getCongreso();
+
+        RevisionDaoHibernate revisionDaoHibernate = new RevisionDaoHibernate();
         revisionDaoHibernate.setSessionFactory(sessionFactory);
-        List<Revision> listaRevision=revisionDaoHibernate.obtenerRevisionCongresoTraballoRevisor(congreso.getIdCongreso(), idTraballo, idUsuario);
-        
-        
-        if(listaRevision.size()==0){
+        List<Revision> listaRevision = revisionDaoHibernate.obtenerRevisionCongresoTraballoRevisor(congreso.getIdCongreso(), idTraballo, idUsuario);
+
+        if (listaRevision.isEmpty()) {
             vista.addObject("textoAccion", "revision_xa_rexeitada01");
             vista.addObject("existeRevision", "0");
-            
-        }else{
+
+        } else {
             vista.addObject("existeRevision", "1");
             vista.addObject("textoAccion", "rexeitar_revision_02");
             vista.addObject("idUsuario", idUsuario);
             vista.addObject("idTraballo", idTraballo);
         }
-              
+
         return vista;
     }
-    
+
     @Override
     @Transactional
-    public ModelAndView accionRechazoRevision(Integer idUsuario, Integer idTraballo){
+    public ModelAndView accionRechazoRevision(Integer idUsuario, Integer idTraballo) {
         ModelAndView vista = new ModelAndView("WEB-INF/jsp/rechazoRevision.jsp");
-        
-        UserProfileDaoHibernate userProfileDaoHibernate=new UserProfileDaoHibernate();
+
+        UserProfileDaoHibernate userProfileDaoHibernate = new UserProfileDaoHibernate();
         userProfileDaoHibernate.setSessionFactory(sessionFactory);
-        UserProfile usuario=userProfileDaoHibernate.obtenerUserProfile(idUsuario);
-        
-        UserProfileDetailsDaoHibernate userProfileDetailsDaoHibernate=new UserProfileDetailsDaoHibernate();
+        UserProfile usuario = userProfileDaoHibernate.obtenerUserProfile(idUsuario);
+
+        UserProfileDetailsDaoHibernate userProfileDetailsDaoHibernate = new UserProfileDetailsDaoHibernate();
         userProfileDetailsDaoHibernate.setSessionFactory(sessionFactory);
-        UserProfileDetails usuarioDetalle=userProfileDetailsDaoHibernate.obtenerUserProfileDetails(usuario.getUserId());
-        
-        TraballoDaoHibernate traballoDaoHibernate=new TraballoDaoHibernate();
+        UserProfileDetails usuarioDetalle = userProfileDetailsDaoHibernate.obtenerUserProfileDetails(usuario.getUserId());
+
+        TraballoDaoHibernate traballoDaoHibernate = new TraballoDaoHibernate();
         traballoDaoHibernate.setSessionFactory(sessionFactory);
-        Traballo traballo=traballoDaoHibernate.obtenerTraballo(idTraballo);
-        
-        Congreso congreso=traballo.getCongreso();
-        
-        RevisionDaoHibernate revisionDaoHibernate=new RevisionDaoHibernate();
+        Traballo traballo = traballoDaoHibernate.obtenerTraballo(idTraballo);
+
+        Congreso congreso = traballo.getCongreso();
+
+        RevisionDaoHibernate revisionDaoHibernate = new RevisionDaoHibernate();
         revisionDaoHibernate.setSessionFactory(sessionFactory);
-        List<Revision> listaRevision=revisionDaoHibernate.obtenerRevisionCongresoTraballoRevisor(congreso.getIdCongreso(), idTraballo, idUsuario);
-        
-        Iterator iterador=listaRevision.iterator();        
-        Revision revisionBorrar=listaRevision.get(0);
+        List<Revision> listaRevision = revisionDaoHibernate.obtenerRevisionCongresoTraballoRevisor(congreso.getIdCongreso(), idTraballo, idUsuario);
+
+        Iterator iterador = listaRevision.iterator();
+        Revision revisionBorrar = listaRevision.get(0);
 
         revisionDaoHibernate.eliminarRevision(revisionBorrar);
-        
+
         EnviarEmail enviarEmail = new EnviarEmail();
-        String asunto=null;
-        String cuerpo=null;
-        if(usuario.getActivo()==0){
-            asunto = congreso.getNomeCongreso() + ": RECHAZADA invitacion revisor invitado "+ usuarioDetalle.getEmail();
-            cuerpo = "Estimad@ colega,<br>La invitación enviada a la dirección de correo ellectrónico "+usuarioDetalle.getEmail()+" ha sido RECHAZADA<br>";
-        
-        }else{
-            asunto = congreso.getNomeCongreso() + ": RECHAZADA invitacion revisor "+usuarioDetalle.getNome()+" "+usuarioDetalle.getApelido1()+" "+usuarioDetalle.getApelido2();
-            cuerpo = "Estimad@ colega,<br>La invitación enviada al usuario "+usuarioDetalle.getNome()+" "+usuarioDetalle.getApelido1()+" "+usuarioDetalle.getApelido2()+" ha sido RECHAZADA<br>";        
+        String asunto = null;
+        String cuerpo = null;
+        if (usuario.getActivo() == 0) {
+            asunto = congreso.getNomeCongreso() + ": RECHAZADA invitacion revisor invitado " + usuarioDetalle.getEmail();
+            cuerpo = "Estimad@ colega,<br>La invitación enviada a la dirección de correo ellectrónico " + usuarioDetalle.getEmail() + " ha sido RECHAZADA<br>";
+
+        } else {
+            asunto = congreso.getNomeCongreso() + ": RECHAZADA invitacion revisor " + usuarioDetalle.getNome() + " " + usuarioDetalle.getApelido1() + " " + usuarioDetalle.getApelido2();
+            cuerpo = "Estimad@ colega,<br>La invitación enviada al usuario " + usuarioDetalle.getNome() + " " + usuarioDetalle.getApelido1() + " " + usuarioDetalle.getApelido2() + " ha sido RECHAZADA<br>";
         }
-        
+
         enviarEmail.enviarEmail(usuarioDetalle.getEmail(), asunto, cuerpo);
-        
-        if(usuario.getActivo()==0){//Si es invitado eliminamos su cuenta
+
+        if (usuario.getActivo() == 0) {//Si es invitado eliminamos su cuenta
             userProfileDetailsDaoHibernate.eliminarUserProfileDetails(usuarioDetalle);
             userProfileDaoHibernate.eliminarUserProfile(usuario);
         }
-        
-        List<Revision> cuentaRevisiones=revisionDaoHibernate.obtenerRevisionesCongresoTraballo(idUsuario, idTraballo);
-        if(cuentaRevisiones.isEmpty()){//Si se rechazan todas la revisiones pasamos el trabajo a pendiente_revision
-            TraballoDetalleDaoHibernate traballoDetalleDaoHibernate=new TraballoDetalleDaoHibernate();
+
+        List<Revision> cuentaRevisiones = revisionDaoHibernate.obtenerRevisionesCongresoTraballo(idUsuario, idTraballo);
+        if (cuentaRevisiones.isEmpty()) {//Si se rechazan todas la revisiones pasamos el trabajo a pendiente_revision
+            TraballoDetalleDaoHibernate traballoDetalleDaoHibernate = new TraballoDetalleDaoHibernate();
             traballoDetalleDaoHibernate.setSessionFactory(sessionFactory);
-            TraballoDetalle traballoDetalle=traballoDetalleDaoHibernate.obtenerTraballoDetalle(idTraballo);
-            EstadoTraballoDaoHibernate estadoTraballoDaoHibernate=new EstadoTraballoDaoHibernate();
+            TraballoDetalle traballoDetalle = traballoDetalleDaoHibernate.obtenerTraballoDetalle(idTraballo);
+            EstadoTraballoDaoHibernate estadoTraballoDaoHibernate = new EstadoTraballoDaoHibernate();
             estadoTraballoDaoHibernate.setSessionFactory(sessionFactory);
-            EstadoTraballo estadoTraballo=estadoTraballoDaoHibernate.obtenerEstadoTraballo(5);
+            EstadoTraballo estadoTraballo = estadoTraballoDaoHibernate.obtenerEstadoTraballo(5);
             traballoDetalle.setEstadoTraballo(estadoTraballo);
             traballoDetalleDaoHibernate.guardarTraballoDetalle(traballoDetalle);
         }
         vista.addObject("textoAccion", "rechazar_revision_02");
         return vista;
     }
-    
+
     @Override
-    public ModelAndView rechazoRevisionRevisor(String usuario, Integer idRevision){
+    public ModelAndView rechazoRevisionRevisor(String usuario, Integer idRevision) {
         ModelAndView vista = new ModelAndView("WEB-INF/jsp/access/rechazoRevision.jsp");
         vista.addObject("usuario", usuario);
-        
-        RevisionDaoHibernate revisionDaoHibernate=new RevisionDaoHibernate();
+
+        RevisionDaoHibernate revisionDaoHibernate = new RevisionDaoHibernate();
         revisionDaoHibernate.setSessionFactory(sessionFactory);
-        Revision revision=revisionDaoHibernate.obtenerRevision(idRevision);
-        
-        Traballo traballo=revision.getTraballo();
-        
-        UserProfileDaoHibernate userProfileDaoHibernate=new UserProfileDaoHibernate();
+        Revision revision = revisionDaoHibernate.obtenerRevision(idRevision);
+
+        Traballo traballo = revision.getTraballo();
+
+        UserProfileDaoHibernate userProfileDaoHibernate = new UserProfileDaoHibernate();
         userProfileDaoHibernate.setSessionFactory(sessionFactory);
-        
-        UserProfile usuarioRevisor=userProfileDaoHibernate.obtenerUserProfile(usuario); 
-        
+
+        UserProfile usuarioRevisor = userProfileDaoHibernate.obtenerUserProfile(usuario);
+
         vista.addObject("existeRevision", "1");
         vista.addObject("textoAccion", "rexeitar_revision_02");
         vista.addObject("idUsuario", usuarioRevisor.getUserId());
@@ -2006,61 +2004,61 @@ public class UserServiceImpl implements UserService {
 
         return vista;
     }
-    
+
     @Override
-    public ModelAndView accionRechazoRevisionRevisor(Integer idUsuario, Integer idTraballo){
+    public ModelAndView accionRechazoRevisionRevisor(Integer idUsuario, Integer idTraballo) {
         ModelAndView vista = new ModelAndView("WEB-INF/jsp/access/rechazoRevision.jsp");
-        
-        UserProfileDaoHibernate userProfileDaoHibernate=new UserProfileDaoHibernate();
+
+        UserProfileDaoHibernate userProfileDaoHibernate = new UserProfileDaoHibernate();
         userProfileDaoHibernate.setSessionFactory(sessionFactory);
-        UserProfile usuario=userProfileDaoHibernate.obtenerUserProfile(idUsuario);
-        
-        UserProfileDetailsDaoHibernate userProfileDetailsDaoHibernate=new UserProfileDetailsDaoHibernate();
+        UserProfile usuario = userProfileDaoHibernate.obtenerUserProfile(idUsuario);
+
+        UserProfileDetailsDaoHibernate userProfileDetailsDaoHibernate = new UserProfileDetailsDaoHibernate();
         userProfileDetailsDaoHibernate.setSessionFactory(sessionFactory);
-        UserProfileDetails usuarioDetalle=userProfileDetailsDaoHibernate.obtenerUserProfileDetails(usuario.getUserId());
-        
-        TraballoDaoHibernate traballoDaoHibernate=new TraballoDaoHibernate();
+        UserProfileDetails usuarioDetalle = userProfileDetailsDaoHibernate.obtenerUserProfileDetails(usuario.getUserId());
+
+        TraballoDaoHibernate traballoDaoHibernate = new TraballoDaoHibernate();
         traballoDaoHibernate.setSessionFactory(sessionFactory);
-        Traballo traballo=traballoDaoHibernate.obtenerTraballo(idTraballo);
-        
-        Congreso congreso=traballo.getCongreso();
-        
-        RevisionDaoHibernate revisionDaoHibernate=new RevisionDaoHibernate();
+        Traballo traballo = traballoDaoHibernate.obtenerTraballo(idTraballo);
+
+        Congreso congreso = traballo.getCongreso();
+
+        RevisionDaoHibernate revisionDaoHibernate = new RevisionDaoHibernate();
         revisionDaoHibernate.setSessionFactory(sessionFactory);
-        List<Revision> listaRevision=revisionDaoHibernate.obtenerRevisionCongresoTraballoRevisor(congreso.getIdCongreso(), idTraballo, idUsuario);
-        
-        Iterator iterador=listaRevision.iterator();        
-        Revision revisionBorrar=listaRevision.get(0);
+        List<Revision> listaRevision = revisionDaoHibernate.obtenerRevisionCongresoTraballoRevisor(congreso.getIdCongreso(), idTraballo, idUsuario);
+
+        Iterator iterador = listaRevision.iterator();
+        Revision revisionBorrar = listaRevision.get(0);
 
         revisionDaoHibernate.eliminarRevision(revisionBorrar);
-        
+
         EnviarEmail enviarEmail = new EnviarEmail();
-        String asunto=null;
-        String cuerpo=null;
-        if(usuario.getActivo()==0){
-            asunto = congreso.getNomeCongreso() + ": RECHAZADA invitacion revisor invitado "+ usuarioDetalle.getEmail();
-            cuerpo = "Estimad@ colega,<br>La invitación enviada a la dirección de correo ellectrónico "+usuarioDetalle.getEmail()+" ha sido RECHAZADA<br>";
-        
-        }else{
-            asunto = congreso.getNomeCongreso() + ": RECHAZADA invitacion revisor "+usuarioDetalle.getNome()+" "+usuarioDetalle.getApelido1()+" "+usuarioDetalle.getApelido2();
-            cuerpo = "Estimad@ colega,<br>La invitación enviada al usuario "+usuarioDetalle.getNome()+" "+usuarioDetalle.getApelido1()+" "+usuarioDetalle.getApelido2()+" ha sido RECHAZADA<br>";        
+        String asunto = null;
+        String cuerpo = null;
+        if (usuario.getActivo() == 0) {
+            asunto = congreso.getNomeCongreso() + ": RECHAZADA invitacion revisor invitado " + usuarioDetalle.getEmail();
+            cuerpo = "Estimad@ colega,<br>La invitación enviada a la dirección de correo ellectrónico " + usuarioDetalle.getEmail() + " ha sido RECHAZADA<br>";
+
+        } else {
+            asunto = congreso.getNomeCongreso() + ": RECHAZADA invitacion revisor " + usuarioDetalle.getNome() + " " + usuarioDetalle.getApelido1() + " " + usuarioDetalle.getApelido2();
+            cuerpo = "Estimad@ colega,<br>La invitación enviada al usuario " + usuarioDetalle.getNome() + " " + usuarioDetalle.getApelido1() + " " + usuarioDetalle.getApelido2() + " ha sido RECHAZADA<br>";
         }
-        
+
         enviarEmail.enviarEmail(usuarioDetalle.getEmail(), asunto, cuerpo);
-        
-        if(usuario.getActivo()==0){//Si es invitado eliminamos su cuenta
+
+        if (usuario.getActivo() == 0) {//Si es invitado eliminamos su cuenta
             userProfileDetailsDaoHibernate.eliminarUserProfileDetails(usuarioDetalle);
             userProfileDaoHibernate.eliminarUserProfile(usuario);
         }
-        
-        List<Revision> cuentaRevisiones=revisionDaoHibernate.obtenerRevisionesCongresoTraballo(idUsuario, idTraballo);
-        if(cuentaRevisiones.isEmpty()){//Si se rechazan todas la revisiones pasamos el trabajo a pendiente_revision
-            TraballoDetalleDaoHibernate traballoDetalleDaoHibernate=new TraballoDetalleDaoHibernate();
+
+        List<Revision> cuentaRevisiones = revisionDaoHibernate.obtenerRevisionesCongresoTraballo(idUsuario, idTraballo);
+        if (cuentaRevisiones.isEmpty()) {//Si se rechazan todas la revisiones pasamos el trabajo a pendiente_revision
+            TraballoDetalleDaoHibernate traballoDetalleDaoHibernate = new TraballoDetalleDaoHibernate();
             traballoDetalleDaoHibernate.setSessionFactory(sessionFactory);
-            TraballoDetalle traballoDetalle=traballoDetalleDaoHibernate.obtenerTraballoDetalle(idTraballo);
-            EstadoTraballoDaoHibernate estadoTraballoDaoHibernate=new EstadoTraballoDaoHibernate();
+            TraballoDetalle traballoDetalle = traballoDetalleDaoHibernate.obtenerTraballoDetalle(idTraballo);
+            EstadoTraballoDaoHibernate estadoTraballoDaoHibernate = new EstadoTraballoDaoHibernate();
             estadoTraballoDaoHibernate.setSessionFactory(sessionFactory);
-            EstadoTraballo estadoTraballo=estadoTraballoDaoHibernate.obtenerEstadoTraballo(5);
+            EstadoTraballo estadoTraballo = estadoTraballoDaoHibernate.obtenerEstadoTraballo(5);
             traballoDetalle.setEstadoTraballo(estadoTraballo);
             traballoDetalleDaoHibernate.guardarTraballoDetalle(traballoDetalle);
         }
@@ -2068,5 +2066,48 @@ public class UserServiceImpl implements UserService {
         vista.addObject("idUsuario", usuario.getUserId());
         return vista;
     }
-    
+
+    @Override
+    public ModelAndView accionAceptarRevisionInvitado(Integer idUsuario, Integer idTraballo, String email) {
+        ModelAndView vista = new ModelAndView("WEB-INF/jsp/aceptoRevisionInvitado.jsp");
+
+        UserProfileDaoHibernate userProfileDaoHibernate = new UserProfileDaoHibernate();
+        userProfileDaoHibernate.setSessionFactory(sessionFactory);
+
+        UserProfile usuario = userProfileDaoHibernate.obtenerUserProfile(idUsuario);
+
+        System.out.println("Parametros dentro do metodo: " + idUsuario + " " + idTraballo + " " + email);
+
+        if (usuario == null) {
+            vista.addObject("mensaxe", "recordar_error_01");
+            vista.setViewName("WEB-INF/jsp/recordar_error.jsp");
+        } else {
+            System.out.println("Vou a enviar correo ao revisor.");
+            Set<UserProfileDetails> userProfileDetails = usuario.getUserProfileDetailses();
+            UserProfileDetails detalleUsuario = (UserProfileDetails) userProfileDetails.toArray()[0];
+
+            GenerarPassword pass = new GenerarPassword();
+            String newPassword = pass.generarContrasinal();
+            EncriptarPassword passEncripted = new EncriptarPassword();
+            usuario.setContrasinal(passEncripted.encriptarContrasinal(newPassword).toString());
+
+            EnviarEmail enviarEmail = new EnviarEmail();
+            String asunto = "Congreso 2016: Solicitude alta como revisor";
+            String cuerpo = "Datos de alta revisor. "
+                    + "A continuación le proporcionamos los datos de acceso a su cuenta de revisor: ";
+            cuerpo = cuerpo + "<br><br> Usuario: " + usuario.getUsuario()
+                    + "<br><br> Correo electronico: " + email
+                    + "<br><br> Contrasinal: " + newPassword
+                    + "<br><br> Por favor, una vez dentro de la aplicación, acceda a su perfíl y complete los datos que falten."
+                    + "<br><br> Un saludo.";
+            enviarEmail.enviarEmail(detalleUsuario.getEmail(), asunto, cuerpo);
+            
+            usuario.setActivo(1);
+            userProfileDaoHibernate.guardarUserProfile(usuario);
+
+            vista.addObject("mensaxe", "alta_revisor_invitado");
+        }
+        return vista;
+    }
+
 }

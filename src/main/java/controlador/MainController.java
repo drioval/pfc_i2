@@ -588,4 +588,15 @@ public class MainController {
          
         return servicio.accionRechazoRevisionRevisor(idUsuario, idTraballo);
     }
+    
+    @RequestMapping(value = "/accionAceptarRevision.htm")
+    public ModelAndView accion_aceptar_revision_invitado(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        servicio = new UserServiceImpl();
+        servicio.setSessionFactory(sessionFactory);
+         
+        return servicio.accionAceptarRevisionInvitado(Integer.parseInt(request.getParameter("idUsuario")),
+                Integer.parseInt(request.getParameter("idTraballo")), request.getParameter("email"));
+    }
 }

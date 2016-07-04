@@ -17,6 +17,87 @@
 
 <html>
     <head>
+<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+        <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+        
+        <script>
+            $(function() {
+                $.datepicker.regional['es'] =
+                        {
+                            closeText: 'Cerrar',
+                            prevText: 'Previo',
+                            nextText: 'Próximo',
+                            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+                                'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                            monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
+                                'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                            monthStatus: 'Ver otro mes', yearStatus: 'Ver otro año',
+                            dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                            dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sáb'],
+                            dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
+                            firstDay: 1,
+                            initStatus: 'Selecciona la fecha', isRTL: false};
+                $.datepicker.setDefaults($.datepicker.regional['es']);
+
+                $("#fecha_inicio_envio").datepicker({
+                    dateFormat: "yy/mm/dd",
+                    altFormat: "dd/mm/yy",
+                    altField: "#fecha_inicio_envio",
+                    minDate: new Date(),
+                    maxDate: '+2y',
+                    onSelect: function(date) {
+                        var selectedDate = new Date(date);
+                        var msecsInADay = 86400000; //1 dia
+                        var msecsInADay2 = 63072000000; //2 anos
+                        var endDate = new Date(selectedDate.getTime() + msecsInADay);
+                        var maxDate = new Date(selectedDate.getTime() + msecsInADay2);
+                        $("#fecha_fin_envio").datepicker("option", "minDate", endDate);
+                        $("#fecha_fin_envio").datepicker("option", "maxDate", maxDate);
+                    }
+                });
+                $("#fecha_fin_envio").datepicker({
+                    dateFormat: "yy/mm/dd",
+                    altFormat: "dd/mm/yy",
+                    altField: "#fecha_fin_envio",
+                    minDate: new Date(),
+                    maxDate: '+2y',
+                    onSelect: function(date) {
+                        var selectedDate = new Date(date);
+                        var msecsInADay = 86400000; //1 dia
+                        var msecsInADay2 = 63072000000; //2 anos
+                        var endDate = new Date(selectedDate.getTime() + msecsInADay);
+                        var maxDate = new Date(selectedDate.getTime() + msecsInADay2);
+                        $("#fecha_inicio_revision").datepicker("option", "minDate", endDate);
+                        $("#fecha_inicio_revision").datepicker("option", "maxDate", maxDate);
+                    }
+                });
+                $("#fecha_inicio_revision").datepicker({
+                    dateFormat: "yy/mm/dd",
+                    altFormat: "dd/mm/yy",
+                    altField: "#fecha_inicio_revision",
+                    minDate: new Date(),
+                    maxDate: '+2y',
+                    onSelect: function(date) {
+                        var selectedDate = new Date(date);
+                        var msecsInADay = 86400000; //1 dia
+                        var msecsInADay2 = 63072000000; //2 anos
+                        var endDate = new Date(selectedDate.getTime() + msecsInADay);
+                        var maxDate = new Date(selectedDate.getTime() + msecsInADay2);
+                        $("#fecha_fin_revision").datepicker("option", "minDate", endDate);
+                        $("#fecha_fin_revision").datepicker("option", "maxDate", maxDate);
+                    }
+                });
+                $("#fecha_fin_revision").datepicker({
+                    dateFormat: "yy/mm/dd",
+                    altFormat: "dd/mm/yy",
+                    altField: "#fecha_fin_revision",
+                    minDate: new Date(),
+                    maxDate: '+2y'
+                });
+
+            });
+        </script>
+        
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title><fmt:message key="title" /></title>
     </head>
@@ -61,16 +142,29 @@
                     <option value="${idCategoria}" selected>${categoria}</option>
                 </select>
                 <br>
-                    <a class="articulo"><fmt:message key="autores"/></a>
+                <a class="articulo"><fmt:message key="autores"/></a>
                 <br>
-                <textarea name="textoAutor" maxlength="250" class="areaTexto">${autores}</textarea>
+                <textarea name="textoAutor" maxlength="250" class="areaTexto" readonly="">${autores}</textarea>
+                <br><br>
+                <br>
+                <a class="articulo"><fmt:message key="textoCorreccionAutor"/></a>
+                <br>
+                <textarea name="textoCorreccionAutor" maxlength="250" class="areaTexto"></textarea>
+                <br><br>
+                <a class="articulo"><fmt:message key="fecha_inicio_correccion"/></a>
+                <br>
+                <input name="fecha_inicio_envio" type="calendar" id="fecha_inicio_envio" required="true" placeholder="dd/mm/aaaa">
+                <br>
+                <a class="articulo"><fmt:message key="fecha_fin_correccion"/></a>
+                <br>
+                <input name="fecha_fin_envio" type="calendar" id="fecha_fin_envio" required="true" placeholder="dd/mm/aaaa">
                 <br><br>
                 <a class="articulo"><fmt:message key="trabajo_actual"/></a>
                 <td><a class="articulo" target="_blank" href="abrir_traballo.htm?id=${idTraballo}">${nomeTraballo}</a></td>
                 <br><br>
                 <c:set var="idEstadoTraballo" scope="session" value="${idEstadoTraballo}"/>
                 <c:if test="${idEstadoTraballo != 4}">
-                    <input type="submit" formaction="rexeitar_traballo.htm?id=${idTraballo}" class="button blue" value="<fmt:message key="corregir_traballo"/>">
+                    <input type="submit" formaction="corrixir_traballo.htm?id=${idTraballo}" class="button blue" value="<fmt:message key="corregir_traballo"/>">
                 </c:if>
                 <input type="submit" formaction="trabajos.htm" class="button blue" value="Regresar">
             </form>            
