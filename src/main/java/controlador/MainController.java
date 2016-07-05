@@ -599,4 +599,16 @@ public class MainController {
         return servicio.accionAceptarRevisionInvitado(Integer.parseInt(request.getParameter("idUsuario")),
                 Integer.parseInt(request.getParameter("idTraballo")), request.getParameter("email"));
     }
+    
+    @RequestMapping(value = "/corrixir_traballo.htm")
+    public ModelAndView corrixir_traballo(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        servicio = new UserServiceImpl();
+        servicio.setSessionFactory(sessionFactory);
+         
+        return servicio.corrixirTraballo(request.getUserPrincipal().getName(), Integer.parseInt(request.getParameter("idTraballo")), 
+                request.getParameter("textoCorreccionAutor"),
+                request.getParameter("fecha_inicio_envio"), request.getParameter("fecha_fin_envio"));
+    }
 }

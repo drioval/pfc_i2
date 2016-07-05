@@ -2068,6 +2068,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public ModelAndView accionAceptarRevisionInvitado(Integer idUsuario, Integer idTraballo, String email) {
         ModelAndView vista = new ModelAndView("WEB-INF/jsp/aceptoRevisionInvitado.jsp");
 
@@ -2075,8 +2076,6 @@ public class UserServiceImpl implements UserService {
         userProfileDaoHibernate.setSessionFactory(sessionFactory);
 
         UserProfile usuario = userProfileDaoHibernate.obtenerUserProfile(idUsuario);
-
-        System.out.println("Parametros dentro do metodo: " + idUsuario + " " + idTraballo + " " + email);
 
         if (usuario == null) {
             vista.addObject("mensaxe", "recordar_error_01");
@@ -2090,6 +2089,8 @@ public class UserServiceImpl implements UserService {
             String newPassword = pass.generarContrasinal();
             EncriptarPassword passEncripted = new EncriptarPassword();
             usuario.setContrasinal(passEncripted.encriptarContrasinal(newPassword).toString());
+            usuario.setActivo(1);
+            userProfileDaoHibernate.guardarUserProfile(usuario);
 
             EnviarEmail enviarEmail = new EnviarEmail();
             String asunto = "Congreso 2016: Solicitude alta como revisor";
@@ -2102,12 +2103,67 @@ public class UserServiceImpl implements UserService {
                     + "<br><br> Un saludo.";
             enviarEmail.enviarEmail(detalleUsuario.getEmail(), asunto, cuerpo);
             
-            usuario.setActivo(1);
-            userProfileDaoHibernate.guardarUserProfile(usuario);
-
             vista.addObject("mensaxe", "alta_revisor_invitado");
         }
         return vista;
     }
 
+    @Override
+    @Transactional
+    public ModelAndView corrixirTraballo(String usuario, Integer idTraballo, String textoCorreccionAutor, String fecha_inicio_envio, String fecha_fin_envio){
+        ModelAndView vista = new ModelAndView("WEB-INF/jsp/aceptoRevisionInvitado.jsp");
+        
+        TraballoDetalleDaoHibernate traballoDetalleDaoHibernate=new TraballoDetalleDaoHibernate();
+        traballoDetalleDaoHibernate.setSessionFactory(sessionFactory);
+        
+        TraballoDetalle traballoDetalle=traballoDetalleDaoHibernate.obtenerTraballoDetalle(idTraballo);
+        
+        EstadoTraballoDaoHibernate estadoTraballoDaoHibernate=new EstadoTraballoDaoHibernate();
+        estadoTraballoDaoHibernate.setSessionFactory(sessionFactory);
+        
+        EstadoTraballo estadoTraballo=estadoTraballoDaoHibernate.obtenerEstadoTraballo(8);//En correccion.
+        
+        traballoDetalle.setEstadoTraballo(estadoTraballo);
+        
+        ToTimeStamp fecha = new ToTimeStamp();
+        Timestamp fechaICorreccion = fecha.convertToTimeStamp(fecha_inicio_envio);
+        Timestamp fechaFCorreccion = fecha.convertToTimeStamp(fecha_fin_envio);
+        traballoDetalle.setfInicioEnvio(fechaICorreccion);
+        traballoDetalle.setfIncioRevision(fechaFCorreccion);
+        traballoDetalle.setfFinEnvio(fechaFCorreccion);
+        Timestamp fechaIRevision=new Timestamp((fechaFCorreccion.getTime()/1000)+(3600*24));//El dia siguiente a la finalizacion del envio.
+        Timestamp fechaFRevision=new Timestamp((fechaFCorreccion.getTime()/1000)+(3600*168));//Siete dias despues a la finalizacion del envio.
+        traballoDetalle.setfInicioEnvio(fechaIRevision);
+        traballoDetalle.setfIncioRevision(fechaFRevision);
+        
+        traballoDetalleDaoHibernate.guardarTraballoDetalle(traballoDetalle);
+        
+        EnviarEmail enviarEmail = new EnviarEmail();
+            String asunto = "Congreso 2016: Correccion del trabajo "+traballoDetalle.getNomeTraballo();
+            String cuerpo = "Una vez efectuada la revision del trabajo "+traballoDetalle.getNomeTraballo()+" el organizador ha decidido que para poder"
+                    + " ser aceptado al congreso, es necesario realizar una serie de correcciones. Por favor, revise los informes de revision y envie una"
+                    + " nueva version del trabajo. Esta nueva version, sera evaluada de nuevo y aceptada o no al congreso."
+                    + "A continuación le indicamos las fechas para realizar la correccion: "
+                    + "<br><br> Fecha inicio correccion: "+fechaICorreccion
+                    + "<br><br> Fecha fin correccion: "+fechaFCorreccion+ "<br><br>";
+            cuerpo=cuerpo+"Las notas del organizador sobre este trabajo son: "
+                    +   textoCorreccionAutor
+                    + "<br><br> Un saludo.";
+            
+            TraballoDaoHibernate traballoDaoHibernate=new TraballoDaoHibernate();
+            traballoDaoHibernate.setSessionFactory(sessionFactory);
+            
+            Traballo traballo=traballoDaoHibernate.obtenerTraballo(idTraballo);          
+            
+            UserProfile usuarioTraballo=traballo.getUserProfile();
+            
+            UserProfileDetailsDaoHibernate userProfileDetailsDaoHibernate=new UserProfileDetailsDaoHibernate();
+            userProfileDetailsDaoHibernate.setSessionFactory(sessionFactory);
+            
+            UserProfileDetails detalleUsuario=userProfileDetailsDaoHibernate.obtenerUserProfileDetails(usuarioTraballo.getUserId());
+            
+            enviarEmail.enviarEmail(detalleUsuario.getEmail(), asunto, cuerpo);
+        
+        return vista;
+    }
 }

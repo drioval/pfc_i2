@@ -83,6 +83,7 @@
                                         <td><a class="articulo" href="ver_lista_revisiones.htm?id=${traballos.idTraballo}"><fmt:message key="accion_ver_lista_revisiones"/></a></td>
                                     </c:if>
                                     <c:if test="${idEstadoTraballo == 8 && traballos.fFinEnvio gt now}">
+                                        <td><a class="articulo" href="ver_lista_revisiones.htm?id=${traballos.idTraballo}"><fmt:message key="accion_ver_lista_revisiones"/></a></td>
                                         <td><a class="articulo" href="confirmar_traballo.htm?id=${traballos.idTraballo}"><fmt:message key="accion_confirmar_traballo"/></a></td>
                                         <td><a class="articulo" href="editar_traballo.htm?id=${traballos.idTraballo}"><fmt:message key="accion_editar_traballo"/></a></td>
                                     </c:if>
