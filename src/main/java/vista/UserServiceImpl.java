@@ -973,10 +973,11 @@ public class UserServiceImpl implements UserService {
             CongresoDetalleDaoHibernate congresoDetalleDao = new CongresoDetalleDaoHibernate();
             congresoDetalleDao.setSessionFactory(sessionFactory);
             CongresoDetalle congresoDetalle = congresoDetalleDao.obtenerCongresoDetalle(congreso.getIdCongreso());
-
+            
             traballoDetalle = new TraballoDetalle(traballo.getIdTraballo(), nomeTraballo, categoria, autores, ficheroTraballo, traballoDetalleVersion.getEstadoTraballo(),
-                    congresoDetalle.getfInicioEnvio(), congresoDetalle.getfFinEnvio(), congresoDetalle.getfInicioRevision(), congresoDetalle.getfFinRevision());
-            traballoDetalleDaoHibernate.guardarTraballoDetalle(traballoDetalle);
+                    traballoDetalleVersion.getfInicioEnvio(), traballoDetalleVersion.getfFinEnvio(), 
+                    traballoDetalleVersion.getfIncioRevision(), traballoDetalleVersion.getfFinRevision());
+            traballoDetalleDaoHibernate.guardarTraballoDetalle(traballoDetalle);          
         }
 
         Integer idUsuario = traballo.getUserProfile().getUserId();
@@ -2110,8 +2111,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public ModelAndView corrixirTraballo(String usuario, Integer idTraballo, String textoCorreccionAutor, String fecha_inicio_envio, String fecha_fin_envio){
-        ModelAndView vista = new ModelAndView("WEB-INF/jsp/aceptoRevisionInvitado.jsp");
+    public ModelAndView corrixirTraballo(String usuario, Integer idTraballo, String textoCorreccionAutor, 
+            String fecha_inicio_envio, String fecha_fin_envio){
         
         TraballoDetalleDaoHibernate traballoDetalleDaoHibernate=new TraballoDetalleDaoHibernate();
         traballoDetalleDaoHibernate.setSessionFactory(sessionFactory);
@@ -2129,12 +2130,11 @@ public class UserServiceImpl implements UserService {
         Timestamp fechaICorreccion = fecha.convertToTimeStamp(fecha_inicio_envio);
         Timestamp fechaFCorreccion = fecha.convertToTimeStamp(fecha_fin_envio);
         traballoDetalle.setfInicioEnvio(fechaICorreccion);
-        traballoDetalle.setfIncioRevision(fechaFCorreccion);
         traballoDetalle.setfFinEnvio(fechaFCorreccion);
-        Timestamp fechaIRevision=new Timestamp((fechaFCorreccion.getTime()/1000)+(3600*24));//El dia siguiente a la finalizacion del envio.
-        Timestamp fechaFRevision=new Timestamp((fechaFCorreccion.getTime()/1000)+(3600*168));//Siete dias despues a la finalizacion del envio.
-        traballoDetalle.setfInicioEnvio(fechaIRevision);
-        traballoDetalle.setfIncioRevision(fechaFRevision);
+        Timestamp fechaIRevision=new Timestamp((fechaFCorreccion.getTime())+(3600*24*1000));//El dia siguiente a la finalizacion del envio.
+        Timestamp fechaFRevision=new Timestamp((fechaFCorreccion.getTime())+(3600*168*1000));//Siete dias despues a la finalizacion del envio.
+        traballoDetalle.setfIncioRevision(fechaIRevision);
+        traballoDetalle.setfFinRevision(fechaFRevision);
         
         traballoDetalleDaoHibernate.guardarTraballoDetalle(traballoDetalle);
         
@@ -2164,6 +2164,6 @@ public class UserServiceImpl implements UserService {
             
             enviarEmail.enviarEmail(detalleUsuario.getEmail(), asunto, cuerpo);
         
-        return vista;
+        return this.trabajos(usuario);
     }
 }

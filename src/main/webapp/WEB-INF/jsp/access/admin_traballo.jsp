@@ -72,7 +72,7 @@
                                 <td><c:out value="${listaEstadoTraballos[indice.index].nomeEstado}"/></td>
                                 <td><a class="articulo" target="_blank" href="abrir_traballo.htm?id=${traballos.idTraballo}"><fmt:message key="accion_ver_traballo"/></a></td>
                                 <jsp:useBean id="now" class="java.util.Date" />
-                                <c:if test="${fFinEnvio gt now || fFinEnvio eq now}">
+                                <c:if test="${traballos.fFinEnvio gt now || traballos.fFinEnvio eq now}">
                                     <c:set var="idEstadoTraballo" scope="session" value="${listaEstadoTraballos[indice.index].idEstadoTraballo}"/>
                                     <c:if test="${idEstadoTraballo == 1}">
                                         <td><a class="articulo" href="confirmar_traballo.htm?id=${traballos.idTraballo}"><fmt:message key="accion_confirmar_traballo"/></a></td>
